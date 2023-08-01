@@ -79,6 +79,14 @@ export default {
   background-color: #242424;
   margin: 0px 0px 5px 0px;
   border-radius: 5px;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.upper-side::-webkit-scrollbar {
+  display: none;
 }
 
 .lower-side {
