@@ -73,20 +73,28 @@ export default {
 }
 
 .upper-side {
-  height: calc(50% - 5px);
+  position: absolute;
+  top: 0;
+  height: calc(50% - 5px); /* Ocupar la mitad de la altura del contenedor */
   width: 100%;
-  display: inline-block;
   background-color: #242424;
-  margin: 0px 0px 5px 0px;
   border-radius: 5px;
 }
 
 .lower-side {
-  height: calc(50% - 5px);
+  position: absolute;
+  bottom: 0;
+  height: calc(50% - 5px); /* Ocupar la mitad de la altura del contenedor */
   width: 100%;
-  display: inline-block;
   background-color: #242424;
-  margin: 5px 0px 0px 0px;
   border-radius: 5px;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.lower-side::-webkit-scrollbar {
+  display: none;
 }
 </style>
