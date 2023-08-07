@@ -11,13 +11,13 @@
       <div
         class="ruler-y-mark"
         :class="i % 10 == 0 ? 'big-y-mark' : ''"
-        v-for="i in 200"
+        v-for="i in 500"
         :key="i"
-        :style="{ top: `calc(${-50 + i}% + ${yStartPoint}px - 5px)` }"
+        :style="{ top: `calc(${-150 + i}% + ${yStartPoint}px - 5px)` }"
       >
         <div class="ruler-y-text">
           <span class="pl-2" v-if="i % 10 == 0">{{
-            Math.ceil(((i - 100) / 100) * (windowSize.height / scale) * 3)
+            Math.ceil(((i - 200) / 100) * componentHeight * 5)
           }}</span>
         </div>
       </div>
@@ -26,12 +26,12 @@
       <div
         class="ruler-x-mark"
         :class="i % 10 == 0 ? 'big-x-mark' : ''"
-        v-for="i in 300"
+        v-for="i in 500"
         :key="i"
-        :style="{ left: `calc(${-50 + i}% + ${xStartPoint}px - 5px)` }"
+        :style="{ left: `calc(${-150 + i}% + ${xStartPoint}px - 5px)` }"
       >
         <span class="pl-2" v-if="i % 10 == 0">{{
-          Math.ceil(((i - 100) / 100) * (windowSize.width / scale) * 3)
+          Math.ceil(((i - 200) / 100) * componentWidth * 5)
         }}</span>
       </div>
     </div>
@@ -51,6 +51,12 @@ export default {
   },
 
   computed: {
+    componentWidth() {
+      return ((this.windowSize.width / 2) - 30) / this.scale;
+    },
+    componentHeight() {
+      return (this.windowSize.height - 134) / this.scale;
+    },
     scalingContainerStyle() {
       return {
         transform: `scale(${this.scale}) translate(${this.xOffset}px, ${this.yOffset}px)`,
