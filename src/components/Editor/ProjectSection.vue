@@ -20,25 +20,63 @@
       </div>
 
       <div class="three">
-        <ul>
-          <li class="folder"><v-icon size="14"> mdi-folder </v-icon> Proyecto
+        <!-- <ul>
+          <li @contextmenu="setHola" class="folder"><v-icon size="14"> mdi-folder </v-icon> Proyecto
             <ul>
               <li>ola</li>
             </ul>
           </li>
           <li class="folder"> <v-icon size="14"> mdi-folder </v-icon> Proyecto2 </li>
           <li class="folder"> <v-icon size="14"> mdi-folder </v-icon> Proyecto3 </li>
-        </ul>
+        </ul> -->
+        <filesThree :node="treeData"/>
       </div>
       </div>
 </template>
 
 <script>
+import filesThree from '../tools/filesThree.vue';
+
+
 export default {
+  components: {
+    filesThree
+  },
   data() {
     return {
+      treeData: {
+        label: 'Root',
+        children: [
+          {
+            label: 'Node 1',
+            children: [
+              { label: 'Node 1.1' },
+              { label: 'Node 1.2' }
+            ]
+          },
+          {
+            label: 'Node 2',
+            children: [
+              { label: 'Node 2.1' },
+              {
+                label: 'Node 2.2',
+                children: [
+                  { label: 'Node 2.2.1' },
+                  { label: 'Node 2.2.2' },
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
-  }
+  }, 
+  methods: {
+    setHola(e){
+      e.preventDefault();
+      console.log('hola');
+    }
+  },
 }
 </script>
 
