@@ -1,15 +1,14 @@
 <template>
   <div>
+    <div v-for="childNode in node.children" :key="childNode.label">
     <ul>
-      <li
-        class="folder"
-        v-for="childNode in node.children"
-        :key="childNode.label"
-      >
+      <li class="folder">
         <v-icon size="14"> mdi-folder </v-icon> {{ childNode.label }}
-        <files-tree v-if="childNode.children" :node="childNode" />
+        <files-tree v-if="childNode.children && childNode.hidden == true" :node="childNode" />
       </li>
     </ul>
+    </div>
+
   </div>
 </template>
 <script>
@@ -39,7 +38,7 @@ li {
 
 li::before {
   position: absolute;
-  top: 15px;
+  top: 10px;
   left: -15px;
   width: 10px;
   height: 1px;
@@ -60,7 +59,7 @@ li::after {
 }
 
 li:last-child:after {
-  height: 15px;
+  height: 10px;
 }
 
 ul {

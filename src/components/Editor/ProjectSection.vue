@@ -20,15 +20,6 @@
       </div>
 
       <div class="three">
-        <!-- <ul>
-          <li @contextmenu="setHola" class="folder"><v-icon size="14"> mdi-folder </v-icon> Proyecto
-            <ul>
-              <li>ola</li>
-            </ul>
-          </li>
-          <li class="folder"> <v-icon size="14"> mdi-folder </v-icon> Proyecto2 </li>
-          <li class="folder"> <v-icon size="14"> mdi-folder </v-icon> Proyecto3 </li>
-        </ul> -->
         <filesTree :node="treeData"/>
       </div>
       </div>
@@ -46,23 +37,27 @@ export default {
     return {
       treeData: {
         label: 'Root',
+        hidden: true,
         children: [
           {
             label: 'Node 1',
+            hidden: true,
             children: [
-              { label: 'Node 1.1' },
-              { label: 'Node 1.2' }
+              { label: 'Node 1.1', hidden: true,},
+              { label: 'Node 1.2', hidden: true, }
             ]
           },
           {
             label: 'Node 2',
+            hidden: true,
             children: [
-              { label: 'Node 2.1' },
+              { label: 'Node 2.1' , hidden: true,},
               {
                 label: 'Node 2.2',
+                hidden: true,
                 children: [
-                  { label: 'Node 2.2.1' },
-                  { label: 'Node 2.2.2' },
+                  { label: 'Node 2.2.1', hidden: true,},
+                  { label: 'Node 2.2.2', hidden: true },
                 ]
               }
             ]
@@ -89,53 +84,5 @@ export default {
 .three{
   font-family: 'Roboto Mono', monospace;
   font-size: 11px;
-}
-
-li {
-  margin-left: 20px;
-  position: relative;
-  color: white;
-}
-
-.folder {
-  cursor: pointer;
-}
-
-.folder:hover { 
-  color: #55a192 ;
-}
-
-li::before{
-  position: absolute;
-  top: 15px;
-  left: -15px;
-  width: 10px;
-  height: 1px;
-  margin: auto;
-  content: '';
-  background-color: #506d7f;
-}
-
-li::after {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -15px;
-  width: 1px;
-  height: 100%;
-  content: '';
-  background-color: #506d7f;
-}
-
-li:last-child:after {
-  height: 15px;
-}
-
-ul{
-  list-style: none;
-}
-
-.document{
-  color: green;
 }
 </style>
