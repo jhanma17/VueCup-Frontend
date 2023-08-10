@@ -29,18 +29,18 @@
           <li class="folder"> <v-icon size="14"> mdi-folder </v-icon> Proyecto2 </li>
           <li class="folder"> <v-icon size="14"> mdi-folder </v-icon> Proyecto3 </li>
         </ul> -->
-        <filesThree :node="treeData"/>
+        <filesTree :node="treeData"/>
       </div>
       </div>
 </template>
 
 <script>
-import filesThree from '../tools/filesThree.vue';
+import filesTree from '../tools/filesTree.vue';
 
 
 export default {
   components: {
-    filesThree
+    filesTree
   },
   data() {
     return {
