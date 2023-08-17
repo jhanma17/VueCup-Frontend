@@ -21,19 +21,9 @@
       cols="4"
       class="pa-0"
     >
-      <div class="component-box">
-        <v-img
-          :src="component.icon"
-          aspect-ratio="1"
-          width="50px"
-          class="mx-auto"
-        >
-        </v-img>
-
-        <span class="text-caption mb-1">
-          {{ component.name }}
-        </span>
-      </div>
+      <ComponentsBoxVue
+        :component="component"
+      />
     </v-col>
   </v-row>
 </template>
@@ -41,6 +31,8 @@
 <script>
 import CategorySelector from "@/components/Shared/CategorySelector.vue";
 import ComponentsSearch from '@/components/Shared/ComponentsSearch.vue';
+import ComponentsBoxVue from '@/components/Shared/ComponentsBox.vue';
+
 export default {
   data() {
     return {
@@ -55,6 +47,7 @@ export default {
       search: "",
     };
   },
+
   computed: {
     filteredComponents() {
       return this.components.filter((component) => {
@@ -62,6 +55,7 @@ export default {
       });
     },
   },
+
   methods: {
     selectCategory(category) {
       this.selectedCategory = category;
@@ -70,9 +64,11 @@ export default {
       this.search = search;
     },
   },
+
   components: {
     CategorySelector,
     ComponentsSearch,
+    ComponentsBoxVue
   },
 };
 </script>
@@ -81,16 +77,6 @@ export default {
 .selected-library-tab {
   color: #e3e3e3 !important;
   border-bottom: 0 !important;
-}
-
-.component-box {
-  display: flex;
-  height: 100px;
-  width: 100px;
-  border: 1px solid #646464;
-  flex-direction: column;
-  justify-items: space-around;
-  text-align: center;
 }
 
 .search-row {
