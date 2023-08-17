@@ -24,7 +24,7 @@
 import ScreensSection from "../components/Editor/ScreensSection.vue";
 import ProjectSection from "../components/Editor/ProjectSection.vue";
 import EditorSection from "../components/Editor/EditorSection.vue";
-import InspectorSection from "../components/Editor/InspectorSection.vue";
+import InspectorSection from "../components/Editor/InspectorSection/index.vue";
 
 export default {
   components: {
