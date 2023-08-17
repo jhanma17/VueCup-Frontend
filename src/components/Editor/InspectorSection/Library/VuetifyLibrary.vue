@@ -8,14 +8,10 @@
   </v-row>
 
   <v-row class="ma-0 pb-1 search-row">
-    <div class="search-container">
-      <v-icon class="ml-4" size="20" color="#c5c5c5"> mdi-magnify </v-icon>
-      <input
-        v-model="search"
-        class="ml-2 text-caption search-input"
-        placeholder="Search"
-      />
-    </div>
+    <ComponentsSearch
+      :search="search"
+      @updateSearch="updateSearch"
+    />
   </v-row>
 
   <v-row class="mx-4 my-2">
@@ -25,25 +21,18 @@
       cols="4"
       class="pa-0"
     >
-      <div class="component-box">
-        <v-img
-          :src="component.icon"
-          aspect-ratio="1"
-          width="50px"
-          class="mx-auto"
-        >
-        </v-img>
-
-        <span class="text-caption mb-1">
-          {{ component.name }}
-        </span>
-      </div>
+      <ComponentsBox
+        :component="component"
+      />
     </v-col>
   </v-row>
 </template>
 
 <script>
 import CategorySelector from "@/components/Shared/CategorySelector.vue";
+import ComponentsSearch from '@/components/Shared/ComponentsSearch.vue';
+import ComponentsBox from '@/components/Shared/ComponentsBox.vue';
+
 export default {
   data() {
     return {
@@ -66,6 +55,7 @@ export default {
       search: "",
     }
   },
+
   computed: {
     filteredComponents() {
       return this.components.filter((component) => {
@@ -73,13 +63,20 @@ export default {
       });
     },
   },
+
   methods: {
     selectCategory(category) {
       this.selectedCategory = category;
     },
+    updateSearch(search) {
+      this.search = search;
+    },
   },
+
   components: {
     CategorySelector,
+    ComponentsSearch,
+    ComponentsBox,
   },
 };
 </script>
@@ -91,41 +88,7 @@ export default {
   border-bottom: 0 !important;
 }
 
-.category-selector {
-  border-radius: 0 !important;
-  border-bottom: 1px solid #323232 !important;
-  color: #c5c5c5 !important;
-  background-color: #242424 !important;
-  justify-content: space-between !important;
-}
-
-.category-item {
-  min-height: 32px !important;
-}
-
-.component-box {
-  display: flex;
-  height: 100px;
-  width: 100px;
-  border: 1px solid #646464;
-  flex-direction: column;
-  justify-items: space-around;
-  text-align: center;
-}
-
 .search-row {
   border-bottom: 1px solid #484848;
-}
-
-.search-container {
-  width: 100%;
-  height: 30px;
-}
-
-.search-input {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  color: #c5c5c5;
 }
 </style>

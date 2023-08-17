@@ -21,7 +21,7 @@
       cols="4"
       class="pa-0"
     >
-      <ComponentsBoxVue
+      <ComponentsBox
         :component="component"
       />
     </v-col>
@@ -31,7 +31,7 @@
 <script>
 import CategorySelector from "@/components/Shared/CategorySelector.vue";
 import ComponentsSearch from '@/components/Shared/ComponentsSearch.vue';
-import ComponentsBoxVue from '@/components/Shared/ComponentsBox.vue';
+import ComponentsBox from '@/components/Shared/ComponentsBox.vue';
 
 export default {
   data() {
@@ -68,7 +68,7 @@ export default {
   components: {
     CategorySelector,
     ComponentsSearch,
-    ComponentsBoxVue
+    ComponentsBox
   },
 };
 </script>
