@@ -23,7 +23,7 @@
 <script>
 import ScreensSection from "../components/Editor/ScreensSection.vue";
 import ProjectSection from "../components/Editor/ProjectSection.vue";
-import EditorSection from "../components/Editor/EditorSection.vue";
+import EditorSection from "../components/Editor/EditorSection/index.vue";
 import InspectorSection from "../components/Editor/InspectorSection/index.vue";
 
 export default {
