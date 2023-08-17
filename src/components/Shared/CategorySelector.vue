@@ -32,7 +32,7 @@ export default {
   methods: {
     selectCategory(category) {
       this.$emit("selectCategory", category);
-    }
+    },
   },
   props: {
     categories: {
@@ -47,5 +47,16 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.category-selector {
+  border-radius: 0 !important;
+  border-bottom: 1px solid #323232 !important;
+  color: #c5c5c5 !important;
+  background-color: #242424 !important;
+  justify-content: space-between !important;
+}
+
+.category-item {
+  min-height: 32px !important;
+}
 </style>

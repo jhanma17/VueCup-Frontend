@@ -8,14 +8,10 @@
   </v-row>
 
   <v-row class="ma-0 pb-1 search-row">
-    <div class="search-container">
-      <v-icon class="ml-4" size="20" color="#c5c5c5"> mdi-magnify </v-icon>
-      <input
-        v-model="search"
-        class="ml-2 text-caption search-input"
-        placeholder="Search"
-      />
-    </div>
+    <ComponentsSearch
+      :search="search"
+      @updateSearch="updateSearch"
+    />
   </v-row>
 
   <v-row class="mx-4 my-2">
@@ -44,6 +40,7 @@
 
 <script>
 import CategorySelector from "@/components/Shared/CategorySelector.vue";
+import ComponentsSearch from '@/components/Shared/ComponentsSearch.vue';
 export default {
   data() {
     return {
@@ -69,9 +66,13 @@ export default {
     selectCategory(category) {
       this.selectedCategory = category;
     },
+    updateSearch(search) {
+      this.search = search;
+    },
   },
   components: {
     CategorySelector,
+    ComponentsSearch,
   },
 };
 </script>
@@ -80,18 +81,6 @@ export default {
 .selected-library-tab {
   color: #e3e3e3 !important;
   border-bottom: 0 !important;
-}
-
-.category-selector {
-  border-radius: 0 !important;
-  border-bottom: 1px solid #323232 !important;
-  color: #c5c5c5 !important;
-  background-color: #242424 !important;
-  justify-content: space-between !important;
-}
-
-.category-item {
-  min-height: 32px !important;
 }
 
 .component-box {
@@ -106,17 +95,5 @@ export default {
 
 .search-row {
   border-bottom: 1px solid #484848;
-}
-
-.search-container {
-  width: 100%;
-  height: 30px;
-}
-
-.search-input {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  color: #c5c5c5;
 }
 </style>
