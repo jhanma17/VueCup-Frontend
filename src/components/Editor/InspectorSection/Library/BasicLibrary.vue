@@ -28,18 +28,36 @@
     </v-menu>
   </v-row>
 
+  <v-row class="ma-0 pb-1 search-row">
+    <div class="search-container">
+      <v-icon class="ml-4" size="20" color="#c5c5c5"> mdi-magnify </v-icon>
+      <input
+        v-model="search"
+        class="ml-2 text-caption search-input"
+        placeholder="Search"
+      />
+    </div>
+  </v-row>
+
   <v-row class="mx-4 my-2">
-    <v-col cols="4" class="pa-0">
+    <v-col
+      v-for="(component, index) in filteredComponents"
+      :key="index"
+      cols="4"
+      class="pa-0"
+    >
       <div class="component-box">
         <v-img
-          src="https://cdn-icons-png.flaticon.com/512/8623/8623647.png"
+          :src="component.icon"
           aspect-ratio="1"
           width="50px"
           class="mx-auto"
         >
         </v-img>
 
-        <span class="text-caption mb-1">Text</span>
+        <span class="text-caption mb-1">
+          {{ component.name }}
+        </span>
       </div>
     </v-col>
   </v-row>
@@ -51,7 +69,21 @@ export default {
     return {
       categories: ["Texts", "Images", "Containers", "Lists", "Embedded"],
       selectedCategory: "Texts",
+      components: [
+        {
+          name: "Text",
+          icon: "https://cdn-icons-png.flaticon.com/512/8623/8623647.png",
+        },
+      ],
+      search: "",
     };
+  },
+  computed: {
+    filteredComponents() {
+      return this.components.filter((component) => {
+        return component.name.toLowerCase().includes(this.search.toLowerCase());
+      });
+    },
   },
 };
 </script>
@@ -82,5 +114,21 @@ export default {
   flex-direction: column;
   justify-items: space-around;
   text-align: center;
+}
+
+.search-row {
+  border-bottom: 1px solid #484848;
+}
+
+.search-container {
+  width: 100%;
+  height: 30px;
+}
+
+.search-input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #c5c5c5;
 }
 </style>
