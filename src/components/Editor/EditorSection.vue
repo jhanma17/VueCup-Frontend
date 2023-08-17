@@ -5,7 +5,45 @@
   </v-row>
 
   <div class="editor-space" @wheel="handleMouseWheel" @keydown="handleKeyPress">
-    <div class="canvas" :style="scalingContainerStyle"></div>
+    <div class="canvas" :style="scalingContainerStyle">
+      <v-card
+        id="card-test"
+        color="red"
+        :class="highlightedElement == 'card-test' ? 'highlight' : ''"
+        @mouseenter.stop="highlightComponent($event)"
+      >
+        <span
+          id="span-test"
+          :class="highlightedElement == 'span-test' ? 'highlight' : ''"
+          @mouseenter.stop="highlightComponent($event)"
+        >
+          hola
+        </span>
+      </v-card>
+
+      <v-row
+        id="row-test"
+        :class="highlightedElement == 'row-test' ? 'highlight' : ''"
+        @mouseenter.stop="highlightComponent($event)"
+        @mouseleave.stop="removeHighlight()"
+      >
+        <v-col
+          cols="4"
+          id="col-test"
+          :class="highlightedElement == 'col-test' ? 'highlight' : ''"
+          @mouseenter.stop="highlightComponent($event)"
+        >
+          <v-btn
+            block
+            id="btn-test"
+            :class="highlightedElement == 'btn-test' ? 'highlight' : ''"
+            @mouseenter.stop="highlightComponent($event)"
+          >
+            test
+          </v-btn>
+        </v-col>
+      </v-row>
+    </div>
 
     <div class="ruler-y">
       <div
@@ -47,12 +85,14 @@ export default {
       yOffset: 0,
       xOffset: 0,
       windowSize: { width: window.innerWidth, height: window.innerHeight },
+      guessParent: true,
+      highlightedElement: null,
     };
   },
 
   computed: {
     componentWidth() {
-      return ((this.windowSize.width / 2) - 30) / this.scale;
+      return (this.windowSize.width / 2 - 30) / this.scale;
     },
     componentHeight() {
       return (this.windowSize.height - 134) / this.scale;
@@ -71,6 +111,14 @@ export default {
   },
 
   methods: {
+    highlightComponent(event) {
+      if (this.guessParent) {
+        let element = event.target;
+
+        //set highlighted element as the id of the element
+        this.highlightedElement = element.id;
+      }
+    },
     handleMouseWheel(event) {
       if (event.ctrlKey) {
         event.preventDefault();
@@ -188,5 +236,9 @@ export default {
   transform: rotate(-90deg);
   text-align: end;
   padding-left: 10px;
+}
+
+.highlight {
+  box-shadow: 0 0 0px 5px rgba(0, 98, 0);
 }
 </style>
