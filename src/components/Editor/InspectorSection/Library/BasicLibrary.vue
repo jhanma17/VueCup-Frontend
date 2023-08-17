@@ -1,31 +1,10 @@
 <template>
   <v-row class="ma-1 my-0 pa-2">
-    <v-menu>
-      <template v-slot:activator="{ props }">
-        <v-btn
-          class="text-caption category-selector pa-1"
-          append-icon="mdi-chevron-down"
-          block
-          variant="text"
-          v-bind="props"
-        >
-          {{ selectedCategory }}
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-          class="category-item"
-          v-for="(category, index) in categories"
-          :key="index"
-          :value="index"
-          @click="selectCategory(category)"
-        >
-          <v-list-item-title class="text-caption">{{
-            category
-          }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+    <CategorySelector
+      :categories="categories"
+      :selectedCategory="selectedCategory"
+      @selectCategory="selectCategory"
+    />
   </v-row>
 
   <v-row class="ma-0 pb-1 search-row">
@@ -64,6 +43,7 @@
 </template>
 
 <script>
+import CategorySelector from "@/components/Shared/CategorySelector.vue";
 export default {
   data() {
     return {
@@ -84,6 +64,14 @@ export default {
         return component.name.toLowerCase().includes(this.search.toLowerCase());
       });
     },
+  },
+  methods: {
+    selectCategory(category) {
+      this.selectedCategory = category;
+    },
+  },
+  components: {
+    CategorySelector,
   },
 };
 </script>
