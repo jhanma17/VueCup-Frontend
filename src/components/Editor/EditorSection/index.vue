@@ -60,14 +60,6 @@ export default {
     resetHighlighting() {
       this.highlightedElement = null;
     },
-    highlightComponent(event) {
-      if (this.guessParent) {
-        let element = event.target;
-
-        //set highlighted element as the id of the element
-        this.highlightedElement = element.id;
-      }
-    },
     updateHighlightedElement(value) {
       this.highlightedElement = value;
     },

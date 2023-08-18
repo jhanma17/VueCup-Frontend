@@ -7,13 +7,13 @@
     <v-card
       id="card-test"
       color="red"
-      :class="highlightedElement == 'card-test' ? 'highlight' : ''"
-      @mouseover.stop="highlightComponent($event)"
+      :class="highlightedElement == 0 ? 'highlight' : ''"
+      @mouseover.stop="highlightComponent(0)"
     >
       <span
         id="span-test"
-        :class="highlightedElement == 'span-test' ? 'highlight' : ''"
-        @mouseover.stop="highlightComponent($event)"
+        :class="highlightedElement == 1 ? 'highlight' : ''"
+        @mouseover.stop="highlightComponent(1)"
       >
         hola
       </span>
@@ -21,38 +21,90 @@
 
     <v-row
       id="row-test"
-      :class="highlightedElement == 'row-test' ? 'highlight' : ''"
-      @mouseover.stop="highlightComponent($event)"
-      @mouseleave.stop="removeHighlight()"
+      :class="highlightedElement == 2 ? 'highlight' : ''"
+      @mouseover.stop="highlightComponent(2)"
     >
       <v-col
         cols="4"
         id="col-test"
-        :class="highlightedElement == 'col-test' ? 'highlight' : ''"
-        @mouseover.stop="highlightComponent($event)"
+        :class="highlightedElement == 3 ? 'highlight' : ''"
+        @mouseover.stop="highlightComponent(3)"
       >
         <v-btn
           block
           id="btn-test"
-          :class="highlightedElement == 'btn-test' ? 'highlight' : ''"
-          @mouseover.stop="highlightComponent($event)"
+          :class="highlightedElement == 4 ? 'highlight' : ''"
+          @mouseover.stop="highlightComponent(4)"
         >
           test
         </v-btn>
       </v-col>
     </v-row>
+
+    <RenderComponent
+      v-for="component in components"
+      :key="component.id"
+      :element="component"
+    />
   </div>
 </template>
 
 <script>
+import RenderComponent from "./RenderComponent.vue";
+
 export default {
+  data() {
+    return {
+      components: [
+        {
+          id: 0,
+          type: "CardTemplate",
+          props: {
+            color: "red",
+          },
+          children: [
+            {
+              id: 1,
+              type: "SpanTemplate",
+              props: {
+                text: "hola",
+              },
+            },
+          ],
+        },
+        {
+          id: 2,
+          type: "RowTemplate",
+          children: [
+            {
+              id: 3,
+              type: "ColTemplate",
+              props: {
+                cols: "4",
+              },
+              children: [
+                {
+                  id: 4,
+                  type: "ButtonTemplate",
+                  props: {
+                    block: true,
+                    text: "test",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+  },
   computed: {
     highlightedElement: {
       get() {
         return this.element;
       },
       set(value) {
-        this.$emit('updateHighlightedElement', value);
+        this.$emit("updateHighlightedElement", value);
       },
     },
   },
@@ -60,23 +112,21 @@ export default {
     resetHighlighting() {
       this.highlightedElement = null;
     },
-    highlightComponent(event) {
-      if (this.guessParent) {
-        let element = event.target;
-
-        //set highlighted element as the id of the element
-        this.highlightedElement = element.id;
-      }
+    highlightComponent(id) {
+      this.$emit("updateHighlightedElement", id);
     },
+  },
+  components: {
+    RenderComponent,
   },
   props: {
     element: {
-      type: String,
+      type: Number,
       default: null,
     },
     scalingContainerStyle: {
-      type: String,
-      default: '',
+      type: Object,
+      default: null,
     },
     guessParent: {
       type: Boolean,
@@ -87,7 +137,6 @@ export default {
 </script>
 
 <style scoped>
-
 .canvas {
   position: absolute;
   height: 216px;
