@@ -1,24 +1,47 @@
 <template>
   <div>
     <div v-for="childNode in node.children" :key="childNode.label">
-    <ul>
-      <li class="folder">
-        <v-icon size="14"> mdi-folder </v-icon> {{ childNode.label }}
-        <files-tree v-if="childNode.children && childNode.hidden == true" :node="childNode" />
-      </li>
-    </ul>
+      <ul>
+        <li>
+          <div class="folder" @click="openFolder(childNode)">
+            <v-icon size="14" v-if="childNode.type">
+              {{ constants[childNode.type].icon }}
+            </v-icon>
+            {{ childNode.label }}
+          </div>
+          <files-tree
+            v-if="childNode.children && childNode.hidden == true"
+            :node="childNode"
+          />
+        </li>
+      </ul>
     </div>
-
   </div>
 </template>
 <script>
 export default {
+  data() {
+    return {
+      constants: {
+        FOLDER: { icon: "mdi-folder" },
+        FILE: { icon: "mdi-application-outline" },
+      },
+    };
+  },
   props: {
     node: {
       type: Object,
       required: true,
     },
   },
+  methods: {
+    openFolder(node) {
+      if (node.type === "FOLDER") {
+        node.hidden = !node.hidden;
+      }
+    },
+  },
+  computed: {},
 };
 </script>
 <style scoped>
@@ -29,6 +52,7 @@ li {
 }
 
 .folder {
+  font-size: 13px;
   cursor: pointer;
 }
 

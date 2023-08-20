@@ -6,12 +6,12 @@
           <span class="title-tab">Project</span>
         </div>
         <div>
-          <v-btn icon flat size="x-small" color="transparent">
+          <v-btn icon flat size="x-small" :ripple="false" color="transparent">
             <v-icon color="white">
               mdi-dots-vertical
             </v-icon>
           </v-btn>
-          <v-btn icon flat size="x-small" color="transparent">
+          <v-btn icon flat size="x-small" :ripple="false" color="transparent">
             <v-icon color="white">
               mdi-plus
             </v-icon>
@@ -37,10 +37,12 @@ export default {
     return {
       treeData: {
         label: 'Root',
+        type: 'FOLDER',
         hidden: true,
         children: [
           {
             label: 'Node 1',
+            type: 'FOLDER',
             hidden: true,
             children: [
               { label: 'Node 1.1', hidden: true,},
@@ -49,12 +51,14 @@ export default {
           },
           {
             label: 'Node 2',
+            type: 'FOLDER',
             hidden: true,
             children: [
-              { label: 'Node 2.1' , hidden: true,},
+              { label: 'Node 2.1' , hidden: true, type: 'FILE',},
               {
                 label: 'Node 2.2',
                 hidden: true,
+                type: 'FOLDER',
                 children: [
                   { label: 'Node 2.2.1', hidden: true,},
                   { label: 'Node 2.2.2', hidden: true },
