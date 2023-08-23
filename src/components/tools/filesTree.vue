@@ -15,8 +15,9 @@
               :attach="`node_${childNode.id}`">
               <v-card color="#242424">
                 <ul class="menu-list">
-                  <li @click="addNewDoc({fatherNode: childNode, type: 'FILE'})"><span>New file</span></li>
-                  <li @click="addNewDoc({fatherNode: childNode, type: 'FOLDER'})"><span>New folder</span></li>
+                  <li v-if="childNode.type == 'FOLDER'" @click="addNewDoc({fatherNode: childNode, type: 'FILE'})"><span>New file</span></li>
+                  <li v-if="childNode.type == 'FOLDER'" @click="addNewDoc({fatherNode: childNode, type: 'FOLDER'})"><span>New folder</span></li>
+                  <li @click="deleteDoc(childNode)"><span>Delete</span></li>
                 </ul>
               </v-card>
             </v-menu>
@@ -51,9 +52,7 @@ export default {
   methods: {
     openMenu(e, node){
       e.preventDefault()
-      if (node.type === 'FOLDER'){
         this.showMenu[node.id] = !this.showMenu[node.id]
-      }
     },
     openFolder(node) {
       if (node.type === "FOLDER") {
@@ -76,8 +75,15 @@ export default {
       }
     },
 
-    deleteDoc(){
-      
+    deleteDoc(childNode, tree = this.node.children){
+      for (let i = 0; i < tree.length; i++) {
+        if (tree[i].id === childNode.id) {
+          tree.splice(i, 1)
+        }
+        else if (tree[i].children) {
+          this.deleteDoc(childNode, tree[i].children)
+        }        
+      }
     }
   },
   computed: {},
