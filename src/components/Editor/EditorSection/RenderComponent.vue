@@ -1,5 +1,11 @@
 <template>
-  <component :is="element.type" :props="element.props">
+  <component
+    :is="element.type"
+    :props="element.props"
+    :class="highlightedElement == element.id ? 'highlight' : ''"
+    @mouseover.stop="highlightElement(element.id)"
+
+  >
     <RenderComponent
       v-if="element.children"
       v-for="child in element.children"
@@ -10,6 +16,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "pinia";
+import { highlightStore } from "@/stores/highlight";
 import CardTemplate from "@/components/ComponentTemplates/CardTemplate.vue";
 import RowTemplate from "@/components/ComponentTemplates/RowTemplate.vue";
 import ColTemplate from "@/components/ComponentTemplates/ColTemplate.vue";
@@ -18,6 +26,12 @@ import SpanTemplate from "@/components/ComponentTemplates/SpanTemplate.vue";
 
 export default {
   name: "RenderComponent",
+  computed: {
+    ...mapState(highlightStore, ["highlightedElement"]),
+  },
+  methods: {
+    ...mapActions(highlightStore, ["resetHighlighting", "highlightElement"]),
+  },
   components: {
     CardTemplate,
     RowTemplate,
