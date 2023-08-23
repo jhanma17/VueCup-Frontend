@@ -70,7 +70,7 @@ export default {
             const id  = Math.floor(Math.random() * (9))
             tree[i].children.push({label: "Node 2.1", hidden: true, id , type: type})
         } else if (tree[i].children) {
-          this.addNewDoc(fatherNode, tree[i].children)
+          this.addNewDoc({fatherNode, tree: tree[i].children})
         }  
       }
     },
