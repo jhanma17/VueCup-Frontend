@@ -19,6 +19,10 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { componentsStore } from "@/stores/components";
+import TitleTemplate from "@/components/ComponentTemplates/BasicComponents/TitleTemplate.vue";
+import BodyTemplate from "@/components/ComponentTemplates/BasicComponents/BodyTemplate.vue";
+import ParagraphTemplate from "@/components/ComponentTemplates/BasicComponents/ParagraphTemplate.vue";
+import LinkTemplate from "@/components/ComponentTemplates/BasicComponents/LinkTemplate.vue";
 import CardTemplate from "@/components/ComponentTemplates/CardTemplate.vue";
 import RowTemplate from "@/components/ComponentTemplates/RowTemplate.vue";
 import ColTemplate from "@/components/ComponentTemplates/ColTemplate.vue";
@@ -39,6 +43,10 @@ export default {
     ColTemplate,
     ButtonTemplate,
     SpanTemplate,
+    TitleTemplate,
+    BodyTemplate,
+    ParagraphTemplate,
+    LinkTemplate,
   },
   props: {
     element: {
