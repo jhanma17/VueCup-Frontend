@@ -84,7 +84,8 @@ export const componentsStore = defineStore('components', {
     },
     startPlacingComponent(component) {
       this.placeComponent = true;
-      this.componentToPlace = component;
+      this.componentToPlace.type = component.type;
+      this.componentToPlace.props = component.props;
     },
     stopPlacingComponent() {
       this.placeComponent = false;
