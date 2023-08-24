@@ -5,9 +5,10 @@ export const componentsStore = defineStore('components', {
     placeComponent: true,
     componentToPlace: {
       id: 5,
-      type: "SpanTemplate",
+      type: "ButtonTemplate",
       props: {
-        text: "hola",
+        block: true,
+        text: "test",
       },
     },
     components: [
@@ -66,10 +67,11 @@ export const componentsStore = defineStore('components', {
       // and add the component to the children
 
       const search = (components, id) => {
-        console.log(components, id);
         for (let component of components) {
           if (component.id === id) {
-            component.children.push(this.componentToPlace);
+            const plainComponent = JSON.parse(JSON.stringify(this.componentToPlace));
+            component.children.push(plainComponent);
+            this.componentToPlace.id++;
             return;
           }
           if (component.children) {
