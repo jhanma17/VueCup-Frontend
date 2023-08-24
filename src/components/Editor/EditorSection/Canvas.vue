@@ -15,59 +15,19 @@
 <script>
 import RenderComponent from "./RenderComponent.vue";
 import { mapState, mapActions } from "pinia";
-import { highlightStore } from "@/stores/highlight";
+import { componentsStore } from "@/stores/components";
 
 export default {
   data() {
     return {
-      components: [
-        {
-          id: 0,
-          type: "CardTemplate",
-          props: {
-            color: "red",
-          },
-          children: [
-            {
-              id: 1,
-              type: "SpanTemplate",
-              props: {
-                text: "hola",
-              },
-            },
-          ],
-        },
-        {
-          id: 2,
-          type: "RowTemplate",
-          children: [
-            {
-              id: 3,
-              type: "ColTemplate",
-              props: {
-                cols: "4",
-              },
-              children: [
-                {
-                  id: 4,
-                  type: "ButtonTemplate",
-                  props: {
-                    block: true,
-                    text: "test",
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      
     };
   },
   computed: {
-    ...mapState(highlightStore, ["highlightedElement"]),
+    ...mapState(componentsStore, ["highlightedComponent", "components"]),
   },
   methods: {
-    ...mapActions(highlightStore, ["resetHighlighting", "highlightElement"]),
+    ...mapActions(componentsStore, ["resetHighlighting"]),
   },
   components: {
     RenderComponent,
