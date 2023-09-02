@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span class="no-selection">
     {{ props.text }}
   </span>
 </template>
@@ -17,4 +17,7 @@ export default {
 </script>
 
 <style>
+.no-selection {
+  user-select: none;
+}
 </style>
