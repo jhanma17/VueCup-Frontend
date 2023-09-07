@@ -5,7 +5,7 @@
     @mouseleave="resetHighlighting()"
   >
     <RenderComponent
-      v-for="component in components"
+      v-for="component in componentsTree"
       :key="component.id"
       :element="component"
     />
@@ -24,7 +24,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(componentsStore, ["highlightedComponent", "components"]),
+    ...mapState(componentsStore, ["highlightedComponent", "components", "componentsTree"]),
   },
   methods: {
     ...mapActions(componentsStore, ["resetHighlighting"]),

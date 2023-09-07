@@ -4,7 +4,7 @@ export const componentsStore = defineStore('components', {
   state: () => ({
     placeComponent: true,
     componentToPlace: {
-      id: 5,
+      id: 6,
       type: "ButtonTemplate",
       props: {
         block: true,
@@ -14,73 +14,103 @@ export const componentsStore = defineStore('components', {
     components: [
       {
         id: 0,
+        type: "Root",
+        children: [1, 3],
+      },
+      {
+        id: 1,
         type: "CardTemplate",
         props: {
           color: "red",
         },
-        children: [
-          {
-            id: 1,
-            type: "SpanTemplate",
-            props: {
-              text: "hola",
-            },
-          },
-        ],
+        children: [2, 7],
       },
       {
         id: 2,
-        type: "RowTemplate",
-        children: [
-          {
-            id: 3,
-            type: "ColTemplate",
-            props: {
-              cols: "4",
-            },
-            children: [
-              {
-                id: 4,
-                type: "ButtonTemplate",
-                props: {
-                  block: true,
-                  text: "test",
-                },
-              },
-            ],
-          },
-        ],
+        type: "SpanTemplate",
+        props: {
+          text: "hola",
+        },
       },
+      {
+        id: 3,
+        type: "RowTemplate",
+        children: [4],
+      },
+      {
+        id: 4,
+        type: "ColTemplate",
+        props: {
+          cols: "4",
+        },
+        children: [5],
+      },
+      {
+        id: 5,
+        type: "ButtonTemplate",
+        props: {
+          block: true,
+          text: "test",
+        },
+      },
+      {
+        id: 7,
+        type: "BodyTemplate",
+        props: {
+          text: "body sentence"
+        }
+      }
     ],
     highlightedComponent: null,
+    inspectedComponent: null,
   }),
   getters: {
-  },
-  actions: {
-    placeSelectedComponent() {
+    componentsTree() {
+      const root = JSON.parse(JSON.stringify(this.components[0]));
 
-      if (!this.placeComponent) {
-        return;
-      }
-
-      // recursively search for the component with the id
-      // and add the component to the children
-
-      const search = (components, id) => {
-        for (let component of components) {
+      const search = (id) => {
+        for (let component of this.components) {
           if (component.id === id) {
-            const plainComponent = JSON.parse(JSON.stringify(this.componentToPlace));
-            component.children.push(plainComponent);
-            this.componentToPlace.id++;
-            return;
-          }
-          if (component.children) {
-            search(component.children, id);
+            return component;
           }
         }
       }
 
-      search(this.components, this.highlightedComponent);
+      const buildTree = (component) => {
+        console.log(component);
+        if (component.children) {
+          component.children = JSON.parse(JSON.stringify(component.children.map((child) => search(child))));
+          component.children.forEach((child) => buildTree(child));
+        }
+      }
+
+      console.log(root);
+      buildTree(root);
+
+      return root.children;
+    }
+  },
+  actions: {
+    placeSelectedComponent() {
+      if (!this.placeComponent) {
+        return;
+      }
+
+      const plainComponent = JSON.parse(JSON.stringify(this.componentToPlace));
+      this.components.push(plainComponent);
+
+      for (let component of this.components) {
+        if (component.id === this.highlightedComponent) {
+          if (!component.children) {
+            component.children = [];
+          }
+          component.children.push(plainComponent.id);
+        }
+      }
+
+      this.componentToPlace.id++;
+
+      this.componentsTree;
     },
     startPlacingComponent(component) {
       this.placeComponent = true;
@@ -89,7 +119,6 @@ export const componentsStore = defineStore('components', {
     },
     stopPlacingComponent() {
       this.placeComponent = false;
-      this.componentToPlace = null;
     },
     resetHighlighting() {
       this.highlightedComponent = null;
@@ -99,5 +128,11 @@ export const componentsStore = defineStore('components', {
         this.highlightedComponent = id;
       }
     },
+    inspectComponent(component) {
+      this.inspectedComponent = component;
+    },
+    updateInspectedComponent(component) {
+      this.inspectedComponent = component;
+    }
   },
 })

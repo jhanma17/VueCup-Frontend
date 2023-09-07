@@ -2,9 +2,12 @@
   <component
     :is="element.type"
     :props="element.props"
-    :class="highlightedComponent == element.id ? 'highlight' : ''"
+    :class="
+      highlightedComponent == element.id && placeComponent ? 'highlight' : ''
+    "
     @mouseover.stop="highlightComponent(element.id)"
     @mouseup.stop="placeSelectedComponent()"
+    @click="inspectComponent(element)"
     @mousedown.prevent
   >
     <RenderComponent
@@ -32,10 +35,14 @@ import SpanTemplate from "@/components/ComponentTemplates/SpanTemplate.vue";
 export default {
   name: "RenderComponent",
   computed: {
-    ...mapState(componentsStore, ["highlightedComponent"]),
+    ...mapState(componentsStore, ["highlightedComponent", "placeComponent"]),
   },
   methods: {
-    ...mapActions(componentsStore, ["highlightComponent", "placeSelectedComponent"]),
+    ...mapActions(componentsStore, [
+      "highlightComponent",
+      "placeSelectedComponent",
+      "inspectComponent",
+    ]),
   },
   components: {
     CardTemplate,
