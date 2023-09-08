@@ -7,7 +7,7 @@
     "
     @mouseover.stop="highlightComponent(element.id)"
     @mouseup.stop="placeSelectedComponent()"
-    @click="inspectComponent(element)"
+    @click.stop="inspectComponent(element)"
     @mousedown.prevent
   >
     <RenderComponent

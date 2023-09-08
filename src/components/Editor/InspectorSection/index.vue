@@ -25,16 +25,20 @@
         <Library />
       </v-window-item>
 
-      <v-window-item value="inspector"> Two </v-window-item>
+      <v-window-item value="inspector">
+        <Inspector />
+      </v-window-item>
     </v-window>
   </main>
 </template>
 
 <script>
 import Library from "./Library/index.vue";
+import Inspector from "./Inspector/index.vue";
 export default {
   components: {
     Library,
+    Inspector,
   },
   data() {
     return {

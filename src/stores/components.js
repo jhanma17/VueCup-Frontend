@@ -4,7 +4,7 @@ export const componentsStore = defineStore('components', {
   state: () => ({
     placeComponent: true,
     componentToPlace: {
-      id: 6,
+      id: 7,
       type: "ButtonTemplate",
       props: {
         block: true,
@@ -23,7 +23,7 @@ export const componentsStore = defineStore('components', {
         props: {
           color: "red",
         },
-        children: [2, 7],
+        children: [2, 6],
       },
       {
         id: 2,
@@ -54,7 +54,7 @@ export const componentsStore = defineStore('components', {
         },
       },
       {
-        id: 7,
+        id: 6,
         type: "BodyTemplate",
         props: {
           text: "body sentence"
@@ -77,14 +77,12 @@ export const componentsStore = defineStore('components', {
       }
 
       const buildTree = (component) => {
-        console.log(component);
         if (component.children) {
           component.children = JSON.parse(JSON.stringify(component.children.map((child) => search(child))));
           component.children.forEach((child) => buildTree(child));
         }
       }
 
-      console.log(root);
       buildTree(root);
 
       return root.children;
@@ -111,11 +109,12 @@ export const componentsStore = defineStore('components', {
       this.componentToPlace.id++;
 
       this.componentsTree;
+      this.stopPlacingComponent();
     },
     startPlacingComponent(component) {
       this.placeComponent = true;
-      this.componentToPlace.type = component.type;
-      this.componentToPlace.props = component.props;
+      this.componentToPlace.type = JSON.parse(JSON.stringify(component.type));
+      this.componentToPlace.props = JSON.parse(JSON.stringify(component.props));
     },
     stopPlacingComponent() {
       this.placeComponent = false;
@@ -129,10 +128,15 @@ export const componentsStore = defineStore('components', {
       }
     },
     inspectComponent(component) {
-      this.inspectedComponent = component;
+      this.inspectedComponent = JSON.parse(JSON.stringify(component));
     },
     updateInspectedComponent(component) {
-      this.inspectedComponent = component;
+      for (let i = 0; i < this.components.length; i++) {
+        if (this.components[i].id == component.id) {
+          this.components[i].props = JSON.parse(JSON.stringify(component.props));
+        }
+      }
+      this.inspectedComponent.props = JSON.parse(JSON.stringify(component.props));
     }
   },
 })
