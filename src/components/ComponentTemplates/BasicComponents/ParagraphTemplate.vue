@@ -1,5 +1,5 @@
 <template>
-  <p class="no-selection">
+  <p class="no-selection" :style="style">
     {{ props.text }}
     <slot></slot>
   </p>
