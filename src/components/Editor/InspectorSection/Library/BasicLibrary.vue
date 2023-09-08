@@ -41,6 +41,10 @@ export default {
             type: "TitleTemplate",
             props: {
               text: "title",
+              fontFamily: "Roboto",
+              fontStyle: "Regular",
+              size: 12,
+              color: "#ffffff",
             },
           },
         },
@@ -51,6 +55,10 @@ export default {
             type: "BodyTemplate",
             props: {
               text: "body sentence",
+              fontFamily: "Roboto",
+              fontStyle: "Regular",
+              size: 12,
+              color: "#ffffff",
             },
           },
         },
@@ -61,6 +69,10 @@ export default {
             type: "ParagraphTemplate",
             props: {
               text: "lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+              fontFamily: "Roboto",
+              fontStyle: "Regular",
+              size: 12,
+              color: "#ffffff",
             },
           },
         },
@@ -71,6 +83,10 @@ export default {
             type: "LinkTemplate",
             props: {
               text: "https://www.google.com",
+              fontFamily: "Roboto",
+              fontStyle: "Regular",
+              size: 12,
+              color: "#ffffff",
             },
           },
         },

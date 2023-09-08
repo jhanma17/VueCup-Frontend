@@ -30,6 +30,10 @@ export const componentsStore = defineStore('components', {
         type: "SpanTemplate",
         props: {
           text: "hola",
+          fontFamily: "Roboto",
+          fontStyle: "Regular",
+          size: 12,
+          color: "#ffffff",
         },
       },
       {
@@ -57,7 +61,11 @@ export const componentsStore = defineStore('components', {
         id: 6,
         type: "BodyTemplate",
         props: {
-          text: "body sentence"
+          text: "body sentence",
+          fontFamily: "Roboto",
+          fontStyle: "Regular",
+          size: 12,
+          color: "#ffffff",
         }
       }
     ],
