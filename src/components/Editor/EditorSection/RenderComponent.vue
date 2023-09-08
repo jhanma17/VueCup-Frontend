@@ -2,9 +2,7 @@
   <component
     :is="element.type"
     :props="element.props"
-    :class="
-      highlightedComponent == element.id && placeComponent ? 'highlight' : ''
-    "
+    :class="isHighlighted ? 'highlight' : ''"
     @mouseover.stop="highlightComponent(element.id)"
     @mouseup.stop="placeSelectedComponent()"
     @click.stop="inspectComponent(element)"
@@ -35,7 +33,17 @@ import SpanTemplate from "@/components/ComponentTemplates/SpanTemplate.vue";
 export default {
   name: "RenderComponent",
   computed: {
-    ...mapState(componentsStore, ["highlightedComponent", "placeComponent"]),
+    ...mapState(componentsStore, [
+      "highlightedComponent",
+      "placeComponent",
+      "inspectedComponent",
+    ]),
+    isHighlighted() {
+      return (
+        (this.highlightedComponent == this.element.id && this.placeComponent) ||
+        (this.inspectedComponent && this.inspectedComponent.id == this.element.id)
+      );
+    },
   },
   methods: {
     ...mapActions(componentsStore, [

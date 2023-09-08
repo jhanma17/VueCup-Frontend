@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const componentsStore = defineStore('components', {
   state: () => ({
-    placeComponent: true,
+    placeComponent: false,
     componentToPlace: {
       id: 7,
       type: "ButtonTemplate",
@@ -137,6 +137,7 @@ export const componentsStore = defineStore('components', {
     },
     inspectComponent(component) {
       this.inspectedComponent = JSON.parse(JSON.stringify(component));
+      this.highlightedComponent = component.id;
     },
     updateInspectedComponent(component) {
       for (let i = 0; i < this.components.length; i++) {
