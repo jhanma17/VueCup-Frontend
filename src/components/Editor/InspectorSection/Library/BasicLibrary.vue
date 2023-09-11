@@ -91,6 +91,20 @@ export default {
           },
         },
       ],
+      imageComponents: [
+        {
+          name: "Image",
+          icon: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
+          associatedComponent: {
+            type: "ImageTemplate",
+            props: {
+              src: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
+              width: 100,
+              height: 100,
+            },
+          },
+        },
+      ],
       search: "",
     };
   },
@@ -105,6 +119,8 @@ export default {
       switch (this.selectedCategory) {
         case "Texts":
           return this.textComponents;
+        case "Images":
+          return this.imageComponents;
         default:
           return [];
       }
