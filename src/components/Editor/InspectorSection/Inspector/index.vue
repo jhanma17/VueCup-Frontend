@@ -1,5 +1,5 @@
 <template>
-  <TextSection/>
+  <TextSection v-if="inspectedComponent && textTypes.includes(inspectedComponent.type)"/>
 </template>
 
 <script>
@@ -10,6 +10,11 @@ export default {
   name: "Inspector",
   components: {
     TextSection
+  },
+  data() {
+    return {
+      textTypes: ["BodyTemplate", "LinkTemplate", "ParagraphTemplate", "TitleTemplate"],
+    }
   },
   computed: {
     ...mapState(componentsStore, ["inspectedComponent"]),

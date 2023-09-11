@@ -121,6 +121,8 @@ export const componentsStore = defineStore('components', {
     },
     startPlacingComponent(component) {
       this.placeComponent = true;
+      this.inspectedComponent = null;
+      this.highlightedComponent = null;
       this.componentToPlace.type = JSON.parse(JSON.stringify(component.type));
       this.componentToPlace.props = JSON.parse(JSON.stringify(component.props));
     },
@@ -146,6 +148,10 @@ export const componentsStore = defineStore('components', {
         }
       }
       this.inspectedComponent.props = JSON.parse(JSON.stringify(component.props));
+    },
+    stopInspectingComponent() {
+      this.inspectedComponent = null;
+      this.highlightedComponent = null;
     }
   },
 })

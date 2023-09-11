@@ -2,7 +2,12 @@
   <div
     class="canvas"
     :style="scalingContainerStyle"
+    :class="isHighlighted ? 'highlight' : ''"
     @mouseleave="resetHighlighting()"
+    @mouseover.stop="highlightComponent(0)"
+    @mouseup.stop="placeSelectedComponent()"
+    @click.stop="stopInspectingComponent()"
+    @mousedown.prevent
   >
     <RenderComponent
       v-for="component in componentsTree"
@@ -19,15 +24,28 @@ import { componentsStore } from "@/stores/components";
 
 export default {
   data() {
-    return {
-      
-    };
+    return {};
   },
   computed: {
-    ...mapState(componentsStore, ["highlightedComponent", "components", "componentsTree"]),
+    ...mapState(componentsStore, [
+      "highlightedComponent",
+      "components",
+      "componentsTree",
+      "placeComponent",
+    ]),
+    isHighlighted() {
+      return (
+        this.highlightedComponent == 0 && this.placeComponent
+      );
+    },
   },
   methods: {
-    ...mapActions(componentsStore, ["resetHighlighting"]),
+    ...mapActions(componentsStore, [
+      "resetHighlighting",
+      "highlightComponent",
+      "placeSelectedComponent",
+      "stopInspectingComponent",
+    ]),
   },
   components: {
     RenderComponent,
