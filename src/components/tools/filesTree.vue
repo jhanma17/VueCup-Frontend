@@ -1,39 +1,46 @@
 <template>
   <div>
-    <div v-for="(childNode) in node.children" :key="childNode.id">
-      <ul>
+    <draggable :list="node"  tag="ul" id="ul" item-key="id">
+      <template #item="{element}">
         <li class="tree-list">
-            <div class="node" :id="`node_${childNode.id}`" @contextmenu.prevent="openMenu($event, childNode)" @click="openFolder(childNode)">
-              <v-icon size="14" v-if="childNode.type" :color="constants[childNode.type].color">
-                {{ constants[childNode.type].icon }}
+            <div class="node" :id="`node_${element.id}`" @contextmenu.prevent="openMenu($event, element)" @click="openFolder(element)">
+              <v-icon size="14" v-if="element.type" :color="constants[element.type].color">
+                {{ constants[element.type].icon }}
               </v-icon>
-              {{ childNode.label }}
+              {{ element.label }}
             </div>
+
             <v-menu 
-              v-model="showMenu[childNode.id]" 
+              v-model="showMenu[element.id]" 
               class="pt-4" 
-              :attach="`node_${childNode.id}`">
+              :attach="`node_${element.id}`">
               <v-card color="#242424">
                 <ul class="menu-list">
-                  <li v-if="childNode.type == 'FOLDER'" @click="addNewDoc({fatherNode: childNode, type: 'FILE'})"><span>New file</span></li>
-                  <li v-if="childNode.type == 'FOLDER'" @click="addNewDoc({fatherNode: childNode, type: 'FOLDER'})"><span>New folder</span></li>
-                  <li @click="deleteDoc(childNode)"><span>Delete</span></li>
+                  <li v-if="element.type == 'FOLDER'" @click="addNewDoc({fatherNode: element, type: 'FILE'})"><span>New file</span></li>
+                  <li v-if="element.type == 'FOLDER'" @click="addNewDoc({fatherNode: element, type: 'FOLDER'})"><span>New folder</span></li>
+                  <li @click="deleteDoc(element)"><span>Delete</span></li>
                 </ul>
               </v-card>
             </v-menu>
 
             <files-tree
-            v-if="childNode.children && childNode.hidden == false"
-            :node="childNode"
+            v-if="element.children && element.hidden == false"
+            :node="element.children"
             />
           </li>
-        </ul>
-    </div>
+
+      </template>
+    </draggable>
   </div>
 </template>
 <script>
+import draggable from 'vuedraggable';
+
 
 export default {
+  components: {
+    draggable
+  },
   data() {
     return {
       constants: {
@@ -144,8 +151,12 @@ export default {
   background-color: #506d7f;
 }
 
-ul {
+#ul {
   list-style: none;
+}
+
+tree-list-view::selection{
+  background-color:none;
 }
 
 .document {
