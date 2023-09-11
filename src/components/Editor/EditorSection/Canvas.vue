@@ -2,92 +2,64 @@
   <div
     class="canvas"
     :style="scalingContainerStyle"
+    :class="isHighlighted ? 'highlight' : ''"
     @mouseleave="resetHighlighting()"
+    @mouseover.stop="highlightComponent(0)"
+    @mouseup.stop="placeSelectedComponent()"
+    @click.stop="stopInspectingComponent()"
+    @mousedown.prevent
   >
-    <v-card
-      id="card-test"
-      color="red"
-      :class="highlightedElement == 'card-test' ? 'highlight' : ''"
-      @mouseover.stop="highlightComponent($event)"
-    >
-      <span
-        id="span-test"
-        :class="highlightedElement == 'span-test' ? 'highlight' : ''"
-        @mouseover.stop="highlightComponent($event)"
-      >
-        hola
-      </span>
-    </v-card>
-
-    <v-row
-      id="row-test"
-      :class="highlightedElement == 'row-test' ? 'highlight' : ''"
-      @mouseover.stop="highlightComponent($event)"
-      @mouseleave.stop="removeHighlight()"
-    >
-      <v-col
-        cols="4"
-        id="col-test"
-        :class="highlightedElement == 'col-test' ? 'highlight' : ''"
-        @mouseover.stop="highlightComponent($event)"
-      >
-        <v-btn
-          block
-          id="btn-test"
-          :class="highlightedElement == 'btn-test' ? 'highlight' : ''"
-          @mouseover.stop="highlightComponent($event)"
-        >
-          test
-        </v-btn>
-      </v-col>
-    </v-row>
+    <RenderComponent
+      v-for="component in componentsTree"
+      :key="component.id"
+      :element="component"
+    />
   </div>
 </template>
 
 <script>
+import RenderComponent from "./RenderComponent.vue";
+import { mapState, mapActions } from "pinia";
+import { componentsStore } from "@/stores/components";
+
 export default {
+  data() {
+    return {};
+  },
   computed: {
-    highlightedElement: {
-      get() {
-        return this.element;
-      },
-      set(value) {
-        this.$emit('updateHighlightedElement', value);
-      },
+    ...mapState(componentsStore, [
+      "highlightedComponent",
+      "components",
+      "componentsTree",
+      "placeComponent",
+    ]),
+    isHighlighted() {
+      return (
+        this.highlightedComponent == 0 && this.placeComponent
+      );
     },
   },
   methods: {
-    resetHighlighting() {
-      this.highlightedElement = null;
-    },
-    highlightComponent(event) {
-      if (this.guessParent) {
-        let element = event.target;
-
-        //set highlighted element as the id of the element
-        this.highlightedElement = element.id;
-      }
-    },
+    ...mapActions(componentsStore, [
+      "resetHighlighting",
+      "highlightComponent",
+      "placeSelectedComponent",
+      "stopInspectingComponent",
+    ]),
+  },
+  components: {
+    RenderComponent,
   },
   props: {
-    element: {
-      type: String,
-      default: null,
-    },
     scalingContainerStyle: {
-      type: String,
-      default: '',
-    },
-    guessParent: {
-      type: Boolean,
-      default: false,
+      type: Object,
+      default: null,
     },
   },
 };
 </script>
 
 <style scoped>
-
 .canvas {
   position: absolute;
   height: 216px;

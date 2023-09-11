@@ -8,4 +8,7 @@
 </template>
 
 <style>
+.v-field{
+  font-size: 14px !important;
+}
 </style>
