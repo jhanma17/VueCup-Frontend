@@ -25,7 +25,7 @@
         <Library />
       </v-window-item>
 
-      <v-window-item value="inspector">
+      <v-window-item value="inspector" class="overflow-auto">
         <Inspector />
       </v-window-item>
     </v-window>
@@ -64,5 +64,9 @@ export default {
 .selected-tab {
   color: #fff !important;
   background-color: #323232 !important;
+}
+
+.overflow-auto {
+  overflow: auto !important;
 }
 </style>

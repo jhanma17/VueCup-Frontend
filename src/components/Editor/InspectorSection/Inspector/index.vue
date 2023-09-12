@@ -1,4 +1,5 @@
 <template>
+  <SizingSection />
   <TextSection v-if="inspectedComponent && textTypes.includes(inspectedComponent.type)"/>
 </template>
 
@@ -6,10 +7,13 @@
 import { mapState, mapActions } from "pinia";
 import { componentsStore } from "@/stores/components";
 import TextSection from './InspectorSubsections/TextSection.vue';
+import SizingSection from './InspectorSubsections/SizingSection.vue';
+
 export default {
   name: "Inspector",
   components: {
-    TextSection
+    TextSection,
+    SizingSection,
   },
   data() {
     return {
