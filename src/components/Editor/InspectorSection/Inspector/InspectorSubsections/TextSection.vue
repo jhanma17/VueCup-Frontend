@@ -1,5 +1,5 @@
 <template>
-  <v-divider></v-divider>
+  <v-divider class="mt-2"></v-divider>
   <v-row class="ma-2">
     <span class="text-title section-title">TEXT</span>
   </v-row>
