@@ -1,6 +1,6 @@
 <template>
-  <SizingSection />
-  <TextSection v-if="inspectedComponent && textTypes.includes(inspectedComponent.type)"/>
+  <SizingSection v-if="inspectedComponent && !isTextComponent" />
+  <TextSection v-if="inspectedComponent && isTextComponent"/>
 </template>
 
 <script>
@@ -22,6 +22,9 @@ export default {
   },
   computed: {
     ...mapState(componentsStore, ["inspectedComponent"]),
+    isTextComponent() {
+      return this.textTypes.includes(this.inspectedComponent.type);
+    },
   },
 }
 </script>
