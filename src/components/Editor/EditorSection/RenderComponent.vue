@@ -4,7 +4,7 @@
     :props="element.props"
     :class="isHighlighted ? 'highlight' : ''"
     @mouseover.stop="highlightComponent(element.id)"
-    @click.stop="inspectComponent(element), placeSelectedComponent()"
+    @click.stop="placeSelectedComponent(), inspectComponent(element)"
     @mousedown.prevent
   >
     <RenderComponent

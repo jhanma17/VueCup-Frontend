@@ -1,6 +1,6 @@
 <template>
   <main>
-    <v-row class="mx-1 my-1" align="center">
+    <v-row class="mx-1 my-1 pb-1 sticky-top" align="center">
       <v-tabs
         v-model="tab"
         bg-color="#242424"
@@ -68,5 +68,12 @@ export default {
 
 .overflow-auto {
   overflow: auto !important;
+}
+
+.sticky-top {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1 !important;
+  background-color: #242424 !important;
 }
 </style>
