@@ -135,11 +135,11 @@ export default {
     },
     size: {
       get() {
-        return this.inspectedComponent.props.size;
+        return this.inspectedComponent.props.size * 5;
       },
       set(value) {
         let payload = this.inspectedComponent;
-        payload.props.size = value;
+        payload.props.size = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
