@@ -269,61 +269,61 @@ export default {
     },
     height: {
       get() {
-        return this.inspectedComponent.props.height;
+        return this.inspectedComponent.props.height * 5;
       },
       set(value) {
         let payload = this.inspectedComponent;
-        payload.props.height = value;
+        payload.props.height = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
     width: {
       get() {
-        return this.inspectedComponent.props.width;
+        return this.inspectedComponent.props.width * 5;
       },
       set(value) {
         let payload = this.inspectedComponent;
-        payload.props.width = value;
+        payload.props.width = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
     top: {
       get() {
-        return this.inspectedComponent.props.top;
+        return this.inspectedComponent.props.top * 5;
       },
       set(value) {
         let payload = this.inspectedComponent;
-        payload.props.top = value;
+        payload.props.top = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
     bottom: {
       get() {
-        return this.inspectedComponent.props.bottom;
+        return this.inspectedComponent.props.bottom * 5;
       },
       set(value) {
         let payload = this.inspectedComponent;
-        payload.props.bottom = value;
+        payload.props.bottom = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
     right: {
       get() {
-        return this.inspectedComponent.props.right;
+        return this.inspectedComponent.props.right * 5;
       },
       set(value) {
         let payload = this.inspectedComponent;
-        payload.props.right = value;
+        payload.props.right = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
     left: {
       get() {
-        return this.inspectedComponent.props.left;
+        return this.inspectedComponent.props.left * 5;
       },
       set(value) {
         let payload = this.inspectedComponent;
-        payload.props.left = value;
+        payload.props.left = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
