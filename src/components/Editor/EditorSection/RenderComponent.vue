@@ -24,6 +24,7 @@ import BodyTemplate from "@/components/ComponentTemplates/BasicComponents/TextCo
 import ParagraphTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/ParagraphTemplate.vue";
 import LinkTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/LinkTemplate.vue";
 import ImageTemplate from "@/components/ComponentTemplates/BasicComponents/ImageComponents/ImageTemplate.vue";
+import ContainerTemplate from "@/components/ComponentTemplates/BasicComponents/ContainerComponents/ContainerTemplate.vue";
 import CardTemplate from "@/components/ComponentTemplates/CardTemplate.vue";
 import RowTemplate from "@/components/ComponentTemplates/RowTemplate.vue";
 import ColTemplate from "@/components/ComponentTemplates/ColTemplate.vue";
@@ -63,6 +64,7 @@ export default {
     ParagraphTemplate,
     LinkTemplate,
     ImageTemplate,
+    ContainerTemplate,
   },
   props: {
     element: {
