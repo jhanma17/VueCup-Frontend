@@ -112,6 +112,8 @@ export default {
               alignItems: "flex-start",
               grow: 0,
               shrink: 0,
+              fitMode: "Fill",
+              repeatMode: "Repeat",
             },
           },
         },
