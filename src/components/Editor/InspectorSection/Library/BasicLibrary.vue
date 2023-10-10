@@ -91,6 +91,33 @@ export default {
           },
         },
       ],
+      imageComponents: [
+        {
+          name: "Image",
+          icon: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
+          associatedComponent: {
+            type: "ImageTemplate",
+            props: {
+              src: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
+              width: 100,
+              height: 100,
+              display: "block",
+              position: "static",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+              grow: 0,
+              shrink: 0,
+              fitMode: "Fill",
+              repeatMode: "Repeat",
+            },
+          },
+        },
+      ],
       search: "",
     };
   },
@@ -105,6 +132,8 @@ export default {
       switch (this.selectedCategory) {
         case "Texts":
           return this.textComponents;
+        case "Images":
+          return this.imageComponents;
         default:
           return [];
       }

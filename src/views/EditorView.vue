@@ -70,6 +70,14 @@ export default {
   left: calc(75% + 5px);
   background-color: #242424;
   border-radius: 5px;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.right-side::-webkit-scrollbar {
+  display: none;
 }
 
 .upper-side {

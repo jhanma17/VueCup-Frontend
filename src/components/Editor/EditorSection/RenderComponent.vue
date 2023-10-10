@@ -4,8 +4,7 @@
     :props="element.props"
     :class="isHighlighted ? 'highlight' : ''"
     @mouseover.stop="highlightComponent(element.id)"
-    @mouseup.stop="placeSelectedComponent()"
-    @click.stop="inspectComponent(element)"
+    @click.stop="placeSelectedComponent(), inspectComponent(element)"
     @mousedown.prevent
   >
     <RenderComponent
@@ -20,10 +19,11 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { componentsStore } from "@/stores/components";
-import TitleTemplate from "@/components/ComponentTemplates/BasicComponents/TitleTemplate.vue";
-import BodyTemplate from "@/components/ComponentTemplates/BasicComponents/BodyTemplate.vue";
-import ParagraphTemplate from "@/components/ComponentTemplates/BasicComponents/ParagraphTemplate.vue";
-import LinkTemplate from "@/components/ComponentTemplates/BasicComponents/LinkTemplate.vue";
+import TitleTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/TitleTemplate.vue";
+import BodyTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/BodyTemplate.vue";
+import ParagraphTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/ParagraphTemplate.vue";
+import LinkTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/LinkTemplate.vue";
+import ImageTemplate from "@/components/ComponentTemplates/BasicComponents/ImageComponents/ImageTemplate.vue";
 import CardTemplate from "@/components/ComponentTemplates/CardTemplate.vue";
 import RowTemplate from "@/components/ComponentTemplates/RowTemplate.vue";
 import ColTemplate from "@/components/ComponentTemplates/ColTemplate.vue";
@@ -62,6 +62,7 @@ export default {
     BodyTemplate,
     ParagraphTemplate,
     LinkTemplate,
+    ImageTemplate,
   },
   props: {
     element: {
