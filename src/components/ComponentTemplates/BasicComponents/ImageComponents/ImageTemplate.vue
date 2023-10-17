@@ -13,7 +13,9 @@ export default {
         return {
           src: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
           width: 100,
+          widthMode: "px",
           height: 100,
+          heightMode: "px",
           display: "block",
           position: "static",
           top: 0,
@@ -34,8 +36,8 @@ export default {
   computed: {
     style() {
       return {
-        width: this.props.width + "px",
-        height: this.props.height + "px",
+        width: this.props.widthMode == 'auto'? 'auto': this.props.width + this.props.widthMode,
+        height: this.props.heightMode == 'auto'? 'auto': this.props.height + this.props.heightMode,
         display: this.props.display,
         position: this.props.position,
         top: this.props.top + "px",

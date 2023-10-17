@@ -14,7 +14,9 @@ export default {
       default: () => {
         return {
           width: 100,
+          widthMode: "px",
           height: 100,
+          heightMode: "px",
           display: "block",
           position: "static",
           top: 0,
@@ -32,9 +34,17 @@ export default {
   },
   computed: {
     style() {
+      let width = this.props.width;
+      let height = this.props.height;
+      if (this.props.widthMode == "%") {
+        width = width * 5;
+      }
+      if (this.props.heightMode == "%") {
+        height = height * 5;
+      }
       return {
-        width: this.props.width + "px",
-        height: this.props.height + "px",
+        width: this.props.widthMode == 'auto'? 'auto': width + this.props.widthMode,
+        height: this.props.heightMode == 'auto'? 'auto': height + this.props.heightMode,
         display: this.props.display,
         position: this.props.position,
         top: this.props.top + "px",

@@ -40,11 +40,13 @@
     <v-col cols="4" class="py-1">
       <span class="text-caption">Size</span>
     </v-col>
+  </v-row>
 
+  <v-row class="mx-1 my-0 pr-3" align="center" justify="center">
     <v-col cols="1" class="py-1 px-0 text-right">
       <span class="caption-small">X</span>
     </v-col>
-    <v-col cols="3" class="py-1 px-0">
+    <v-col cols="3" class="py-1 px-0" v-if="this.widthMode != 'auto'">
       <v-text-field
         class="ml-2"
         density="compact"
@@ -53,11 +55,22 @@
         v-model="width"
       ></v-text-field>
     </v-col>
+    <v-col cols="5" class="py-1 px-2">
+      <v-select
+        class="ml-2"
+        density="compact"
+        hide-details="auto"
+        :items="sizeModeOptions"
+        v-model="widthMode"
+      ></v-select>
+    </v-col>
+  </v-row>
 
+  <v-row class="mx-1 my-0 pr-3" align="center" justify="center">
     <v-col cols="1" class="py-1 px-0 text-right">
       <span class="caption-small">Y</span>
     </v-col>
-    <v-col cols="3" class="py-1 px-0">
+    <v-col cols="3" class="py-1 px-0" v-if="this.heightMode != 'auto'">
       <v-text-field
         class="ml-2"
         density="compact"
@@ -65,6 +78,15 @@
         type="number"
         v-model="height"
       ></v-text-field>
+    </v-col>
+    <v-col cols="5" class="py-1 px-2">
+      <v-select
+        class="ml-2"
+        density="compact"
+        hide-details="auto"
+        :items="sizeModeOptions"
+        v-model="heightMode"
+      ></v-select>
     </v-col>
   </v-row>
 
@@ -239,6 +261,7 @@ export default {
         "baseline",
         "stretch",
       ],
+      sizeModeOptions: ["auto", "px", "%", "vw", "vh", "em", "rem"],
     };
   },
   computed: {
@@ -277,6 +300,16 @@ export default {
         this.updateInspectedComponent(payload);
       },
     },
+    heightMode: {
+      get() {
+        return this.inspectedComponent.props.heightMode;
+      },
+      set(value) {
+        let payload = this.inspectedComponent;
+        payload.props.heightMode = value;
+        this.updateInspectedComponent(payload);
+      },
+    },
     width: {
       get() {
         return this.inspectedComponent.props.width * 5;
@@ -284,6 +317,16 @@ export default {
       set(value) {
         let payload = this.inspectedComponent;
         payload.props.width = value / 5;
+        this.updateInspectedComponent(payload);
+      },
+    },
+    widthMode: {
+      get() {
+        return this.inspectedComponent.props.widthMode;
+      },
+      set(value) {
+        let payload = this.inspectedComponent;
+        payload.props.widthMode = value;
         this.updateInspectedComponent(payload);
       },
     },

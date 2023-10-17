@@ -100,7 +100,9 @@ export default {
             props: {
               src: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
               width: 100,
+              widthMode: "px",
               height: 100,
+              heightMode: "px",
               display: "block",
               position: "static",
               top: 0,
@@ -126,7 +128,9 @@ export default {
             type: "ContainerTemplate",
             props: {
               width: 100,
+              widthMode: "px",
               height: 100,
+              heightMode: "px",
               display: "block",
               position: "static",
               top: 0,
