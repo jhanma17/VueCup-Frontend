@@ -91,6 +91,61 @@ export default {
           },
         },
       ],
+      imageComponents: [
+        {
+          name: "Image",
+          icon: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
+          associatedComponent: {
+            type: "ImageTemplate",
+            props: {
+              src: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
+              width: 100,
+              widthMode: "px",
+              height: 100,
+              heightMode: "px",
+              display: "block",
+              position: "static",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+              grow: 0,
+              shrink: 0,
+              fitMode: "Fill",
+              repeatMode: "Repeat",
+            },
+          },
+        },
+      ],
+      containerComponents: [
+        {
+          name: "Container",
+          icon: "https://static.thenounproject.com/png/452089-200.png",
+          associatedComponent: {
+            type: "ContainerTemplate",
+            props: {
+              width: 100,
+              widthMode: "px",
+              height: 100,
+              heightMode: "px",
+              display: "block",
+              position: "static",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+              grow: 0,
+              shrink: 0,
+            },
+          },
+        },
+      ],
       search: "",
     };
   },
@@ -105,6 +160,10 @@ export default {
       switch (this.selectedCategory) {
         case "Texts":
           return this.textComponents;
+        case "Images":
+          return this.imageComponents;
+        case "Containers":
+          return this.containerComponents;
         default:
           return [];
       }

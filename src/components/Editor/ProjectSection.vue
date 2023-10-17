@@ -30,7 +30,8 @@ export default {
   },
   data() {
     return {
-      treeData: {
+      treeData: [
+        {
         label: "Root",
         type: "FOLDER",
         hidden: true,
@@ -67,6 +68,7 @@ export default {
           },
         ],
       },
+      ] 
     };
   },
   methods: {
