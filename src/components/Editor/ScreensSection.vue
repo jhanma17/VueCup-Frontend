@@ -42,13 +42,11 @@
               </v-list-item>
             </v-list>
           </v-menu>
-          <v-card-img>
-            <v-img
-              :aspect-ratio="dimension.width / dimension.height"
-              class="mx-6 my-2"
-              :src="screen.image"
-            ></v-img>
-          </v-card-img>
+          <v-img
+            :aspect-ratio="dimension.width / dimension.height"
+            class="mx-6 my-2"
+            :src="screen.image"
+          ></v-img>
           <v-card-title class="text-center py-0 px-1">
             <v-text-field
               v-model="screen.title"
