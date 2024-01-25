@@ -66,6 +66,7 @@ export default {
       "inspectComponent",
       "startDraggingComponent",
       "dropComponent",
+      "deleteComponent"
     ]),
     toggleExpand() {
       this.expanded = !this.expanded;
@@ -78,6 +79,14 @@ export default {
       nativeEvent.stopPropagation();
       this.dropComponent(this.component.id);
     },
+    handleDelete(event) {
+      if (event.key === "Delete" && this.isSelected) {
+        this.deleteComponent(this.component.id);
+      }
+    },
+  },
+  created () {
+    window.addEventListener('keydown', this.handleDelete);
   },
 };
 </script>
