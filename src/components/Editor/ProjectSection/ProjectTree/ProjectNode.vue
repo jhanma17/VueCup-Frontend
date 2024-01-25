@@ -10,7 +10,7 @@
         <v-icon
           density="compact"
           @click.stop="toggleExpand()"
-          v-if="component.children"
+          v-if="hasChildren"
         >
           {{ expanded ? "mdi-chevron-down" : "mdi-chevron-right" }}
         </v-icon>
@@ -56,6 +56,9 @@ export default {
         this.inspectedComponent &&
         this.inspectedComponent.id == this.component.id
       );
+    },
+    hasChildren() {
+      return this.component.children && this.component.children.length > 0;
     },
   },
   methods: {
