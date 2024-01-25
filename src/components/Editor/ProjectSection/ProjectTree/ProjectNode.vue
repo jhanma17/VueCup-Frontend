@@ -1,31 +1,35 @@
 <template>
-  <v-col
-    cols="12"
-    class="py-1 pr-0 clickable"
-    :class="isSelected ? 'selected-bg' : ''"
-    @click="inspectComponent(component)"
-  >
-    <v-icon
-      density="compact"
-      @click.stop="toggleExpand()"
-      v-if="component.children"
-    >
-      {{ expanded ? "mdi-chevron-down" : "mdi-chevron-right" }}
-    </v-icon>
-    <v-icon density="compact" v-else> </v-icon>
-    <span>
-      {{ component.type }}
-    </span>
-  </v-col>
-  <v-col
-    v-if="component.children && expanded"
-    v-for="child in component.children"
-    :key="child.id"
-    cols="12"
-    class="py-1 pr-0"
-  >
-    <ProjectNode :component="child" />
-  </v-col>
+  <drag>
+    <drop>
+      <v-col
+        cols="12"
+        class="py-1 pr-0 clickable"
+        :class="isSelected ? 'selected-bg' : ''"
+        @click="inspectComponent(component)"
+      >
+        <v-icon
+          density="compact"
+          @click.stop="toggleExpand()"
+          v-if="component.children"
+        >
+          {{ expanded ? "mdi-chevron-down" : "mdi-chevron-right" }}
+        </v-icon>
+        <v-icon density="compact" v-else> </v-icon>
+        <span>
+          {{ component.type }}
+        </span>
+      </v-col>
+      <v-col
+        v-if="component.children && expanded"
+        v-for="child in component.children"
+        :key="child.id"
+        cols="12"
+        class="py-1 pr-0"
+      >
+        <ProjectNode :component="child" />
+      </v-col>
+    </drop>
+  </drag>
 </template>
 
 <script>
