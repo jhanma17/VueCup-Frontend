@@ -1,6 +1,6 @@
 <template>
-  <drag>
-    <drop>
+  <drag @dragstart="handleDragstart">
+    <drop @drop="handleDrop">
       <v-col
         cols="12"
         class="py-1 pr-0 clickable"
@@ -59,9 +59,21 @@ export default {
     },
   },
   methods: {
-    ...mapActions(componentsStore, ["inspectComponent"]),
+    ...mapActions(componentsStore, [
+      "inspectComponent",
+      "startDraggingComponent",
+      "dropComponent",
+    ]),
     toggleExpand() {
       this.expanded = !this.expanded;
+    },
+    handleDragstart(transferData, nativeEvent) {
+      nativeEvent.stopPropagation();
+      this.startDraggingComponent(this.component.id);
+    },
+    handleDrop(transferData, nativeEvent) {
+      nativeEvent.stopPropagation();
+      this.dropComponent(this.component.id);
     },
   },
 };

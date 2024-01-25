@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const componentsStore = defineStore('components', {
+export const componentsStore = defineStore("components", {
   state: () => ({
     placeComponent: false,
     componentToPlace: {
@@ -66,11 +66,12 @@ export const componentsStore = defineStore('components', {
           fontStyle: "Regular",
           size: 12,
           color: "#ffffff",
-        }
-      }
+        },
+      },
     ],
     highlightedComponent: null,
     inspectedComponent: null,
+    toDragComponent: null,
   }),
   getters: {
     componentsTree() {
@@ -82,19 +83,21 @@ export const componentsStore = defineStore('components', {
             return component;
           }
         }
-      }
+      };
 
       const buildTree = (component) => {
         if (component.children) {
-          component.children = JSON.parse(JSON.stringify(component.children.map((child) => search(child))));
+          component.children = JSON.parse(
+            JSON.stringify(component.children.map((child) => search(child)))
+          );
           component.children.forEach((child) => buildTree(child));
         }
-      }
+      };
 
       buildTree(root);
 
       return root.children;
-    }
+    },
   },
   actions: {
     placeSelectedComponent() {
@@ -144,14 +147,47 @@ export const componentsStore = defineStore('components', {
     updateInspectedComponent(component) {
       for (let i = 0; i < this.components.length; i++) {
         if (this.components[i].id == component.id) {
-          this.components[i].props = JSON.parse(JSON.stringify(component.props));
+          this.components[i].props = JSON.parse(
+            JSON.stringify(component.props)
+          );
         }
       }
-      this.inspectedComponent.props = JSON.parse(JSON.stringify(component.props));
+      this.inspectedComponent.props = JSON.parse(
+        JSON.stringify(component.props)
+      );
     },
     stopInspectingComponent() {
       this.inspectedComponent = null;
       this.highlightedComponent = null;
-    }
+    },
+    startDraggingComponent(id) {
+      this.toDragComponent = id;
+    },
+    stopDraggingComponent() {
+      this.toDragComponent = null;
+    },
+    dropComponent(id) {
+      console.log("dropComponent", id, this.toDragComponent);
+      if (this.toDragComponent === id) {
+        return;
+      }
+
+      for (let component of this.components) {
+        if (
+          component.children &&
+          component.children.includes(this.toDragComponent)
+        ) {
+          const index = component.children.indexOf(this.toDragComponent);
+          component.children.splice(index, 1);
+        }
+
+        if (component.id === id) {
+          if (!component.children) {
+            component.children = [];
+          }
+          component.children.push(this.toDragComponent);
+        }
+      }
+    },
   },
-})
+});
