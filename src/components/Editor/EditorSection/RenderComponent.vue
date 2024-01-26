@@ -1,10 +1,10 @@
 <template>
-  <component
+  <drop @drop="handleDrop" @dragover="handleDragOver">
+    <component
     :is="element.type"
     :props="element.props"
     :class="isHighlighted ? 'highlight' : ''"
-    @mouseover.stop="highlightComponent(element.id)"
-    @click.stop="placeSelectedComponent(), inspectComponent(element)"
+    @click.stop="inspectComponent(element)"
     @mousedown.prevent
   >
     <RenderComponent
@@ -14,6 +14,7 @@
       :element="child"
     />
   </component>
+  </drop>
 </template>
 
 <script>
@@ -52,6 +53,14 @@ export default {
       "placeSelectedComponent",
       "inspectComponent",
     ]),
+    handleDragOver(transferData, nativeEvent) {
+      nativeEvent.stopPropagation();
+      this.highlightComponent(this.element.id);
+    },
+    handleDrop(transferData, nativeEvent) {
+      nativeEvent.stopPropagation();
+      this.placeSelectedComponent();
+    },
   },
   components: {
     CardTemplate,

@@ -1,17 +1,19 @@
 <template>
-  <div class="component-box" @dblclick="selectComponent()">
-    <v-img
-      :src="component.icon"
-      aspect-ratio="1"
-      width="50px"
-      class="mx-auto white-img"
-    >
-    </v-img>
+  <drag @dragstart="selectComponent()">
+    <div class="component-box">
+      <v-img
+        :src="component.icon"
+        aspect-ratio="1"
+        width="50px"
+        class="mx-auto white-img"
+      >
+      </v-img>
 
-    <span class="text-caption mb-1">
-      {{ component.name }}
-    </span>
-  </div>
+      <span class="text-caption mb-1">
+        {{ component.name }}
+      </span>
+    </div>
+  </drag>
 </template>
 
 <script>
@@ -28,7 +30,7 @@ export default {
   methods: {
     ...mapActions(componentsStore, ["startPlacingComponent"]),
     selectComponent() {
-      console.log('selected');
+      console.log("selected");
       this.startPlacingComponent(this.component.associatedComponent);
     },
   },
