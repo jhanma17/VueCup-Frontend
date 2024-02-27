@@ -8,7 +8,7 @@
       @mousedown.prevent
     >
       <template
-        v-if="element.children && element.type == 'OrderedListTemplate'"
+        v-if="element.children && isListElement"
       >
         <template v-for="child in element.children" :key="child.id">
           <li>
@@ -30,18 +30,19 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { componentsStore } from "@/stores/components";
-import CardTemplate from "@/components/ComponentTemplates/CardTemplate.vue";
-import RowTemplate from "@/components/ComponentTemplates/RowTemplate.vue";
-import ColTemplate from "@/components/ComponentTemplates/ColTemplate.vue";
-import ButtonTemplate from "@/components/ComponentTemplates/ButtonTemplate.vue";
-import SpanTemplate from "@/components/ComponentTemplates/SpanTemplate.vue";
-import TitleTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/TitleTemplate.vue";
-import BodyTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/BodyTemplate.vue";
-import ParagraphTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/ParagraphTemplate.vue";
-import LinkTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/LinkTemplate.vue";
-import ImageTemplate from "@/components/ComponentTemplates/BasicComponents/ImageComponents/ImageTemplate.vue";
-import ContainerTemplate from "@/components/ComponentTemplates/BasicComponents/ContainerComponents/ContainerTemplate.vue";
-import OrderedListTemplate from "@/components/ComponentTemplates/BasicComponents/ListComponents/orderedListTemplate.vue";
+import CardTemplate from "../../ComponentTemplates/CardTemplate.vue";
+import RowTemplate from "../../ComponentTemplates/RowTemplate.vue";
+import ColTemplate from "../../ComponentTemplates/ColTemplate.vue";
+import ButtonTemplate from "../../ComponentTemplates/ButtonTemplate.vue";
+import SpanTemplate from "../../ComponentTemplates/SpanTemplate.vue";
+import TitleTemplate from "../../ComponentTemplates/BasicComponents/TextComponents/TitleTemplate.vue";
+import BodyTemplate from "../../ComponentTemplates/BasicComponents/TextComponents/BodyTemplate.vue";
+import ParagraphTemplate from "../../ComponentTemplates/BasicComponents/TextComponents/ParagraphTemplate.vue";
+import LinkTemplate from "../../ComponentTemplates/BasicComponents/TextComponents/LinkTemplate.vue";
+import ImageTemplate from "../../ComponentTemplates/BasicComponents/ImageComponents/ImageTemplate.vue";
+import ContainerTemplate from "../../ComponentTemplates/BasicComponents/ContainerComponents/ContainerTemplate.vue";
+import OrderedListTemplate from "../../ComponentTemplates/BasicComponents/ListComponents/orderedListTemplate.vue";
+import UnorderedListTemplate from '../../ComponentTemplates/BasicComponents/ListComponents/unorderedListTemplate.vue';
 
 export default {
   name: "RenderComponent",
@@ -57,6 +58,10 @@ export default {
         (this.inspectedComponent &&
           this.inspectedComponent.id == this.element.id)
       );
+    },
+    isListElement() {
+      listTypes = ["OrderedListTemplate", "UnorderedListTemplate"];
+      return listTypes.includes(this.element.type);
     },
   },
   methods: {
@@ -87,6 +92,7 @@ export default {
     ImageTemplate,
     ContainerTemplate,
     OrderedListTemplate,
+    UnorderedListTemplate,
   },
   props: {
     element: {
