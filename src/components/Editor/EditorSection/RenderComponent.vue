@@ -60,7 +60,7 @@ export default {
       );
     },
     isListElement() {
-      listTypes = ["OrderedListTemplate", "UnorderedListTemplate"];
+      const listTypes = ["OrderedListTemplate", "UnorderedListTemplate"];
       return listTypes.includes(this.element.type);
     },
   },
