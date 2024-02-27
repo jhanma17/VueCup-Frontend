@@ -1,36 +1,47 @@
 <template>
   <drop @drop="handleDrop" @dragover="handleDragOver">
     <component
-    :is="element.type"
-    :props="element.props"
-    :class="isHighlighted ? 'highlight' : ''"
-    @click.stop="inspectComponent(element)"
-    @mousedown.prevent
-  >
-    <RenderComponent
-      v-if="element.children"
-      v-for="child in element.children"
-      :key="child.id"
-      :element="child"
-    />
-  </component>
+      :is="element.type"
+      :props="element.props"
+      :class="isHighlighted ? 'highlight' : ''"
+      @click.stop="inspectComponent(element)"
+      @mousedown.prevent
+    >
+      <template
+        v-if="element.children && element.type == 'OrderedListTemplate'"
+      >
+        <template v-for="child in element.children" :key="child.id">
+          <li>
+            <RenderComponent :element="child" />
+          </li>
+        </template>
+      </template>
+      <template v-else-if="element.children">
+        <RenderComponent
+          v-for="child in element.children"
+          :key="child.id"
+          :element="child"
+        />
+      </template>
+    </component>
   </drop>
 </template>
 
 <script>
 import { mapState, mapActions } from "pinia";
 import { componentsStore } from "@/stores/components";
+import CardTemplate from "@/components/ComponentTemplates/CardTemplate.vue";
+import RowTemplate from "@/components/ComponentTemplates/RowTemplate.vue";
+import ColTemplate from "@/components/ComponentTemplates/ColTemplate.vue";
+import ButtonTemplate from "@/components/ComponentTemplates/ButtonTemplate.vue";
+import SpanTemplate from "@/components/ComponentTemplates/SpanTemplate.vue";
 import TitleTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/TitleTemplate.vue";
 import BodyTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/BodyTemplate.vue";
 import ParagraphTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/ParagraphTemplate.vue";
 import LinkTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/LinkTemplate.vue";
 import ImageTemplate from "@/components/ComponentTemplates/BasicComponents/ImageComponents/ImageTemplate.vue";
 import ContainerTemplate from "@/components/ComponentTemplates/BasicComponents/ContainerComponents/ContainerTemplate.vue";
-import CardTemplate from "@/components/ComponentTemplates/CardTemplate.vue";
-import RowTemplate from "@/components/ComponentTemplates/RowTemplate.vue";
-import ColTemplate from "@/components/ComponentTemplates/ColTemplate.vue";
-import ButtonTemplate from "@/components/ComponentTemplates/ButtonTemplate.vue";
-import SpanTemplate from "@/components/ComponentTemplates/SpanTemplate.vue";
+import OrderedListTemplate from "@/components/ComponentTemplates/BasicComponents/ListComponents/orderedListTemplate.vue";
 
 export default {
   name: "RenderComponent",
@@ -43,7 +54,8 @@ export default {
     isHighlighted() {
       return (
         (this.highlightedComponent == this.element.id && this.placeComponent) ||
-        (this.inspectedComponent && this.inspectedComponent.id == this.element.id)
+        (this.inspectedComponent &&
+          this.inspectedComponent.id == this.element.id)
       );
     },
   },
@@ -74,6 +86,7 @@ export default {
     LinkTemplate,
     ImageTemplate,
     ContainerTemplate,
+    OrderedListTemplate,
   },
   props: {
     element: {
