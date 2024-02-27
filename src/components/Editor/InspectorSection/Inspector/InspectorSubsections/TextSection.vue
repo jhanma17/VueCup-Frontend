@@ -66,11 +66,10 @@
 
     <!--color selector-->
     <v-col cols="4" class="py-1 text-center">
+      <p class="text-caption color-text mx-auto">Color</p>
       <v-menu :close-on-content-click="false">
         <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" class="color-preview" :color="color">
-        </v-btn>
-        <span class="text-caption color-text mx-auto">Color</span>
+          <v-btn v-bind="props" class="color-preview" :color="color"> </v-btn>
         </template>
         <v-color-picker v-model="color" flat></v-color-picker>
       </v-menu>
@@ -173,9 +172,9 @@ export default {
   height: 20px !important;
   border: 3px solid #bcbcbc;
   margin-bottom: -8px !important;
-
 }
 .color-text {
   font-size: 10px !important;
+  line-height: 0.25rem !important;
 }
 </style>
