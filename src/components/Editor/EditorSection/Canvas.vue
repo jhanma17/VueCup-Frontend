@@ -8,6 +8,7 @@
     @mouseup.stop="placeSelectedComponent()"
     @click.stop="stopInspectingComponent()"
     @mousedown.prevent
+    @scroll.stop
   >
     <RenderComponent
       v-for="component in componentsTree"
@@ -67,6 +68,14 @@ export default {
   top: calc(50% - 108px);
   left: calc(50% - 192px);
   background-color: white;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.canvas::-webkit-scrollbar {
+  display: none;
 }
 
 .highlight {

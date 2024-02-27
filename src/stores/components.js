@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const componentsStore = defineStore('components', {
+export const componentsStore = defineStore("components", {
   state: () => ({
     placeComponent: false,
     componentToPlace: {
@@ -66,35 +66,40 @@ export const componentsStore = defineStore('components', {
           fontStyle: "Regular",
           size: 12,
           color: "#ffffff",
-        }
-      }
+        },
+      },
     ],
     highlightedComponent: null,
     inspectedComponent: null,
+    toDragComponent: null,
   }),
   getters: {
     componentsTree() {
       const root = JSON.parse(JSON.stringify(this.components[0]));
 
+      //search for a component with the given id
       const search = (id) => {
         for (let component of this.components) {
           if (component.id === id) {
             return component;
           }
         }
-      }
+      };
 
+      //build the tree recursively
       const buildTree = (component) => {
         if (component.children) {
-          component.children = JSON.parse(JSON.stringify(component.children.map((child) => search(child))));
+          component.children = JSON.parse(
+            JSON.stringify(component.children.map((child) => search(child)))
+          );
           component.children.forEach((child) => buildTree(child));
         }
-      }
+      };
 
       buildTree(root);
 
       return root.children;
-    }
+    },
   },
   actions: {
     placeSelectedComponent() {
@@ -102,9 +107,11 @@ export const componentsStore = defineStore('components', {
         return;
       }
 
+      //deep copy the component to place
       const plainComponent = JSON.parse(JSON.stringify(this.componentToPlace));
       this.components.push(plainComponent);
 
+      //add the component to the children array of the highlighted component
       for (let component of this.components) {
         if (component.id === this.highlightedComponent) {
           if (!component.children) {
@@ -116,6 +123,7 @@ export const componentsStore = defineStore('components', {
 
       this.componentToPlace.id++;
 
+      //update the components tree
       this.componentsTree;
       this.stopPlacingComponent();
     },
@@ -142,16 +150,83 @@ export const componentsStore = defineStore('components', {
       this.highlightedComponent = component.id;
     },
     updateInspectedComponent(component) {
+      //update the component in the components array
       for (let i = 0; i < this.components.length; i++) {
         if (this.components[i].id == component.id) {
-          this.components[i].props = JSON.parse(JSON.stringify(component.props));
+          this.components[i].props = JSON.parse(
+            JSON.stringify(component.props)
+          );
         }
       }
-      this.inspectedComponent.props = JSON.parse(JSON.stringify(component.props));
+      //update the component in the inspectedComponent
+      this.inspectedComponent.props = JSON.parse(
+        JSON.stringify(component.props)
+      );
     },
     stopInspectingComponent() {
       this.inspectedComponent = null;
       this.highlightedComponent = null;
-    }
+    },
+    startDraggingComponent(id) {
+      this.toDragComponent = id;
+    },
+    stopDraggingComponent() {
+      this.toDragComponent = null;
+    },
+    dropComponent(id) {
+      //if the component is dropped on itself, do nothing
+      if (this.toDragComponent === id) {
+        return;
+      }
+
+      for (let component of this.components) {
+        //delete the component from the children array of its parent
+        if (
+          component.children &&
+          component.children.includes(this.toDragComponent)
+        ) {
+          const index = component.children.indexOf(this.toDragComponent);
+          component.children.splice(index, 1);
+        }
+
+        //add the component to the children array of the new parent
+        if (component.id === id) {
+          if (!component.children) {
+            component.children = [];
+          }
+          component.children.push(this.toDragComponent);
+        }
+      }
+    },
+    deleteComponent(id) {
+      //delete the component from the children array of its parent
+      for (let component of this.components) {
+        if (
+          component.children &&
+          component.children.includes(id) &&
+          component.id !== id
+        ) {
+          const index = component.children.indexOf(id);
+          component.children.splice(index, 1);
+        }
+      }
+
+      //recursively delete all children and the component itself
+      const deleteComponent = (id) => {
+        for (let i = 0; i < this.components.length; i++) {
+          if (this.components[i].id === id) {
+            if (this.components[i].children) {
+              for (let child of this.components[i].children) {
+                deleteComponent(child);
+              }
+            }
+            this.components.splice(i, 1);
+            break;
+          }
+        }
+      };
+
+      deleteComponent(id);
+    },
   },
-})
+});

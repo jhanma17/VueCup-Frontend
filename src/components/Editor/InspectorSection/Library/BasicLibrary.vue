@@ -146,6 +146,26 @@ export default {
           },
         },
       ],
+      listComponents: [
+        {
+          name: "Unordered List",
+          icon: "https://cdn0.iconfinder.com/data/icons/user-interface-6/100/ui-31-512.png",
+          associatedComponent: {
+            type: "UnorderedListTemplate",
+            props: {
+            },
+          },
+        },
+        {
+          name: "Ordered List",
+          icon: "https://cdn.icon-icons.com/icons2/2596/PNG/512/ordered_list_icon_155054.png",
+          associatedComponent: {
+            type: "OrderedListTemplate",
+            props: {
+            },
+          },
+        },
+      ],
       search: "",
     };
   },
@@ -164,6 +184,8 @@ export default {
           return this.imageComponents;
         case "Containers":
           return this.containerComponents;
+        case "Lists":
+          return this.listComponents;
         default:
           return [];
       }
