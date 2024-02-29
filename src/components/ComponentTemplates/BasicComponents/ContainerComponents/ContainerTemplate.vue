@@ -46,10 +46,10 @@ export default {
         height = height * 5;
       }
       if (this.props.widthMode == "vw") {
-        width = (384 * (width * 5 / 100)) * this.scale;
+        width = (384 * (width * 5 / 100));
       }
       if (this.props.heightMode == "vh") {
-        height = (216 * (height * 5 / 100)) * this.scale;
+        height = (216 * (height * 5 / 100));
       }
       return {
         width: this.props.widthMode == 'auto'? 'auto': width + (this.props.widthMode === "vw" ? "px": this.props.widthMode),

@@ -5,22 +5,12 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
-import { scalingStore } from "@/stores/scaling";
 export default {
   name: "RootTemplate",
   props: {
     props: {
       type: Object,
       required: false,
-    },
-  },
-  computed: {
-    ...mapState(scalingStore, ["scale"]),
-    rootStyle() {
-      return {
-        transform: `scale(${this.scale})`,
-      };
     },
   },
 };
@@ -30,7 +20,6 @@ export default {
 .root-element {
   height: 216px;
   width: 384px;
-  position: relative;
   background-color: white;
   overflow-y: auto; /* Permitir desplazamiento vertical */
   overflow-x: hidden; /* Ocultar desplazamiento horizontal */
