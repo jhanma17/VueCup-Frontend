@@ -4,7 +4,7 @@ export const componentsStore = defineStore("components", {
   state: () => ({
     placeComponent: false,
     componentToPlace: {
-      id: 8,
+      id: 2,
       type: "ButtonTemplate",
       props: {
         block: true,
