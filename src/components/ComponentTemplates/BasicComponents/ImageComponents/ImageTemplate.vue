@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { scalingStore } from "@/stores/scaling";
 export default {
   name: "ImageTemplate",
   props: {
@@ -34,10 +36,25 @@ export default {
     },
   },
   computed: {
+    ...mapState(scalingStore, ["scale"]),
     style() {
+      let width = this.props.width;
+      let height = this.props.height;
+      if (this.props.widthMode == "%") {
+        width = width * 5;
+      }
+      if (this.props.heightMode == "%") {
+        height = height * 5;
+      }
+      if (this.props.widthMode == "vw") {
+        width = (384 * (width * 5 / 100));
+      }
+      if (this.props.heightMode == "vh") {
+        height = (216 * (height * 5 / 100));
+      }
       return {
-        width: this.props.widthMode == 'auto'? 'auto': this.props.width + this.props.widthMode,
-        height: this.props.heightMode == 'auto'? 'auto': this.props.height + this.props.heightMode,
+        width: this.props.widthMode == 'auto'? 'auto': width + (this.props.widthMode === "vw" ? "px": this.props.widthMode),
+        height: this.props.heightMode == 'auto'? 'auto': height + (this.props.heightMode === "vh" ? "px": this.props.heightMode),
         display: this.props.display,
         position: this.props.position,
         top: this.props.top + "px",
