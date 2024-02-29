@@ -20,58 +20,7 @@ export const componentsStore = defineStore("components", {
       {
         id: 1,
         type: "RootTemplate",
-        children: [2, 4],
-      },
-      {
-        id: 2,
-        type: "CardTemplate",
-        props: {
-          color: "red",
-        },
-        children: [3, 7],
-      },
-      {
-        id: 3,
-        type: "SpanTemplate",
-        props: {
-          text: "hola",
-          fontFamily: "Roboto",
-          fontStyle: "Regular",
-          size: 12,
-          color: "#ffffff",
-        },
-      },
-      {
-        id: 4,
-        type: "RowTemplate",
-        children: [5],
-      },
-      {
-        id: 5,
-        type: "ColTemplate",
-        props: {
-          cols: "4",
-        },
-        children: [6],
-      },
-      {
-        id: 6,
-        type: "ButtonTemplate",
-        props: {
-          block: true,
-          text: "test",
-        },
-      },
-      {
-        id: 7,
-        type: "BodyTemplate",
-        props: {
-          text: "body sentence",
-          fontFamily: "Roboto",
-          fontStyle: "Regular",
-          size: 12,
-          color: "#ffffff",
-        },
+        children: [],
       },
     ],
     highlightedComponent: null,
