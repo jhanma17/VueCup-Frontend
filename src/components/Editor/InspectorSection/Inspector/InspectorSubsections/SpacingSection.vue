@@ -82,41 +82,41 @@ export default {
     ...mapState(componentsStore, ["inspectedComponent"]),
     marginTop: {
       get() {
-        return this.inspectedComponent.props.marginTop;
+        return this.inspectedComponent.props.marginTop * 5;
       },
       set(value) {
         let payload = this.inspectedComponent;
-        payload.props.marginTop = value;
+        payload.props.marginTop = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
     marginBottom: {
       get() {
-        return this.inspectedComponent.props.marginBottom;
+        return this.inspectedComponent.props.marginBottom * 5;
       },
       set(value) {
         let payload = this.inspectedComponent;
-        payload.props.marginBottom = value;
+        payload.props.marginBottom = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
     marginRight: {
       get() {
-        return this.inspectedComponent.props.marginRight;
+        return this.inspectedComponent.props.marginRight * 5;
       },
       set(value) {
         let payload = this.inspectedComponent;
-        payload.props.marginRight = value;
+        payload.props.marginRight = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
     marginLeft: {
       get() {
-        return this.inspectedComponent.props.marginLeft;
+        return this.inspectedComponent.props.marginLeft * 5;
       },
       set(value) {
         let payload = this.inspectedComponent;
-        payload.props.marginLeft = value;
+        payload.props.marginLeft = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
