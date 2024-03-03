@@ -27,6 +27,11 @@
 import CategorySelector from "@/components/Shared/CategorySelector.vue";
 import ComponentsSearch from "@/components/Shared/ComponentsSearch.vue";
 import ComponentsBox from "@/components/Shared/ComponentsBox.vue";
+import ContainerProps from "@/components/ComponentTemplates/BasicComponents/ContainerComponents/ContainerProps";
+import ImageProps from "@/components/ComponentTemplates/BasicComponents/ImageComponents/ImageProps";
+import OrderedListProps from "@/components/ComponentTemplates/BasicComponents/ListComponents/OrderedListProps";
+import UnorderedListProps from "@/components/ComponentTemplates/BasicComponents/ListComponents/UnorderedListProps";
+import TextProps from "@/components/ComponentTemplates/BasicComponents/TextComponents/TextProps";
 
 export default {
   data() {
@@ -40,11 +45,7 @@ export default {
           associatedComponent: {
             type: "TitleTemplate",
             props: {
-              text: "title",
-              fontFamily: "Roboto",
-              fontStyle: "Regular",
-              size: 16,
-              color: "#ffffff",
+              ...TextProps,
             },
           },
         },
@@ -54,11 +55,7 @@ export default {
           associatedComponent: {
             type: "BodyTemplate",
             props: {
-              text: "body sentence",
-              fontFamily: "Roboto",
-              fontStyle: "Regular",
-              size: 12,
-              color: "#ffffff",
+              ...TextProps,
             },
           },
         },
@@ -68,11 +65,7 @@ export default {
           associatedComponent: {
             type: "ParagraphTemplate",
             props: {
-              text: "lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-              fontFamily: "Roboto",
-              fontStyle: "Regular",
-              size: 12,
-              color: "#ffffff",
+              ...TextProps,
             },
           },
         },
@@ -82,11 +75,7 @@ export default {
           associatedComponent: {
             type: "LinkTemplate",
             props: {
-              text: "https://www.google.com",
-              fontFamily: "Roboto",
-              fontStyle: "Regular",
-              size: 10,
-              color: "#ffffff",
+              ...TextProps,
             },
           },
         },
@@ -98,24 +87,7 @@ export default {
           associatedComponent: {
             type: "ImageTemplate",
             props: {
-              src: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
-              width: 100,
-              widthMode: "px",
-              height: 100,
-              heightMode: "px",
-              display: "block",
-              position: "static",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              grow: 0,
-              shrink: 0,
-              fitMode: "Fill",
-              repeatMode: "Repeat",
+              ...ImageProps,
             },
           },
         },
@@ -127,21 +99,7 @@ export default {
           associatedComponent: {
             type: "ContainerTemplate",
             props: {
-              width: 100,
-              widthMode: "px",
-              height: 100,
-              heightMode: "px",
-              display: "block",
-              position: "static",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              grow: 0,
-              shrink: 0,
+              ...ContainerProps,
             },
           },
         },
@@ -153,6 +111,7 @@ export default {
           associatedComponent: {
             type: "UnorderedListTemplate",
             props: {
+              ...UnorderedListProps,
             },
           },
         },
@@ -162,6 +121,7 @@ export default {
           associatedComponent: {
             type: "OrderedListTemplate",
             props: {
+              ...OrderedListProps,
             },
           },
         },

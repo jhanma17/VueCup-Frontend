@@ -2,6 +2,7 @@
   <SizingSection v-if="inspectedComponent && !isTextComponent" />
   <TextSection v-if="inspectedComponent && isTextComponent"/>
   <ImageSection v-if="inspectedComponent && isImageComponent"/>
+  <SpacingSection v-if="inspectedComponent"/>
 </template>
 
 <script>
@@ -10,6 +11,7 @@ import { componentsStore } from "@/stores/components";
 import TextSection from './InspectorSubsections/TextSection.vue';
 import SizingSection from './InspectorSubsections/SizingSection.vue';
 import ImageSection from './InspectorSubsections/ImageSection.vue';
+import SpacingSection from './InspectorSubsections/SpacingSection.vue';
 
 export default {
   name: "Inspector",
@@ -17,6 +19,7 @@ export default {
     TextSection,
     SizingSection,
     ImageSection,
+    SpacingSection,
   },
   data() {
     return {

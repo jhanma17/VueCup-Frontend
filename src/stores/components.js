@@ -4,7 +4,7 @@ export const componentsStore = defineStore("components", {
   state: () => ({
     placeComponent: false,
     componentToPlace: {
-      id: 7,
+      id: 2,
       type: "ButtonTemplate",
       props: {
         block: true,
@@ -15,58 +15,12 @@ export const componentsStore = defineStore("components", {
       {
         id: 0,
         type: "Root",
-        children: [1, 3],
+        children: [1],
       },
       {
         id: 1,
-        type: "CardTemplate",
-        props: {
-          color: "red",
-        },
-        children: [2, 6],
-      },
-      {
-        id: 2,
-        type: "SpanTemplate",
-        props: {
-          text: "hola",
-          fontFamily: "Roboto",
-          fontStyle: "Regular",
-          size: 12,
-          color: "#ffffff",
-        },
-      },
-      {
-        id: 3,
-        type: "RowTemplate",
-        children: [4],
-      },
-      {
-        id: 4,
-        type: "ColTemplate",
-        props: {
-          cols: "4",
-        },
-        children: [5],
-      },
-      {
-        id: 5,
-        type: "ButtonTemplate",
-        props: {
-          block: true,
-          text: "test",
-        },
-      },
-      {
-        id: 6,
-        type: "BodyTemplate",
-        props: {
-          text: "body sentence",
-          fontFamily: "Roboto",
-          fontStyle: "Regular",
-          size: 12,
-          color: "#ffffff",
-        },
+        type: "RootTemplate",
+        children: [],
       },
     ],
     highlightedComponent: null,

@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "pinia";
+import { scalingStore } from "@/stores/scaling";
 import RulerY from "./RulerY.vue";
 import RulerX from "./RulerX.vue";
 import Canvas from "./Canvas.vue";
@@ -27,7 +29,6 @@ export default {
   data() {
     return {
       showGrid: true,
-      scale: 1,
       yOffset: 0,
       xOffset: 0,
       windowSize: { width: window.innerWidth, height: window.innerHeight },
@@ -37,6 +38,7 @@ export default {
   },
 
   computed: {
+    ...mapState(scalingStore, ["scale"]),
     componentWidth() {
       return (this.windowSize.width / 2 - 30) / this.scale;
     },
@@ -57,6 +59,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(scalingStore, ["setScale"]),
     resetHighlighting() {
       this.highlightedElement = null;
     },
@@ -68,9 +71,9 @@ export default {
         event.preventDefault();
 
         if (event.deltaY < 0) {
-          this.scale += 0.05;
+          this.setScale(this.scale + 0.05);
         } else {
-          this.scale -= 0.05;
+          this.setScale(this.scale - 0.05);
         }
       } else {
         if (event.shiftKey) {

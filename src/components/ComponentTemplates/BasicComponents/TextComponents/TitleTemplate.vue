@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import TextProps from "./TextProps";
+
 export default {
   name: "TitleTemplate",
   props: {
@@ -14,11 +16,7 @@ export default {
       required: false,
       default: () => {
         return {
-          text: "Title",
-          fontFamily: "Roboto",
-          fontStyle: "Regular",
-          size: 16,
-          color: "#000000",
+          ...TextProps,
         };
       },
     },
@@ -45,6 +43,14 @@ export default {
       return {
         fontStyle: fontStyle,
         fontWeight: fontWeight,
+        marginTop: this.props.marginTop + "px",
+        marginBottom: this.props.marginBottom + "px",
+        marginRight: this.props.marginRight + "px",
+        marginLeft: this.props.marginLeft + "px",
+        paddingTop: this.props.paddingTop + "px",
+        paddingBottom: this.props.paddingBottom + "px",
+        paddingRight: this.props.paddingRight + "px",
+        paddingLeft: this.props.paddingLeft + "px",
       };
     },
   },

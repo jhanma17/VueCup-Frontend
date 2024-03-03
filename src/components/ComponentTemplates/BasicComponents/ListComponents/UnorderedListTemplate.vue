@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import UnorderedListProps from "./UnorderedListProps";
+
 export default {
   name: "UnorderedListTemplate",
   props: {
@@ -13,6 +15,7 @@ export default {
       required: false,
       default: () => {
         return {
+          ...UnorderedListProps,
         };
       },
     },
@@ -20,6 +23,14 @@ export default {
   computed: {
     style() {
       return {
+        marginTop: this.props.marginTop + "px",
+        marginBottom: this.props.marginBottom + "px",
+        marginRight: this.props.marginRight + "px",
+        marginLeft: this.props.marginLeft + "px",
+        paddingTop: this.props.paddingTop + "px",
+        paddingBottom: this.props.paddingBottom + "px",
+        paddingRight: this.props.paddingRight + "px",
+        paddingLeft: this.props.paddingLeft + "px",
       };
     },
   },
