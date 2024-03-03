@@ -5,6 +5,8 @@
 <script>
 import { mapState } from "pinia";
 import { scalingStore } from "@/stores/scaling";
+import ImageProps from "./ImageProps";
+
 export default {
   name: "ImageTemplate",
   props: {
@@ -13,24 +15,7 @@ export default {
       required: false,
       default: () => {
         return {
-          src: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
-          width: 100,
-          widthMode: "px",
-          height: 100,
-          heightMode: "px",
-          display: "block",
-          position: "static",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          grow: 0,
-          shrink: 0,
-          fitMode: "Fill",
-          repeatMode: "Repeat",
+          ...ImageProps,
         };
       },
     },

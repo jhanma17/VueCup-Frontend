@@ -27,7 +27,8 @@
 import CategorySelector from "@/components/Shared/CategorySelector.vue";
 import ComponentsSearch from "@/components/Shared/ComponentsSearch.vue";
 import ComponentsBox from "@/components/Shared/ComponentsBox.vue";
-import ContainerProps from "../../../ComponentTemplates/BasicComponents/ContainerComponents/ContainerProps";
+import ContainerProps from "@/components/ComponentTemplates/BasicComponents/ContainerComponents/ContainerProps";
+import ImageProps from "@/components/ComponentTemplates/BasicComponents/ImageComponents/ImageProps";
 
 export default {
   data() {
@@ -99,24 +100,7 @@ export default {
           associatedComponent: {
             type: "ImageTemplate",
             props: {
-              src: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
-              width: 100,
-              widthMode: "px",
-              height: 100,
-              heightMode: "px",
-              display: "block",
-              position: "static",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              grow: 0,
-              shrink: 0,
-              fitMode: "Fill",
-              repeatMode: "Repeat",
+              ...ImageProps,
             },
           },
         },
