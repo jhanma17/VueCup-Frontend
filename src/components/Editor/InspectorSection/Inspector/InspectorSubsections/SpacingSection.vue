@@ -65,6 +65,68 @@
       ></v-text-field>
     </v-col>
   </v-row>
+
+  <v-row class="mx-1 my-0" align="center" justify="center">
+    <v-col cols="12" class="py-2">
+      <span class="text-caption">Padding</span>
+    </v-col>
+  </v-row>
+
+  <v-row class="mx-1 my-0" align="center" justify="center">
+    <v-col cols="2" class="py-1 px-0 text-right">
+      <span class="caption-small">Top</span>
+    </v-col>
+    <v-col cols="3" class="py-1 px-0">
+      <v-text-field
+        class="ml-2"
+        density="compact"
+        hide-details="auto"
+        type="number"
+        v-model="paddingTop"
+      ></v-text-field>
+    </v-col>
+
+    <v-col cols="2" class="py-1 px-0 text-right">
+      <span class="caption-small">Bottom</span>
+    </v-col>
+    <v-col cols="3" class="py-1 px-0">
+      <v-text-field
+        class="ml-2"
+        density="compact"
+        hide-details="auto"
+        type="number"
+        v-model="paddingBottom"
+      ></v-text-field>
+    </v-col>
+  </v-row>
+
+  <v-row class="mx-1 my-0" align="center" justify="center">
+    <v-col cols="2" class="py-1 px-0 text-right">
+      <span class="caption-small">Right</span>
+    </v-col>
+    <v-col cols="3" class="py-1 px-0">
+      <v-text-field
+        class="ml-2"
+        density="compact"
+        hide-details="auto"
+        type="number"
+        v-model="paddingRight"
+      ></v-text-field>
+    </v-col>
+
+    <v-col cols="2" class="py-1 px-0 text-right">
+      <span class="caption-small">Left</span>
+    </v-col>
+    <v-col cols="3" class="py-1 px-0">
+      <v-text-field
+        class="ml-2"
+        density="compact"
+        hide-details="auto"
+        type="number"
+        v-model="paddingLeft"
+      ></v-text-field>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -117,6 +179,46 @@ export default {
       set(value) {
         let payload = this.inspectedComponent;
         payload.props.marginLeft = value / 5;
+        this.updateInspectedComponent(payload);
+      },
+    },
+    paddingTop: {
+      get() {
+        return this.inspectedComponent.props.paddingTop * 5;
+      },
+      set(value) {
+        let payload = this.inspectedComponent;
+        payload.props.paddingTop = value / 5;
+        this.updateInspectedComponent(payload);
+      },
+    },
+    paddingBottom: {
+      get() {
+        return this.inspectedComponent.props.paddingBottom * 5;
+      },
+      set(value) {
+        let payload = this.inspectedComponent;
+        payload.props.paddingBottom = value / 5;
+        this.updateInspectedComponent(payload);
+      },
+    },
+    paddingRight: {
+      get() {
+        return this.inspectedComponent.props.paddingRight * 5;
+      },
+      set(value) {
+        let payload = this.inspectedComponent;
+        payload.props.paddingRight = value / 5;
+        this.updateInspectedComponent(payload);
+      },
+    },
+    paddingLeft: {
+      get() {
+        return this.inspectedComponent.props.paddingLeft * 5;
+      },
+      set(value) {
+        let payload = this.inspectedComponent;
+        payload.props.paddingLeft = value / 5;
         this.updateInspectedComponent(payload);
       },
     },
