@@ -31,6 +31,7 @@ import ContainerProps from "@/components/ComponentTemplates/BasicComponents/Cont
 import ImageProps from "@/components/ComponentTemplates/BasicComponents/ImageComponents/ImageProps";
 import OrderedListProps from "@/components/ComponentTemplates/BasicComponents/ListComponents/OrderedListProps";
 import UnorderedListProps from "@/components/ComponentTemplates/BasicComponents/ListComponents/UnorderedListProps";
+import TextProps from "@/components/ComponentTemplates/BasicComponents/TextComponents/TextProps";
 
 export default {
   data() {
@@ -44,11 +45,7 @@ export default {
           associatedComponent: {
             type: "TitleTemplate",
             props: {
-              text: "title",
-              fontFamily: "Roboto",
-              fontStyle: "Regular",
-              size: 16,
-              color: "#ffffff",
+              ...TextProps,
             },
           },
         },
@@ -58,11 +55,7 @@ export default {
           associatedComponent: {
             type: "BodyTemplate",
             props: {
-              text: "body sentence",
-              fontFamily: "Roboto",
-              fontStyle: "Regular",
-              size: 12,
-              color: "#ffffff",
+              ...TextProps,
             },
           },
         },
@@ -72,11 +65,7 @@ export default {
           associatedComponent: {
             type: "ParagraphTemplate",
             props: {
-              text: "lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-              fontFamily: "Roboto",
-              fontStyle: "Regular",
-              size: 12,
-              color: "#ffffff",
+              ...TextProps,
             },
           },
         },
@@ -86,11 +75,7 @@ export default {
           associatedComponent: {
             type: "LinkTemplate",
             props: {
-              text: "https://www.google.com",
-              fontFamily: "Roboto",
-              fontStyle: "Regular",
-              size: 10,
-              color: "#ffffff",
+              ...TextProps,
             },
           },
         },
