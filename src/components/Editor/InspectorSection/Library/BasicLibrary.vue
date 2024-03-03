@@ -29,6 +29,8 @@ import ComponentsSearch from "@/components/Shared/ComponentsSearch.vue";
 import ComponentsBox from "@/components/Shared/ComponentsBox.vue";
 import ContainerProps from "@/components/ComponentTemplates/BasicComponents/ContainerComponents/ContainerProps";
 import ImageProps from "@/components/ComponentTemplates/BasicComponents/ImageComponents/ImageProps";
+import OrderedListProps from "@/components/ComponentTemplates/BasicComponents/ListComponents/OrderedListProps";
+import UnorderedListProps from "@/components/ComponentTemplates/BasicComponents/ListComponents/UnorderedListProps";
 
 export default {
   data() {
@@ -124,6 +126,7 @@ export default {
           associatedComponent: {
             type: "UnorderedListTemplate",
             props: {
+              ...UnorderedListProps,
             },
           },
         },
@@ -133,6 +136,7 @@ export default {
           associatedComponent: {
             type: "OrderedListTemplate",
             props: {
+              ...OrderedListProps,
             },
           },
         },

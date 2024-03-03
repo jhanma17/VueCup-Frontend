@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import OrderedListProps from './OrderedListProps';
+
 export default {
   name: "OrderedListTemplate",
   props: {
@@ -13,6 +15,7 @@ export default {
       required: false,
       default: () => {
         return {
+          ...OrderedListProps,
         };
       },
     },

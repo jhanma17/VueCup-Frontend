@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import UnorderedListProps from "./UnorderedListProps";
+
 export default {
   name: "UnorderedListTemplate",
   props: {
@@ -13,6 +15,7 @@ export default {
       required: false,
       default: () => {
         return {
+          ...UnorderedListProps,
         };
       },
     },
