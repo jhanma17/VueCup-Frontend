@@ -7,6 +7,8 @@
 <script>
 import { mapState } from "pinia";
 import { scalingStore } from "@/stores/scaling";
+import containerProps from "./ContainerProps";
+
 export default {
   name: "ImageTemplate",
   props: {
@@ -15,21 +17,7 @@ export default {
       required: false,
       default: () => {
         return {
-          width: 100,
-          widthMode: "px",
-          height: 100,
-          heightMode: "px",
-          display: "block",
-          position: "static",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          grow: 0,
-          shrink: 0,
+          ...containerProps,
         };
       },
     },
@@ -65,6 +53,10 @@ export default {
         alignItems: this.props.alignItems,
         flexGrow: this.props.grow,
         flexShrink: this.props.shrink,
+        marginTop: this.props.marginTop + "px",
+        marginBottom: this.props.marginBottom + "px",
+        marginRight: this.props.marginRight + "px",
+        marginLeft: this.props.marginLeft + "px",
       };
     },
   },
