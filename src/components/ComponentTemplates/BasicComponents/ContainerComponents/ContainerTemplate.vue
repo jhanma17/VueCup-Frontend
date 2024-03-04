@@ -61,6 +61,8 @@ export default {
         paddingBottom: this.props.paddingBottom + "px",
         paddingRight: this.props.paddingRight + "px",
         paddingLeft: this.props.paddingLeft + "px",
+        backgroundColor: this.props.backgroundColor,
+        backgroundImage: `url(${this.props.backgroundImage})`,
       };
     },
   },

@@ -3,7 +3,7 @@
   <TextSection v-if="inspectedComponent && isTextComponent"/>
   <ImageSection v-if="inspectedComponent && isImageComponent"/>
   <SpacingSection v-if="inspectedComponent"/>
-  <BackgroundSection v-if="inspectedComponent"/>
+  <BackgroundSection v-if="inspectedComponent && isContainerComponent"/>
 </template>
 
 <script>
@@ -36,6 +36,9 @@ export default {
     },
     isImageComponent() {
       return this.inspectedComponent.type === "ImageTemplate";
+    },
+    isContainerComponent() {
+      return this.inspectedComponent.type === "ContainerTemplate";
     },
   },
 }
