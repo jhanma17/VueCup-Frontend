@@ -34,14 +34,22 @@ export default {
         height = height * 5;
       }
       if (this.props.widthMode == "vw") {
-        width = (384 * (width * 5 / 100));
+        width = 384 * ((width * 5) / 100);
       }
       if (this.props.heightMode == "vh") {
-        height = (216 * (height * 5 / 100));
+        height = 216 * ((height * 5) / 100);
       }
       return {
-        width: this.props.widthMode == 'auto'? 'auto': width + (this.props.widthMode === "vw" ? "px": this.props.widthMode),
-        height: this.props.heightMode == 'auto'? 'auto': height + (this.props.heightMode === "vh" ? "px": this.props.heightMode),
+        width:
+          this.props.widthMode == "auto"
+            ? "auto"
+            : width +
+              (this.props.widthMode === "vw" ? "px" : this.props.widthMode),
+        height:
+          this.props.heightMode == "auto"
+            ? "auto"
+            : height +
+              (this.props.heightMode === "vh" ? "px" : this.props.heightMode),
         display: this.props.display,
         position: this.props.position,
         top: this.props.top + "px",
@@ -67,6 +75,34 @@ export default {
         borderColor: this.props.borderColor,
         borderStyle: this.props.borderStyle,
         borderRadius: this.props.borderRadius + "px",
+        borderTop: this.props.borderTop
+          ? this.props.borderWidth +
+            "px " +
+            this.props.borderStyle +
+            " " +
+            this.props.borderColor
+          : "none",
+        borderBottom: this.props.borderBottom
+          ? this.props.borderWidth +
+            "px " +
+            this.props.borderStyle +
+            " " +
+            this.props.borderColor
+          : "none",
+        borderLeft: this.props.borderLeft
+          ? this.props.borderWidth +
+            "px " +
+            this.props.borderStyle +
+            " " +
+            this.props.borderColor
+          : "none",
+        borderRight: this.props.borderRight
+          ? this.props.borderWidth +
+            "px " +
+            this.props.borderStyle +
+            " " +
+            this.props.borderColor
+          : "none",
       };
     },
   },

@@ -28,6 +28,10 @@ const containerProps = {
   borderStyle: "none",
   borderColor: "transparent",
   borderRadius: 0,
+  borderTop: true,
+  borderBottom: true,
+  borderLeft: true,
+  borderRight: true,
 };
 
 export default containerProps;
