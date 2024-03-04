@@ -31,7 +31,7 @@ export default {
         width = width * 5;
       }
       if (this.props.heightMode == "%") {
-        height = height * 5;
+        height = 100;
       }
       if (this.props.widthMode == "vw") {
         width = 384 * ((width * 5) / 100);
