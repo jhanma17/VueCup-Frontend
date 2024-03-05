@@ -2,7 +2,7 @@
   <drop
     @drop="handleDrop"
     @dragover="handleDragOver"
-    :style="isPercentajeHeight ? percentajeHeightStyle : ''"
+    :style="isPercentajeHeight ? percentajeHeightStyle : isTextComponent ? textHeightStyle : {}"
   >
     <component
       :is="element.type"
@@ -49,12 +49,20 @@ import UnorderedListTemplate from "@/components/ComponentTemplates/BasicComponen
 
 export default {
   name: "RenderComponent",
+  data() {
+    return {
+      textTypes: ["BodyTemplate", "LinkTemplate", "ParagraphTemplate", "TitleTemplate"],
+    }
+  },
   computed: {
     ...mapState(componentsStore, [
       "highlightedComponent",
       "placeComponent",
       "inspectedComponent",
     ]),
+    isTextComponent() {
+      return this.textTypes.includes(this.element.type);
+    },
     isHighlighted() {
       return (
         (this.highlightedComponent == this.element.id && this.placeComponent) ||
@@ -72,6 +80,12 @@ export default {
     percentajeHeightStyle() {
       return {
         height: `${this.element.props.height * 5}%`,
+      };
+    },
+    textHeightStyle() {
+      return {
+        height: `auto`,
+        display: "flex",
       };
     },
   },
