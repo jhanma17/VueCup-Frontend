@@ -28,7 +28,7 @@ export default {
       let width = this.props.width;
       let height = this.props.height;
       if (this.props.widthMode == "%") {
-        width = width * 5;
+        width = 100;
       }
       if (this.props.heightMode == "%") {
         height = 100;

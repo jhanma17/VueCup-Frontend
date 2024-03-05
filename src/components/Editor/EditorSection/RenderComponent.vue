@@ -2,7 +2,7 @@
   <drop
     @drop="handleDrop"
     @dragover="handleDragOver"
-    :style="isPercentajeHeight ? percentajeHeightStyle : isTextComponent ? textHeightStyle : {}"
+    :style="dropStyle"
   >
     <component
       :is="element.type"
@@ -60,9 +60,6 @@ export default {
       "placeComponent",
       "inspectedComponent",
     ]),
-    isTextComponent() {
-      return this.textTypes.includes(this.element.type);
-    },
     isHighlighted() {
       return (
         (this.highlightedComponent == this.element.id && this.placeComponent) ||
@@ -82,11 +79,48 @@ export default {
         height: `${this.element.props.height * 5}%`,
       };
     },
+    isPercentajeWidth() {
+      return this.element.props && this.element.props.widthMode === "%";
+    },
+    percentajeWidthStyle() {
+      return {
+        width: `${this.element.props.width * 5}%`,
+      };
+    },
+    isTextComponent() {
+      return this.textTypes.includes(this.element.type);
+    },
     textHeightStyle() {
       return {
         height: `auto`,
         display: "flex",
       };
+    },
+    dropStyle() {
+      let style = {};
+
+      if (this.isPercentajeHeight) {
+        style = {
+          ...style,
+          ...this.percentajeHeightStyle,
+        };
+      }
+
+      if (this.isPercentajeWidth) {
+        style = {
+          ...style,
+          ...this.percentajeWidthStyle,
+        };
+      }
+
+      if (this.isTextComponent) {
+        style = {
+          ...style,
+          ...this.textHeightStyle,
+        };
+      }
+
+      return style;
     },
   },
   methods: {
