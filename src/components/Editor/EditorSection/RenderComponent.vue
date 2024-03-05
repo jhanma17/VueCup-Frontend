@@ -1,9 +1,28 @@
 <template>
-  <drop
-    @drop="handleDrop"
-    @dragover="handleDragOver"
-    :style="dropStyle"
+  <component
+    :is="element.type"
+    :props="element.props"
+    :class="isHighlighted ? 'highlight' : ''"
+    @click.stop="inspectComponent(element)"
+    @mousedown.prevent
+    v-if="isTextComponent"
   >
+    <template v-if="element.children && isListElement">
+      <template v-for="child in element.children" :key="child.id">
+        <li>
+          <RenderComponent :element="child" />
+        </li>
+      </template>
+    </template>
+    <template v-else-if="element.children">
+      <RenderComponent
+        v-for="child in element.children"
+        :key="child.id"
+        :element="child"
+      />
+    </template>
+  </component>
+  <drop @drop="handleDrop" @dragover="handleDragOver" :style="dropStyle" v-else>
     <component
       :is="element.type"
       :props="element.props"
@@ -51,8 +70,13 @@ export default {
   name: "RenderComponent",
   data() {
     return {
-      textTypes: ["BodyTemplate", "LinkTemplate", "ParagraphTemplate", "TitleTemplate"],
-    }
+      textTypes: [
+        "BodyTemplate",
+        "LinkTemplate",
+        "ParagraphTemplate",
+        "TitleTemplate",
+      ],
+    };
   },
   computed: {
     ...mapState(componentsStore, [
@@ -93,7 +117,7 @@ export default {
     textHeightStyle() {
       return {
         height: `auto`,
-        display: "flex",
+        display: "inline-block",
       };
     },
     dropStyle() {
