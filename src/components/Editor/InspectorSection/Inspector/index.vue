@@ -3,6 +3,8 @@
   <TextSection v-if="inspectedComponent && isTextComponent"/>
   <ImageSection v-if="inspectedComponent && isImageComponent"/>
   <SpacingSection v-if="inspectedComponent"/>
+  <BackgroundSection v-if="inspectedComponent && isContainerComponent"/>
+  <BorderSection v-if="inspectedComponent && isContainerComponent"/>
 </template>
 
 <script>
@@ -12,6 +14,8 @@ import TextSection from './InspectorSubsections/TextSection.vue';
 import SizingSection from './InspectorSubsections/SizingSection.vue';
 import ImageSection from './InspectorSubsections/ImageSection.vue';
 import SpacingSection from './InspectorSubsections/SpacingSection.vue';
+import BackgroundSection from "./InspectorSubsections/BackgroundSection.vue";
+import BorderSection from "./InspectorSubsections/BorderSection.vue";
 
 export default {
   name: "Inspector",
@@ -20,6 +24,8 @@ export default {
     SizingSection,
     ImageSection,
     SpacingSection,
+    BackgroundSection,
+    BorderSection,
   },
   data() {
     return {
@@ -33,6 +39,9 @@ export default {
     },
     isImageComponent() {
       return this.inspectedComponent.type === "ImageTemplate";
+    },
+    isContainerComponent() {
+      return this.inspectedComponent.type === "ContainerTemplate";
     },
   },
 }

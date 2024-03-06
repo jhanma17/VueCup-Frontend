@@ -1,5 +1,28 @@
 <template>
-  <drop @drop="handleDrop" @dragover="handleDragOver">
+  <component
+    :is="element.type"
+    :props="element.props"
+    :class="isHighlighted ? 'highlight' : ''"
+    @click.stop="inspectComponent(element)"
+    @mousedown.prevent
+    v-if="isTextComponent"
+  >
+    <template v-if="element.children && isListElement">
+      <template v-for="child in element.children" :key="child.id">
+        <li>
+          <RenderComponent :element="child" />
+        </li>
+      </template>
+    </template>
+    <template v-else-if="element.children">
+      <RenderComponent
+        v-for="child in element.children"
+        :key="child.id"
+        :element="child"
+      />
+    </template>
+  </component>
+  <drop @drop="handleDrop" @dragover="handleDragOver" :style="dropStyle" v-else>
     <component
       :is="element.type"
       :props="element.props"
@@ -7,9 +30,7 @@
       @click.stop="inspectComponent(element)"
       @mousedown.prevent
     >
-      <template
-        v-if="element.children && isListElement"
-      >
+      <template v-if="element.children && isListElement">
         <template v-for="child in element.children" :key="child.id">
           <li>
             <RenderComponent :element="child" />
@@ -43,10 +64,20 @@ import LinkTemplate from "@/components/ComponentTemplates/BasicComponents/TextCo
 import ImageTemplate from "@/components/ComponentTemplates/BasicComponents/ImageComponents/ImageTemplate.vue";
 import ContainerTemplate from "@/components/ComponentTemplates/BasicComponents/ContainerComponents/ContainerTemplate.vue";
 import OrderedListTemplate from "@/components/ComponentTemplates/BasicComponents/ListComponents/orderedListTemplate.vue";
-import UnorderedListTemplate from '@/components/ComponentTemplates/BasicComponents/ListComponents/unorderedListTemplate.vue';
+import UnorderedListTemplate from "@/components/ComponentTemplates/BasicComponents/ListComponents/unorderedListTemplate.vue";
 
 export default {
   name: "RenderComponent",
+  data() {
+    return {
+      textTypes: [
+        "BodyTemplate",
+        "LinkTemplate",
+        "ParagraphTemplate",
+        "TitleTemplate",
+      ],
+    };
+  },
   computed: {
     ...mapState(componentsStore, [
       "highlightedComponent",
@@ -63,6 +94,57 @@ export default {
     isListElement() {
       const listTypes = ["OrderedListTemplate", "UnorderedListTemplate"];
       return listTypes.includes(this.element.type);
+    },
+    isPercentajeHeight() {
+      return this.element.props && this.element.props.heightMode === "%";
+    },
+    percentajeHeightStyle() {
+      return {
+        height: `${this.element.props.height * 5}%`,
+      };
+    },
+    isPercentajeWidth() {
+      return this.element.props && this.element.props.widthMode === "%";
+    },
+    percentajeWidthStyle() {
+      return {
+        width: `${this.element.props.width * 5}%`,
+      };
+    },
+    isTextComponent() {
+      return this.textTypes.includes(this.element.type);
+    },
+    textHeightStyle() {
+      return {
+        height: `auto`,
+        display: "inline-block",
+      };
+    },
+    dropStyle() {
+      let style = {};
+
+      if (this.isPercentajeHeight) {
+        style = {
+          ...style,
+          ...this.percentajeHeightStyle,
+        };
+      }
+
+      if (this.isPercentajeWidth) {
+        style = {
+          ...style,
+          ...this.percentajeWidthStyle,
+        };
+      }
+
+      if (this.isTextComponent) {
+        style = {
+          ...style,
+          ...this.textHeightStyle,
+        };
+      }
+
+      return style;
     },
   },
   methods: {

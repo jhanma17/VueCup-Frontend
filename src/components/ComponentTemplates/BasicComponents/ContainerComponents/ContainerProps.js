@@ -22,6 +22,16 @@ const containerProps = {
   paddingBottom: 0,
   paddingRight: 0,
   paddingLeft: 0,
+  backgroundColor: "transparent",
+  backgroundImage: "none",
+  borderWidth: 0,
+  borderStyle: "none",
+  borderColor: "transparent",
+  borderRadius: 0,
+  borderTop: true,
+  borderBottom: true,
+  borderLeft: true,
+  borderRight: true,
 };
 
 export default containerProps;

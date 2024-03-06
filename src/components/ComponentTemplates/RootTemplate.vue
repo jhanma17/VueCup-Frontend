@@ -11,6 +11,10 @@ export default {
     props: {
       type: Object,
       required: false,
+      default: () => {
+        return {
+        };
+      },
     },
   },
 };
