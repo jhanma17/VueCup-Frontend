@@ -1,3 +1,13 @@
+import ContainerStyle from "../components/ComponentTemplates/BasicComponents/ContainerComponents/ContainerStyle";
+
 const ContainerExport = (container) => {
-  let upperContainer = `<div class="${container.class}"> \n`;
+  let upper = `<div style:${ContainerStyle(container.props)}"> \n`;
+  let lower = "</div> \n";
+
+  return {
+    upper,
+    lower,
+  };
 };
+
+export default ContainerExport;

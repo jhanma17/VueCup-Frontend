@@ -1,11 +1,11 @@
-const rootExport = () => {
-  let upperRoot = "<template> \n";
-  let lowerRoot = "</template> \n";
+const RootExport = () => {
+  let upper = "<template> \n";
+  let lower = "</template> \n";
 
   return {
-    upperRoot,
-    lowerRoot,
+    upper,
+    lower,
   };
 };
 
-export default rootExport;
+export default RootExport;
