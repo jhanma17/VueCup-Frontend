@@ -18,7 +18,7 @@ const ExportData = (componentTree) => {
 
     textToExport += upper;
 
-    if (component.children) {
+    if (component.children && component.children.length > 0) {
       component.children.forEach((child) => {
         traverseComponentTree(child);
       });
@@ -27,12 +27,13 @@ const ExportData = (componentTree) => {
     textToExport += lower;
   };
 
-  traverseComponentTree(componentTree);
+  traverseComponentTree(componentTree[0]);
 
   DownloadFile(textToExport);
 };
 
 const GetComponentExport = (component) => {
+  console.log(component);
   //removes Template from the componentType
   const rawType = component.type.replace("Template", "");
 

@@ -11,7 +11,7 @@
 
       <v-btn
         icon
-        @click="exportData"
+        @click="exportData()"
         :loading="isSaving"
       >
         <v-icon>mdi-file-export-outline</v-icon>
@@ -25,6 +25,10 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { componentsStore } from "@/stores/components";
+import ExportData from "@/export/index";
+
 export default {
   name: "EditorLayout",
   data() {
@@ -32,9 +36,16 @@ export default {
       isSaving: false,
     };
   },
+  computed: {
+    ...mapState(componentsStore, ["componentsTree"]),
+  },
   methods: {
     exportData() {
+      this.isSaving = true;
       
+      ExportData(this.componentsTree)
+
+      this.isSaving = false;
     },
   },
 };  
