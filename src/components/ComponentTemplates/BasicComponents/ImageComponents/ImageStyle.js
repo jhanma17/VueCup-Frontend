@@ -34,7 +34,6 @@ const imageStyle = (props) => {
     flexGrow: props.grow,
     flexShrink: props.shrink,
     objectFit: props.fitMode.toLowerCase(),
-    objectRepeat: props.repeatMode.toLowerCase(),
     marginTop: props.marginTop + "px",
     marginBottom: props.marginBottom + "px",
     marginRight: props.marginRight + "px",

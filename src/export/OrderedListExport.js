@@ -1,7 +1,10 @@
 import OrderedListStyle from "../components/ComponentTemplates/BasicComponents/ListComponents/OrderedListStyle";
+import StyleParser from "./StyleParser";
 
 const OrderedListExport = (component) => {
-  let upper = `<ol style:${OrderedListStyle(component.props)}"> \n`;
+  const style = StyleParser(OrderedListStyle(component.props));
+
+  let upper = `<ol style:${style}"> \n`;
   let lower = "</ol> \n";
 
   return {

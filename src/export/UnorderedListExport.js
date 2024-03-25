@@ -1,7 +1,10 @@
 import UnorderedListStyle from "../components/ComponentTemplates/BasicComponents/ListComponents/UnorderedListStyle";
+import StyleParser from "./StyleParser";
 
 const UnorderedListExport = (component) => {
-  let upper = `<ol style:${UnorderedListStyle(component.props)}"> \n`;
+  const style = StyleParser(UnorderedListStyle(component.props));
+
+  let upper = `<ol style:${style}"> \n`;
   let lower = "</ol> \n";
 
   return {

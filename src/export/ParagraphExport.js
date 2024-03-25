@@ -1,7 +1,10 @@
 import TextStyle from "../components/ComponentTemplates/BasicComponents/TextComponents/TextStyle.js";
+import StyleParser from "./StyleParser.js";
 
 const ParagraphExport = (component) => {
-  let upper = `<p style:${TextStyle(component.props)}"> \n
+  const style = StyleParser(TextStyle(component.props));
+
+  let upper = `<p style:${style}"> \n
                 ${component.props.text}  \n
               `;
   let lower = "</p> \n";
