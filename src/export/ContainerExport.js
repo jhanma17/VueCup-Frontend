@@ -1,7 +1,7 @@
 import ContainerStyle from "../components/ComponentTemplates/BasicComponents/ContainerComponents/ContainerStyle";
 
-const ContainerExport = (container) => {
-  let upper = `<div style:${ContainerStyle(container.props)}"> \n`;
+const ContainerExport = (component) => {
+  let upper = `<div style:${ContainerStyle(component.props)}"> \n`;
   let lower = "</div> \n";
 
   return {

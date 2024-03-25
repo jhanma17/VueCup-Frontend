@@ -1,8 +1,8 @@
 import TextStyle from "../components/ComponentTemplates/BasicComponents/TextComponents/TextStyle.js";
 
-const ParagraphExport = (body) => {
-  let upper = `<p style:${TextStyle(body.props)}"> \n
-                ${body.props.text}  \n
+const ParagraphExport = (component) => {
+  let upper = `<p style:${TextStyle(component.props)}"> \n
+                ${component.props.text}  \n
               `;
   let lower = "</p> \n";
 
