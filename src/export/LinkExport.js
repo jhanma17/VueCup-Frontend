@@ -4,7 +4,7 @@ import StyleParser from "./StyleParser.js";
 const LinkExport = (component) => {
   const style = StyleParser(TextStyle(component.props));
 
-  let upper = `<a style:${style}"> \n
+  let upper = `<a :style="${style}"> \n
                 ${component.props.text}  \n
               `;
   let lower = "</a> \n";

@@ -2,7 +2,7 @@ import ContainerStyle from "../components/ComponentTemplates/BasicComponents/Con
 import StyleParser from "./StyleParser";
 
 const ContainerExport = (component) => {
-  const style = StyleParser(ContainerStyle(component.props));
+  const style = StyleParser(ContainerStyle(component.props, true));
 
   let upper = `<div :style="${style}"> \n`;
   let lower = "</div> \n";

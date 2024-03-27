@@ -4,7 +4,7 @@ import StyleParser from "./StyleParser";
 const UnorderedListExport = (component) => {
   const style = StyleParser(UnorderedListStyle(component.props));
 
-  let upper = `<ol style:${style}"> \n`;
+  let upper = `<ol :style="${style}"> \n`;
   let lower = "</ol> \n";
 
   return {

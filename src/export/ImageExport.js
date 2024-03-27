@@ -2,7 +2,7 @@ import ImageStyle from "../components/ComponentTemplates/BasicComponents/ImageCo
 import StyleParser from "./StyleParser";
 
 const ImageExport = (component) => {
-  const style = StyleParser(ImageStyle(component.props));
+  const style = StyleParser(ImageStyle(component.props, true));
 
   let upper = `<img src="${component.props.src}" :style="${style}"/> \n`;
   let lower = "";
