@@ -1,67 +1,14 @@
-const containerStyle = (props, toExport = false) => {
-  let width = props.width;
-  let height = props.height;
-  if (props.widthMode == "%" && !toExport) {
-    width = 100;
-  }
-  if (props.heightMode == "%" && !toExport) {
-    height = 100;
-  }
-  if (props.widthMode == "vw" && !toExport) {
-    width = 384 * ((width * 5) / 100);
-  }
-  if (props.heightMode == "vh" && !toExport) {
-    height = 216 * ((height * 5) / 100);
-  }
+import BackgroundStyle from "../../../Editor/InspectorSection/Inspector/InspectorSubsections/BackgroundStyle";
+import BorderStyle from "../../../Editor/InspectorSection/Inspector/InspectorSubsections/BorderStyle";
+import SizingStyle from "../../../Editor/InspectorSection/Inspector/InspectorSubsections/SizingStyle";
+import SpacingStyle from "../../../Editor/InspectorSection/Inspector/InspectorSubsections/SpacingStyle";
 
+const containerStyle = (props, toExport = false) => {
   return {
-    width:
-      props.widthMode == "auto"
-        ? "auto"
-        : width +
-          (props.widthMode === "vw" && !toExport ? "px" : props.widthMode),
-    height:
-      props.heightMode == "auto"
-        ? "auto"
-        : height +
-          (props.heightMode === "vh" && !toExport ? "px" : props.heightMode),
-    display: props.display,
-    position: props.position,
-    top: props.top + "px",
-    left: props.left + "px",
-    right: props.right + "px",
-    bottom: props.bottom + "px",
-    flexDirection: props.flexDirection,
-    justifyContent: props.justifyContent,
-    alignItems: props.alignItems,
-    flexGrow: props.grow,
-    flexShrink: props.shrink,
-    marginTop: props.marginTop + "px",
-    marginBottom: props.marginBottom + "px",
-    marginRight: props.marginRight + "px",
-    marginLeft: props.marginLeft + "px",
-    paddingTop: props.paddingTop + "px",
-    paddingBottom: props.paddingBottom + "px",
-    paddingRight: props.paddingRight + "px",
-    paddingLeft: props.paddingLeft + "px",
-    backgroundColor: props.backgroundColor,
-    backgroundImage: `url(${props.backgroundImage})`,
-    borderWidth: props.borderWidth + "px",
-    borderColor: props.borderColor,
-    borderStyle: props.borderStyle,
-    borderRadius: props.borderRadius + "px",
-    borderTop: props.borderTop
-      ? props.borderWidth + "px " + props.borderStyle + " " + props.borderColor
-      : "none",
-    borderBottom: props.borderBottom
-      ? props.borderWidth + "px " + props.borderStyle + " " + props.borderColor
-      : "none",
-    borderLeft: props.borderLeft
-      ? props.borderWidth + "px " + props.borderStyle + " " + props.borderColor
-      : "none",
-    borderRight: props.borderRight
-      ? props.borderWidth + "px " + props.borderStyle + " " + props.borderColor
-      : "none",
+    ...SizingStyle(props, toExport),
+    ...SpacingStyle(props, toExport),
+    ...BackgroundStyle(props, toExport),
+    ...BorderStyle(props, toExport),
   };
 };
 

@@ -189,6 +189,6 @@ export default {
 
 <style scoped>
 .highlight {
-  box-shadow: inset 0 0 0px 5px rgba(0, 98, 0);
+  box-shadow: inset 0 0 0px 3px rgba(0, 98, 0);
 }
 </style>
