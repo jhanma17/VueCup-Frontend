@@ -63,8 +63,8 @@ import ParagraphTemplate from "@/components/ComponentTemplates/BasicComponents/T
 import LinkTemplate from "@/components/ComponentTemplates/BasicComponents/TextComponents/LinkTemplate.vue";
 import ImageTemplate from "@/components/ComponentTemplates/BasicComponents/ImageComponents/ImageTemplate.vue";
 import ContainerTemplate from "@/components/ComponentTemplates/BasicComponents/ContainerComponents/ContainerTemplate.vue";
-import OrderedListTemplate from "@/components/ComponentTemplates/BasicComponents/ListComponents/orderedListTemplate.vue";
-import UnorderedListTemplate from "@/components/ComponentTemplates/BasicComponents/ListComponents/unorderedListTemplate.vue";
+import OrderedListTemplate from "@/components/ComponentTemplates/BasicComponents/ListComponents/OrderedListTemplate.vue";
+import UnorderedListTemplate from "@/components/ComponentTemplates/BasicComponents/ListComponents/UnorderedListTemplate.vue";
 
 export default {
   name: "RenderComponent",
