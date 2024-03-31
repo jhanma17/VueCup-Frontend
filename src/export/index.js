@@ -33,13 +33,25 @@ const ExportData = (componentTree) => {
 };
 
 const GetComponentExport = (component) => {
-  console.log(component);
+  //prevents unused imports
+  const imports = {
+    Root: RootExport,
+    Body: BodyExport,
+    Link: LinkExport,
+    Title: TitleExport,
+    Paragraph: ParagraphExport,
+    Container: ContainerExport,
+    Image: ImageExport,
+    OrderedList: OrderedListExport,
+    UnorderedList: UnorderedListExport,
+  };
+
   //removes Template from the componentType
   const rawType = component.type.replace("Template", "");
 
   const exportFunction = `${rawType}Export`;
 
-  const exportData = eval(exportFunction)(component);
+  const exportData = imports[exportFunction](component);
 
   return { upper: exportData.upper, lower: exportData.lower };
 };
