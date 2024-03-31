@@ -35,15 +35,15 @@ const ExportData = (componentTree) => {
 const GetComponentExport = (component) => {
   //prevents unused imports
   const imports = {
-    Root: RootExport,
-    Body: BodyExport,
-    Link: LinkExport,
-    Title: TitleExport,
-    Paragraph: ParagraphExport,
-    Container: ContainerExport,
-    Image: ImageExport,
-    OrderedList: OrderedListExport,
-    UnorderedList: UnorderedListExport,
+    RootExport,
+    BodyExport,
+    LinkExport,
+    TitleExport,
+    ParagraphExport,
+    ContainerExport,
+    ImageExport,
+    OrderedListExport,
+    UnorderedListExport,
   };
 
   //removes Template from the componentType
