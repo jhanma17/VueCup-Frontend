@@ -25,16 +25,24 @@
         :key="child.id"
         cols="12"
         class="py-1 pr-0"
+        @contextmenu.prevent.stop="handleClick1($event, child.id)"
       >
         <ProjectNode :component="child" />
       </v-col>
     </drop>
   </drag>
+  <ContextMenu
+    :elementId="`context-menu-${component.id}`"
+    :options="options"
+    ref="vueSimpleContextMenu1"
+    @option-clicked="optionClicked1"
+  />
 </template>
 
 <script>
 import { mapState, mapActions } from "pinia";
 import { componentsStore } from "@/stores/components";
+import ContextMenu from "./ContextMenu.vue";
 
 export default {
   name: "ProjectNode",
@@ -44,9 +52,29 @@ export default {
       required: true,
     },
   },
+  components: {
+    ContextMenu,
+  },
   data() {
     return {
       expanded: false,
+      options: [
+        {
+          name: "Duplicate",
+          slug: "duplicate",
+        },
+        {
+          type: "divider",
+        },
+        {
+          name: "Edit",
+          slug: "edit",
+        },
+        {
+          name: "<em>Delete</em>",
+          slug: "delete",
+        },
+      ],
     };
   },
   computed: {
@@ -66,8 +94,14 @@ export default {
       "inspectComponent",
       "startDraggingComponent",
       "dropComponent",
-      "deleteComponent"
+      "deleteComponent",
     ]),
+    handleClick1(event, item) {
+      this.$refs.vueSimpleContextMenu1.showMenu(event, item);
+    },
+    optionClicked1(event) {
+      window.alert(JSON.stringify(event));
+    },
     toggleExpand() {
       this.expanded = !this.expanded;
     },
@@ -85,8 +119,8 @@ export default {
       }
     },
   },
-  created () {
-    window.addEventListener('keydown', this.handleDelete);
+  created() {
+    window.addEventListener("keydown", this.handleDelete);
   },
 };
 </script>
