@@ -3,8 +3,9 @@ import StyleParser from "./StyleParser.js";
 
 const ParagraphExport = (component) => {
   const style = StyleParser(TextStyle(component.props));
+  const className = component.name + component.id;
 
-  let upper = `<p :style="${style}"> \n
+  let upper = `<p class="${className}"> \n
                 ${component.props.text}  \n
               `;
   let lower = "</p> \n";
@@ -12,6 +13,7 @@ const ParagraphExport = (component) => {
   return {
     upper,
     lower,
+    classStyle: style,
   };
 };
 

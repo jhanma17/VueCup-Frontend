@@ -5,6 +5,7 @@ const RootExport = () => {
   return {
     upper,
     lower,
+    classStyle: "",
   };
 };
 
