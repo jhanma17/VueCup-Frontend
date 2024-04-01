@@ -56,13 +56,46 @@ const GetComponentExport = (component) => {
   return { upper: exportData.upper, lower: exportData.lower };
 };
 
-const DownloadFile = (textToExport) => {
-  const element = document.createElement("a");
+const DownloadFile = async (textToExport) => {
   const file = new Blob([textToExport], { type: "text/plain" });
-  element.href = URL.createObjectURL(file);
-  element.download = "exportedCode.vue";
-  document.body.appendChild(element);
-  element.click();
+
+  const supportsFileSystemAccess =
+    "showSaveFilePicker" in window &&
+    (() => {
+      try {
+        return window.self === window.top;
+      } catch {
+        return false;
+      }
+    })();
+  if (supportsFileSystemAccess) {
+    try {
+      const handle = await showSaveFilePicker({
+        suggestedName: "exportedCode.vue",
+        types: [
+          {
+            accept: { "text/plain": [".vue"] },
+          },
+        ],
+      });
+
+      const writable = await handle.createWritable();
+      await writable.write(file);
+      await writable.close();
+    } catch (err) {
+      if (err.name !== "AbortError") {
+        console.error(err.name, err.message);
+        return;
+      }
+    }
+  } else {
+    const element = document.createElement("a");
+    element.href = URL.createObjectURL(file);
+    element.download = "exportedCode.vue";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
 };
 
 export default ExportData;

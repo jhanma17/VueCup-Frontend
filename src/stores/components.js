@@ -222,5 +222,58 @@ export const componentsStore = defineStore("components", {
         }
       }
     },
+
+    async saveData() {
+      const textToExport = JSON.stringify(this.components, null, 2);
+      const file = new Blob([textToExport], { type: "text/plain" });
+
+      const supportsFileSystemAccess =
+        "showSaveFilePicker" in window &&
+        (() => {
+          try {
+            return window.self === window.top;
+          } catch {
+            return false;
+          }
+        })();
+      if (supportsFileSystemAccess) {
+        try {
+          const handle = await showSaveFilePicker({
+            suggestedName: "savedDesign.vcp",
+            types: [
+              {
+                accept: { "text/plain": [".vcp"] },
+              },
+            ],
+          });
+
+          const writable = await handle.createWritable();
+          await writable.write(file);
+          await writable.close();
+        } catch (err) {
+          if (err.name !== "AbortError") {
+            console.error(err.name, err.message);
+            return;
+          }
+        }
+      } else {
+        const element = document.createElement("a");
+        element.href = URL.createObjectURL(file);
+        element.download = "savedDesign.vcp";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      }
+    },
+
+    importData(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        console.log(text);
+        this.components = JSON.parse(text);
+      };
+      reader.readAsText(file);
+    },
   },
 });
