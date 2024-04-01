@@ -218,7 +218,7 @@ export const componentsStore = defineStore("components", {
     renameComponent(id, name) {
       for (let component of this.components) {
         if (component.id === id) {
-          component.type = name;
+          component.name = name;
         }
       }
     },

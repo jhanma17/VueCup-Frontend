@@ -92,7 +92,7 @@ export default {
     ...mapState(componentsStore, ["inspectedComponent"]),
     componentName: {
       get() {
-        return this.component.name;
+        return this.component.name || "";
       },
       set(value) {
         this.renameComponent(this.component.id, value);

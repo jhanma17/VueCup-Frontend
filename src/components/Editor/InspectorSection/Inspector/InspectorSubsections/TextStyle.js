@@ -7,7 +7,7 @@ const textStyle = (props, toExport = false) => {
 
   return {
     fontFamily: props.fontFamily,
-    fontSize: props.size + "px",
+    fontSize: fontSize + "px",
     color: props.color,
     ...formattedFontStyle(props),
   };

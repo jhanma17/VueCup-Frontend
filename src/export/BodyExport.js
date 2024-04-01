@@ -2,7 +2,7 @@ import TextStyle from "../components/ComponentTemplates/BasicComponents/TextComp
 import StyleParser from "./StyleParser.js";
 
 const BodyExport = (component) => {
-  const style = StyleParser(TextStyle(component.props));
+  const style = StyleParser(TextStyle(component.props, true));
   const className = component.name + component.id;
 
   let upper = `<span class="${className}"> \n
