@@ -15,7 +15,7 @@
           option.type === 'divider' ? 'vue-simple-context-menu__divider' : '',
         ]"
       >
-        <span v-html="option.name" />
+        <span>{{ option.name }}</span>
       </li>
     </ul>
   </div>

@@ -6,6 +6,7 @@
         class="py-1 pr-0 clickable"
         :class="isSelected ? 'selected-bg' : ''"
         @click="inspectComponent(component)"
+        @contextmenu.prevent.stop="handleContextMenu($event, component.id)"
       >
         <v-icon
           density="compact"
@@ -15,9 +16,14 @@
           {{ expanded ? "mdi-chevron-down" : "mdi-chevron-right" }}
         </v-icon>
         <v-icon density="compact" v-else> </v-icon>
-        <span>
-          {{ component.type }}
-        </span>
+        <input
+          ref="nameInput"
+          class="disabled-renaming"
+          type="text"
+          v-model="componentName"
+          :readonly="!renaming"
+          v-click-outside="stopRenaming"
+        />
       </v-col>
       <v-col
         v-if="component.children && expanded"
@@ -25,24 +31,25 @@
         :key="child.id"
         cols="12"
         class="py-1 pr-0"
-        @contextmenu.prevent.stop="handleClick1($event, child.id)"
       >
         <ProjectNode :component="child" />
       </v-col>
+
+      <ContextMenu
+        :elementId="`context-menu-${component.id}`"
+        :options="options"
+        ref="projectContextMenu"
+        @option-clicked="menuOptionClicked"
+      />
     </drop>
   </drag>
-  <ContextMenu
-    :elementId="`context-menu-${component.id}`"
-    :options="options"
-    ref="vueSimpleContextMenu1"
-    @option-clicked="optionClicked1"
-  />
 </template>
 
 <script>
 import { mapState, mapActions } from "pinia";
 import { componentsStore } from "@/stores/components";
 import ContextMenu from "./ContextMenu.vue";
+import vClickOutside from "click-outside-vue3";
 
 export default {
   name: "ProjectNode",
@@ -55,30 +62,42 @@ export default {
   components: {
     ContextMenu,
   },
+  directives: {
+    "click-outside": vClickOutside.directive,
+  },
   data() {
     return {
       expanded: false,
+      renaming: false,
       options: [
         {
-          name: "Duplicate",
-          slug: "duplicate",
+          name: "Rename",
+          slug: "rename",
         },
         {
           type: "divider",
         },
         {
-          name: "Edit",
-          slug: "edit",
+          name: "Move up",
+          slug: "move-up",
         },
         {
-          name: "<em>Delete</em>",
-          slug: "delete",
+          name: "Move down",
+          slug: "move-down",
         },
       ],
     };
   },
   computed: {
     ...mapState(componentsStore, ["inspectedComponent"]),
+    componentName: {
+      get() {
+        return this.component.name;
+      },
+      set(value) {
+        this.renameComponent(this.component.id, value);
+      },
+    },
     isSelected() {
       return (
         this.inspectedComponent &&
@@ -95,12 +114,31 @@ export default {
       "startDraggingComponent",
       "dropComponent",
       "deleteComponent",
+      "moveComponentUp",
+      "moveComponentDown",
+      "renameComponent"
     ]),
-    handleClick1(event, item) {
-      this.$refs.vueSimpleContextMenu1.showMenu(event, item);
+    stopRenaming() {
+      this.renaming = false;
     },
-    optionClicked1(event) {
-      window.alert(JSON.stringify(event));
+    handleContextMenu(event, item) {
+      this.$refs.projectContextMenu.showMenu(event, item);
+    },
+    menuOptionClicked(event) {
+      switch (event.option.slug) {
+        case "rename":
+          this.renaming = true;
+          this.$nextTick(() => {
+            this.$refs.nameInput.focus();
+          });
+          break;
+        case "move-up":
+          this.moveComponentUp(this.component.id);
+          break;
+        case "move-down":
+          this.moveComponentDown(this.component.id);
+          break;
+      }
     },
     toggleExpand() {
       this.expanded = !this.expanded;
@@ -126,6 +164,11 @@ export default {
 </script>
 
 <style>
+.disabled-renaming {
+  color: white !important;
+  pointer-events: none;
+  width: auto;
+}
 .selected-bg {
   background-color: rgba(245, 245, 245, 0.3);
 }
