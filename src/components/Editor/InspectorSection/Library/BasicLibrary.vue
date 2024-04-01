@@ -44,6 +44,7 @@ export default {
           icon: "https://cdn-icons-png.flaticon.com/512/8623/8623647.png",
           associatedComponent: {
             type: "TitleTemplate",
+            name: "Title",
             props: {
               ...TextProps,
             },
@@ -54,6 +55,7 @@ export default {
           icon: "https://static.thenounproject.com/png/66759-200.png",
           associatedComponent: {
             type: "BodyTemplate",
+            name: "Body",
             props: {
               ...TextProps,
             },
@@ -64,6 +66,7 @@ export default {
           icon: "https://cdn.icon-icons.com/icons2/2446/PNG/512/paragraph_capital_text_icon_148706.png",
           associatedComponent: {
             type: "ParagraphTemplate",
+            name: "Paragraph",
             props: {
               ...TextProps,
             },
@@ -74,6 +77,7 @@ export default {
           icon: "https://cdn.icon-icons.com/icons2/2348/PNG/512/link_icon_142996.png",
           associatedComponent: {
             type: "LinkTemplate",
+            name: "Link",
             props: {
               ...TextProps,
             },
@@ -86,6 +90,7 @@ export default {
           icon: "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png",
           associatedComponent: {
             type: "ImageTemplate",
+            name: "Image",
             props: {
               ...ImageProps,
             },
@@ -98,6 +103,7 @@ export default {
           icon: "https://static.thenounproject.com/png/452089-200.png",
           associatedComponent: {
             type: "ContainerTemplate",
+            name: "Container",
             props: {
               ...ContainerProps,
             },
@@ -110,6 +116,7 @@ export default {
           icon: "https://cdn0.iconfinder.com/data/icons/user-interface-6/100/ui-31-512.png",
           associatedComponent: {
             type: "UnorderedListTemplate",
+            name: "Unordered List",
             props: {
               ...UnorderedListProps,
             },
@@ -120,6 +127,7 @@ export default {
           icon: "https://cdn.icon-icons.com/icons2/2596/PNG/512/ordered_list_icon_155054.png",
           associatedComponent: {
             type: "OrderedListTemplate",
+            name: "Ordered List",
             props: {
               ...OrderedListProps,
             },

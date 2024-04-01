@@ -1,5 +1,5 @@
 <template>
-  <v-col v-for="component in componentsTree" :key="component.id" cols="12" class="py-1 px-0">
+  <v-col v-for="component in componentsTree" :key="component.id" cols="12" class="py-1 px-0" @contextmenu.prevent.stop="handleClick1($event, child.id)">
     <ProjectNode :component="component" />
   </v-col>
 </template>

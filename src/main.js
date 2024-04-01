@@ -25,6 +25,8 @@ const vuetify = createVuetify({
 
 const app = createApp(App);
 
+app.config.globalProperties.window = window;
+
 app.use(createPinia());
 app.use(router);
 app.use(vuetify);

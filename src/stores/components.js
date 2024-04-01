@@ -6,6 +6,7 @@ export const componentsStore = defineStore("components", {
     componentToPlace: {
       id: 2,
       type: "ButtonTemplate",
+      name: "Button",
       props: {
         block: true,
         text: "test",
@@ -15,11 +16,13 @@ export const componentsStore = defineStore("components", {
       {
         id: 0,
         type: "Root",
+        name: "Root",
         children: [1],
       },
       {
         id: 1,
         type: "RootTemplate",
+        name: "Canvas",
         children: [],
       },
     ],
@@ -85,6 +88,7 @@ export const componentsStore = defineStore("components", {
       this.placeComponent = true;
       this.inspectedComponent = null;
       this.highlightedComponent = null;
+      this.componentToPlace.name = JSON.parse(JSON.stringify(component.name));
       this.componentToPlace.type = JSON.parse(JSON.stringify(component.type));
       this.componentToPlace.props = JSON.parse(JSON.stringify(component.props));
     },
@@ -181,6 +185,95 @@ export const componentsStore = defineStore("components", {
       };
 
       deleteComponent(id);
+    },
+
+    // move the position of a component in the children array of its parent
+    moveComponentUp(id) {
+      for (let component of this.components) {
+        if (component.children && component.children.includes(id)) {
+          const index = component.children.indexOf(id);
+          if (index > 0) {
+            const temp = component.children[index - 1];
+            component.children[index - 1] = id;
+            component.children[index] = temp;
+          }
+        }
+      }
+    },
+
+    moveComponentDown(id) {
+      for (let component of this.components) {
+        if (component.children && component.children.includes(id)) {
+          const index = component.children.indexOf(id);
+          if (index < component.children.length - 1) {
+            const temp = component.children[index + 1];
+            component.children[index + 1] = id;
+            component.children[index] = temp;
+          }
+        }
+      }
+    },
+
+    // rename a component
+    renameComponent(id, name) {
+      for (let component of this.components) {
+        if (component.id === id) {
+          component.type = name;
+        }
+      }
+    },
+
+    async saveData() {
+      const textToExport = JSON.stringify(this.components, null, 2);
+      const file = new Blob([textToExport], { type: "text/plain" });
+
+      const supportsFileSystemAccess =
+        "showSaveFilePicker" in window &&
+        (() => {
+          try {
+            return window.self === window.top;
+          } catch {
+            return false;
+          }
+        })();
+      if (supportsFileSystemAccess) {
+        try {
+          const handle = await showSaveFilePicker({
+            suggestedName: "savedDesign.vcp",
+            types: [
+              {
+                accept: { "text/plain": [".vcp"] },
+              },
+            ],
+          });
+
+          const writable = await handle.createWritable();
+          await writable.write(file);
+          await writable.close();
+        } catch (err) {
+          if (err.name !== "AbortError") {
+            console.error(err.name, err.message);
+            return;
+          }
+        }
+      } else {
+        const element = document.createElement("a");
+        element.href = URL.createObjectURL(file);
+        element.download = "savedDesign.vcp";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      }
+    },
+
+    importData(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        console.log(text);
+        this.components = JSON.parse(text);
+      };
+      reader.readAsText(file);
     },
   },
 });

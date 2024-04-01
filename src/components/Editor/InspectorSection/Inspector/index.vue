@@ -1,19 +1,21 @@
 <template>
-  <SizingSection v-if="inspectedComponent && !isTextComponent" />
-  <TextSection v-if="inspectedComponent && isTextComponent"/>
-  <ImageSection v-if="inspectedComponent && isImageComponent"/>
-  <SpacingSection v-if="inspectedComponent"/>
-  <BackgroundSection v-if="inspectedComponent && isContainerComponent"/>
-  <BorderSection v-if="inspectedComponent && isContainerComponent"/>
+  <div v-if="inspectedComponent && !isRootComponent">
+    <SizingSection v-if="inspectedComponent && !isTextComponent" />
+    <TextSection v-if="inspectedComponent && isTextComponent" />
+    <ImageSection v-if="inspectedComponent && isImageComponent" />
+    <SpacingSection v-if="inspectedComponent" />
+    <BackgroundSection v-if="inspectedComponent && isContainerComponent" />
+    <BorderSection v-if="inspectedComponent && isContainerComponent" />
+  </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "pinia";
 import { componentsStore } from "@/stores/components";
-import TextSection from './InspectorSubsections/TextSection.vue';
-import SizingSection from './InspectorSubsections/SizingSection.vue';
-import ImageSection from './InspectorSubsections/ImageSection.vue';
-import SpacingSection from './InspectorSubsections/SpacingSection.vue';
+import TextSection from "./InspectorSubsections/TextSection.vue";
+import SizingSection from "./InspectorSubsections/SizingSection.vue";
+import ImageSection from "./InspectorSubsections/ImageSection.vue";
+import SpacingSection from "./InspectorSubsections/SpacingSection.vue";
 import BackgroundSection from "./InspectorSubsections/BackgroundSection.vue";
 import BorderSection from "./InspectorSubsections/BorderSection.vue";
 
@@ -29,11 +31,19 @@ export default {
   },
   data() {
     return {
-      textTypes: ["BodyTemplate", "LinkTemplate", "ParagraphTemplate", "TitleTemplate"],
-    }
+      textTypes: [
+        "BodyTemplate",
+        "LinkTemplate",
+        "ParagraphTemplate",
+        "TitleTemplate",
+      ],
+    };
   },
   computed: {
     ...mapState(componentsStore, ["inspectedComponent"]),
+    isRootComponent() {
+      return this.inspectedComponent.type === "RootTemplate";
+    },
     isTextComponent() {
       return this.textTypes.includes(this.inspectedComponent.type);
     },
@@ -44,9 +54,8 @@ export default {
       return this.inspectedComponent.type === "ContainerTemplate";
     },
   },
-}
+};
 </script>
 
 <style>
-
 </style>
