@@ -2,14 +2,16 @@ import UnorderedListStyle from "../components/ComponentTemplates/BasicComponents
 import StyleParser from "./StyleParser";
 
 const UnorderedListExport = (component) => {
-  const style = StyleParser(UnorderedListStyle(component.props));
+  const style = StyleParser(UnorderedListStyle(component.props, true));
+  const className = component.name + component.id;
 
-  let upper = `<ol :style="${style}"> \n`;
+  let upper = `<ol class="${className}"> \n`;
   let lower = "</ol> \n";
 
   return {
     upper,
     lower,
+    classStyle: style,
   };
 };
 

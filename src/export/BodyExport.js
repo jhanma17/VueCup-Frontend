@@ -2,9 +2,10 @@ import TextStyle from "../components/ComponentTemplates/BasicComponents/TextComp
 import StyleParser from "./StyleParser.js";
 
 const BodyExport = (component) => {
-  const style = StyleParser(TextStyle(component.props));
+  const style = StyleParser(TextStyle(component.props, true));
+  const className = component.name + component.id;
 
-  let upper = `<span :style="${style}"> \n
+  let upper = `<span class="${className}"> \n
                 ${component.props.text}  \n
               `;
   let lower = "</span> \n";
@@ -12,6 +13,7 @@ const BodyExport = (component) => {
   return {
     upper,
     lower,
+    classStyle: style,
   };
 };
 

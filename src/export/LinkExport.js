@@ -2,9 +2,10 @@ import TextStyle from "../components/ComponentTemplates/BasicComponents/TextComp
 import StyleParser from "./StyleParser.js";
 
 const LinkExport = (component) => {
-  const style = StyleParser(TextStyle(component.props));
+  const style = StyleParser(TextStyle(component.props, true));
+  const className = component.name + component.id;
 
-  let upper = `<a :style="${style}"> \n
+  let upper = `<a class="${className}"> \n
                 ${component.props.text}  \n
               `;
   let lower = "</a> \n";
@@ -12,6 +13,7 @@ const LinkExport = (component) => {
   return {
     upper,
     lower,
+    classStyle: style,
   };
 };
 

@@ -11,12 +11,20 @@ import UnorderedListExport from "./UnorderedListExport";
 const ExportData = (componentTree) => {
   let textToExport = "";
 
+  let styleToExport = "<style> \n";
+
   //recursive function to traverse the component tree
 
   const traverseComponentTree = (component) => {
-    const { upper, lower } = GetComponentExport(component);
+    const { upper, lower, classStyle } = GetComponentExport(component);
 
     textToExport += upper;
+
+    const className = component.name + component.id;
+
+    if (component.type != "RootTemplate") {
+      styleToExport += `.${className} \n ${classStyle} \n `;
+    }
 
     if (component.children && component.children.length > 0) {
       component.children.forEach((child) => {
@@ -29,7 +37,9 @@ const ExportData = (componentTree) => {
 
   traverseComponentTree(componentTree[0]);
 
-  DownloadFile(textToExport);
+  styleToExport += "</style> \n";
+
+  DownloadFile(textToExport + styleToExport);
 };
 
 const GetComponentExport = (component) => {
@@ -53,7 +63,11 @@ const GetComponentExport = (component) => {
 
   const exportData = imports[exportFunction](component);
 
-  return { upper: exportData.upper, lower: exportData.lower };
+  return {
+    upper: exportData.upper,
+    lower: exportData.lower,
+    classStyle: exportData.classStyle,
+  };
 };
 
 const DownloadFile = async (textToExport) => {

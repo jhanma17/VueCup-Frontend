@@ -20,14 +20,14 @@ const spacingStyle = (props, toExport = false) => {
   }
 
   return {
-    marginTop: marginTop,
-    marginBottom: marginBottom,
-    marginRight: marginRight,
-    marginLeft: marginLeft,
-    paddingTop: paddingTop,
-    paddingBottom: paddingBottom,
-    paddingRight: paddingRight,
-    paddingLeft: paddingLeft,
+    marginTop: marginTop + "px",
+    marginBottom: marginBottom + "px",
+    marginRight: marginRight + "px",
+    marginLeft: marginLeft + "px",
+    paddingTop: paddingTop + "px",
+    paddingBottom: paddingBottom + "px",
+    paddingRight: paddingRight + "px",
+    paddingLeft: paddingLeft + "px",
   };
 };
 

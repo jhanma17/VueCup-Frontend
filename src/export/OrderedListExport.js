@@ -2,14 +2,16 @@ import OrderedListStyle from "../components/ComponentTemplates/BasicComponents/L
 import StyleParser from "./StyleParser";
 
 const OrderedListExport = (component) => {
-  const style = StyleParser(OrderedListStyle(component.props));
+  const style = StyleParser(OrderedListStyle(component.props, true));
+  const className = component.name + component.id;
 
-  let upper = `<ol :style="${style}"> \n`;
+  let upper = `<ol class="${className}"> \n`;
   let lower = "</ol> \n";
 
   return {
     upper,
     lower,
+    classStyle: style,
   };
 };
 
