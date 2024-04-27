@@ -6,6 +6,7 @@
 
     <div class="login-container">
       <img
+        v-if="$vuetify.display.lgAndUp"
         src="https://www.seonetdigital.com/wp-content/uploads/2023/04/seonet-disenoweb-04-800x800.png"
         alt="web design illustration"
         class="login-image"
@@ -50,10 +51,11 @@
 
         <v-divider></v-divider>
 
-        <div>
+        <v-form v-model="validForm">
           <span class="login-label"> EMAIL </span>
 
           <v-text-field
+            v-model="email"
             variant="solo"
             label="Email"
             class="mt-3 mb-5"
@@ -61,12 +63,16 @@
             rounded="lg"
             single-line
             hide-details="auto"
+            :rules="emailRules"
           >
           </v-text-field>
 
           <span class="login-label"> PASSWORD </span>
 
           <v-text-field
+            v-model="password"
+            :rules="passwordRules"
+            :type="showPassword ? 'text':'password'"
             variant="solo"
             label="Password"
             class="mt-3 mb-3"
@@ -76,23 +82,21 @@
             hide-details="auto"
           >
             <template v-slot:append-inner>
-              <v-icon icon="mdi-eye-outline" />
+              <v-icon :icon="showPassword ? 'mdi-eye-off-outline':'mdi-eye-outline'" @click="showPassword = !showPassword"/>
             </template>
           </v-text-field>
 
           <v-row class="ma-0" justify="end">
-            <a class="forgot-password">
-              Forgot Password?
-            </a>
+            <a class="forgot-password"> Forgot Password? </a>
           </v-row>
-        </div>
+        </v-form>
 
         <v-btn
+          :disabled="!validForm"
           size="x-large"
           rounded="lg"
           block
-          color="#7efff5"
-          :disabled="true"
+          :color="validForm ? '#7efff5':'#203833'"
           theme="dark"
         >
           <span class="login-btn"> Login </span>
@@ -114,7 +118,26 @@
 export default {
   name: "HomeView",
   data() {
-    return {};
+    return {
+      email: "",
+      password: "",
+      showPassword: false,
+      validForm: false,
+    };
+  },
+  computed: {
+    emailRules() {
+      return [
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ];
+    },
+    passwordRules() {
+      return [
+        (v) => !!v || "Password is required",
+        (v) => v.length >= 8 || "Password must be at least 8 characters",
+      ];
+    },
   },
 };
 </script>
@@ -136,7 +159,7 @@ export default {
   margin: 0 5vw;
 }
 .login-image {
-  width: 40vw;
+  width: 35vw;
 }
 .login-form {
   display: grid;
@@ -209,5 +232,8 @@ export default {
   flex-direction: row;
   letter-spacing: 0.5px;
   color: black;
+}
+.disabled-login-btn {
+  background-color: #203833;
 }
 </style>
