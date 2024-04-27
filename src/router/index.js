@@ -6,16 +6,16 @@ const router = createRouter({
   routes: [
     {
       path: "/",
+      name: "Home",
+      component: HomeView,
+    },
+    {
+      path: "/editor",
       name: "EditorLayout",
       component: () => import("../components/Layouts/EditorLayout.vue"),
       children: [
         {
-          path: "/",
-          name: "Home",
-          component: HomeView,
-        },
-        {
-          path: "/editor",
+          path: "",
           name: "Editor",
           component: () => import("../views/EditorView.vue"),
         },
