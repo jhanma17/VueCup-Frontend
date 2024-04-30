@@ -1,4 +1,6 @@
-import { createApp } from "vue";
+import * as Vue from "vue"; // in Vue 3
+import axios from "axios";
+import VueAxios from "vue-axios";
 import { createPinia } from "pinia";
 
 import App from "./App.vue";
@@ -23,10 +25,14 @@ const vuetify = createVuetify({
   },
 });
 
-const app = createApp(App);
+const app = Vue.createApp(App);
 
 app.config.globalProperties.window = window;
 
+const baseURL = import.meta.env.VITE_API_ENDPOINT;
+axios.defaults.baseURL = baseURL;
+
+app.use(VueAxios, axios);
 app.use(createPinia());
 app.use(router);
 app.use(vuetify);

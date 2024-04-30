@@ -12,7 +12,11 @@
         class="login-image"
       />
       <div class="login-form">
-        <span class="login-title"> Login to my account </span>
+        <span class="login-title">
+          {{
+            formType == "login" ? "Login to my account" : "Create an account"
+          }}
+        </span>
         <span class="login-body">
           VueCup is the design tool for teams working with vue
         </span>
@@ -52,6 +56,23 @@
         <v-divider></v-divider>
 
         <v-form v-model="validForm">
+          <template v-if="formType == 'signup'">
+            <span class="login-label"> NAME </span>
+
+            <v-text-field
+              v-model="name"
+              variant="solo"
+              label="Name"
+              class="mt-3 mb-5"
+              flat
+              rounded="lg"
+              single-line
+              hide-details="auto"
+              :rules="nameRules"
+            >
+            </v-text-field>
+          </template>
+
           <span class="login-label"> EMAIL </span>
 
           <v-text-field
@@ -72,7 +93,7 @@
           <v-text-field
             v-model="password"
             :rules="passwordRules"
-            :type="showPassword ? 'text':'password'"
+            :type="showPassword ? 'text' : 'password'"
             variant="solo"
             label="Password"
             class="mt-3 mb-3"
@@ -82,31 +103,44 @@
             hide-details="auto"
           >
             <template v-slot:append-inner>
-              <v-icon :icon="showPassword ? 'mdi-eye-off-outline':'mdi-eye-outline'" @click="showPassword = !showPassword"/>
+              <v-icon
+                :icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                @click="showPassword = !showPassword"
+              />
             </template>
           </v-text-field>
 
-          <v-row class="ma-0" justify="end">
+          <v-row v-if="formType == 'login'" class="ma-0" justify="end">
             <a class="forgot-password"> Forgot Password? </a>
           </v-row>
         </v-form>
 
         <v-btn
-          :disabled="!validForm"
           size="x-large"
           rounded="lg"
           block
-          :color="validForm ? '#7efff5':'#203833'"
           theme="dark"
+          :disabled="!validForm"
+          :color="validForm ? '#7efff5' : '#203833'"
+          @click="handleSubmit()"
         >
-          <span class="login-btn"> Login </span>
+          <span class="login-btn">
+            {{ formType == "login" ? "Login" : "Sign up" }}
+          </span>
         </v-btn>
 
         <v-divider></v-divider>
 
         <v-row class="ma-0" justify="center">
           <span class="login-body">
-            Don't have an account? <a class="forgot-password"> Sign up </a>
+            {{
+              formType == "login"
+                ? "Don’t have an account?"
+                : "Already have an account?"
+            }}
+            <a class="forgot-password" @click="switchForm()">
+              {{ formType == "login" ? "Sign up" : "Login" }}
+            </a>
           </span>
         </v-row>
       </div>
@@ -119,10 +153,12 @@ export default {
   name: "HomeView",
   data() {
     return {
+      name: "",
       email: "",
       password: "",
       showPassword: false,
       validForm: false,
+      formType: "login",
     };
   },
   computed: {
@@ -137,6 +173,57 @@ export default {
         (v) => !!v || "Password is required",
         (v) => v.length >= 8 || "Password must be at least 8 characters",
       ];
+    },
+    nameRules() {
+      return [
+        (v) => !!v || "Name is required",
+        (v) => v.length >= 3 || "Name must be at least 3 characters",
+      ];
+    },
+  },
+  methods: {
+    switchForm() {
+      this.formType = this.formType === "login" ? "signup" : "login";
+    },
+    handleSubmit() {
+      if (this.formType === "login") {
+        this.login();
+      } else {
+        this.signup();
+      }
+    },
+    async login() {
+      try {
+        const response = await this.axios({
+          method: "POST",
+          url: "/authentication/login",
+          data: {
+            email: this.email,
+            password: this.password,
+          },
+        });
+
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async signup() {
+      try {
+        const response = await this.axios({
+          method: "POST",
+          url: "/authentication/sign-up",
+          data: {
+            name: this.name,
+            email: this.email,
+            password: this.password,
+          },
+        });
+
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
@@ -220,6 +307,7 @@ export default {
 .forgot-password:hover {
   text-decoration: underline;
   background: none;
+  cursor: pointer;
 }
 .login-btn {
   font-size: 1.1rem;
