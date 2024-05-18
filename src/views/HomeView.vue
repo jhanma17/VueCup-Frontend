@@ -23,7 +23,7 @@
         <v-row justify="space-between">
           <v-col cols="4">
             <v-btn variant="tonal" size="x-large" rounded="lg" block>
-              <div class="auth-btn">
+              <div class="auth-btn" @click="loginWithGoogle()">
                 <v-img
                   src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
                   class="auth-img"
@@ -34,7 +34,7 @@
           </v-col>
           <v-col cols="4">
             <v-btn variant="tonal" size="x-large" rounded="lg" block>
-              <div class="auth-btn">
+              <div class="auth-btn" @click="loginWithGithub()">
                 <v-icon class="auth-img" size="25"> mdi-github </v-icon>
                 <span class="d-flex">Github</span>
               </div>
@@ -47,7 +47,7 @@
                   src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/144_Gitlab_logo_logos-512.png"
                   class="auth-img"
                 ></v-img>
-                <span class="d-flex">Github</span>
+                <span class="d-flex">Gitlab</span>
               </div>
             </v-btn>
           </v-col>
@@ -149,6 +149,12 @@
 </template>
 
 <script>
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+} from "firebase/auth";
 export default {
   name: "HomeView",
   data() {
@@ -224,6 +230,59 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    loginWithGoogle() {
+      const provider = new GoogleAuthProvider();
+
+      const auth = getAuth();
+
+      signInWithPopup(auth, provider)
+        .then(async (result) => {
+          try {
+            const response = await this.axios({
+              method: "POST",
+              url: "/authentication/external-login",
+              data: {
+                token: result.user.accessToken,
+                type: "GOOGLE",
+              },
+            });
+
+            console.log(response);
+          } catch (error) {
+            console.log(error);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    loginWithGithub() {
+      const provider = new GithubAuthProvider();
+
+      const auth = getAuth();
+
+      signInWithPopup(auth, provider)
+        .then(async (result) => {
+          console.log(result);
+          try {
+            const response = await this.axios({
+              method: "POST",
+              url: "/authentication/external-login",
+              data: {
+                token: result.user.accessToken,
+                type: "GITHUB",
+              },
+            });
+
+            console.log(response);
+          } catch (error) {
+            console.log(error);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

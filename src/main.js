@@ -1,4 +1,4 @@
-import * as Vue from "vue"; // in Vue 3
+import * as Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import { createPinia } from "pinia";
@@ -16,6 +16,19 @@ import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 
 import VueDragDrop from "vue3-drag-drop";
+
+import { initializeApp } from "firebase/app";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB3DUPW4Tq4bF5lqfOwAYlbgsDv7cl44tM",
+  authDomain: "vue-cup-5fdde.firebaseapp.com",
+  projectId: "vue-cup-5fdde",
+  storageBucket: "vue-cup-5fdde.appspot.com",
+  messagingSenderId: "422780300915",
+  appId: "1:422780300915:web:386e3086a9a50572990406",
+};
+
+initializeApp(firebaseConfig);
 
 const vuetify = createVuetify({
   components,
