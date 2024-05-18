@@ -154,6 +154,8 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 export default {
   name: "HomeView",
@@ -199,37 +201,44 @@ export default {
       }
     },
     async login() {
-      try {
-        const response = await this.axios({
-          method: "POST",
-          url: "/authentication/login",
-          data: {
-            email: this.email,
-            password: this.password,
-          },
-        });
+      const auth = getAuth();
 
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
+      signInWithEmailAndPassword(auth, this.email, this.password)
+        .then(async (result) => {
+          const response = await this.axios({
+            method: "POST",
+            url: "/authentication/login",
+            data: {
+              token: result.user.accessToken,
+              type: "EMAIL",
+            },
+          });
+
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     async signup() {
-      try {
-        const response = await this.axios({
-          method: "POST",
-          url: "/authentication/sign-up",
-          data: {
-            name: this.name,
-            email: this.email,
-            password: this.password,
-          },
-        });
+      const auth = getAuth();
 
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
+      createUserWithEmailAndPassword(auth, this.email, this.password)
+        .then(async (result) => {
+          const response = await this.axios({
+            method: "POST",
+            url: "/authentication/sign-up",
+            data: {
+              name: this.name,
+              token: result.user.accessToken,
+            },
+          });
+
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     loginWithGoogle() {
       const provider = new GoogleAuthProvider();
@@ -241,7 +250,7 @@ export default {
           try {
             const response = await this.axios({
               method: "POST",
-              url: "/authentication/external-login",
+              url: "/authentication/login",
               data: {
                 token: result.user.accessToken,
                 type: "GOOGLE",
@@ -268,7 +277,7 @@ export default {
           try {
             const response = await this.axios({
               method: "POST",
-              url: "/authentication/external-login",
+              url: "/authentication/login",
               data: {
                 token: result.user.accessToken,
                 type: "GITHUB",
