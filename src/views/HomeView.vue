@@ -22,8 +22,8 @@
         </span>
         <v-row justify="space-between">
           <v-col cols="4">
-            <v-btn variant="tonal" size="x-large" rounded="lg" block>
-              <div class="auth-btn" @click="loginWithGoogle()">
+            <v-btn variant="tonal" size="x-large" rounded="lg" block @click="loginWithGoogle()">
+              <div class="auth-btn">
                 <v-img
                   src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
                   class="auth-img"
@@ -33,15 +33,15 @@
             </v-btn>
           </v-col>
           <v-col cols="4">
-            <v-btn variant="tonal" size="x-large" rounded="lg" block>
-              <div class="auth-btn" @click="loginWithGithub()">
+            <v-btn variant="tonal" size="x-large" rounded="lg" block @click="loginWithGithub()">
+              <div class="auth-btn">
                 <v-icon class="auth-img" size="25"> mdi-github </v-icon>
                 <span class="d-flex">Github</span>
               </div>
             </v-btn>
           </v-col>
           <v-col cols="4">
-            <v-btn variant="tonal" size="x-large" rounded="lg" block>
+            <v-btn variant="tonal" size="x-large" rounded="lg" block disabled> 
               <div class="auth-btn">
                 <v-img
                   src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/144_Gitlab_logo_logos-512.png"
