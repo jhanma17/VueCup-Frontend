@@ -157,6 +157,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { mapState, mapActions } from "pinia";
+import { userStore } from "../stores/user";
 export default {
   name: "HomeView",
   data() {
@@ -190,6 +192,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(userStore, ["setUser", "setToken"]),
     switchForm() {
       this.formType = this.formType === "login" ? "signup" : "login";
     },
@@ -214,7 +217,8 @@ export default {
             },
           });
 
-          console.log(response);
+          this.setUser(response.data.user);
+          this.setToken(response.data.token);
         })
         .catch((error) => {
           console.log(error);
@@ -234,7 +238,8 @@ export default {
             },
           });
 
-          console.log(response);
+          this.setUser(response.data.user);
+          this.setToken(response.data.token);
         })
         .catch((error) => {
           console.log(error);
@@ -257,7 +262,8 @@ export default {
               },
             });
 
-            console.log(response);
+            this.setUser(response.data.user);
+            this.setToken(response.data.token);
           } catch (error) {
             console.log(error);
           }
@@ -284,7 +290,8 @@ export default {
               },
             });
 
-            console.log(response);
+            this.setUser(response.data.user);
+            this.setToken(response.data.token);
           } catch (error) {
             console.log(error);
           }
