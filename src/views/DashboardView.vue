@@ -22,15 +22,16 @@
               value="projects"
               class="px-6 no-selected-item"
               active-class="selected-item"
+              to="Projects"
             >
-              <v-list-item-title>Projects</v-list-item-title>
+              <v-list-item-title class="text-subtitle-2">Projects</v-list-item-title>
             </v-list-item>
             <v-list-item
               value="library"
               class="px-6 no-selected-item"
               active-class="selected-item"
             >
-              <v-list-item-title>Library</v-list-item-title>
+              <v-list-item-title class="text-subtitle-2">Library</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-row>
@@ -57,7 +58,9 @@
       </div>
     </nav>
 
-    <div class="dashboard-content"></div>
+    <div class="dashboard-content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -82,7 +85,6 @@ export default {
   grid-column: 1 / span 1;
   grid-row: 1 / span 2;
   padding-top: 1.4rem;
-  margin-right: 1.4rem;
   border-right: 1px solid #2e3434;
   display: flex;
   flex-direction: column;
