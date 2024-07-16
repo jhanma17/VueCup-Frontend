@@ -22,7 +22,13 @@
         </span>
         <v-row justify="space-between">
           <v-col cols="4">
-            <v-btn variant="tonal" size="x-large" rounded="lg" block @click="loginWithGoogle()">
+            <v-btn
+              variant="tonal"
+              size="x-large"
+              rounded="lg"
+              block
+              @click="loginWithGoogle()"
+            >
               <div class="auth-btn">
                 <v-img
                   src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
@@ -33,7 +39,13 @@
             </v-btn>
           </v-col>
           <v-col cols="4">
-            <v-btn variant="tonal" size="x-large" rounded="lg" block @click="loginWithGithub()">
+            <v-btn
+              variant="tonal"
+              size="x-large"
+              rounded="lg"
+              block
+              @click="loginWithGithub()"
+            >
               <div class="auth-btn">
                 <v-icon class="auth-img" size="25"> mdi-github </v-icon>
                 <span class="d-flex">Github</span>
@@ -41,7 +53,7 @@
             </v-btn>
           </v-col>
           <v-col cols="4">
-            <v-btn variant="tonal" size="x-large" rounded="lg" block disabled> 
+            <v-btn variant="tonal" size="x-large" rounded="lg" block disabled>
               <div class="auth-btn">
                 <v-img
                   src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/144_Gitlab_logo_logos-512.png"
@@ -157,7 +169,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { mapState, mapActions } from "pinia";
+import { mapActions } from "pinia";
 import { userStore } from "../stores/user";
 export default {
   name: "HomeView",
@@ -203,6 +215,11 @@ export default {
         this.signup();
       }
     },
+    saveUser(user, token) {
+      this.setUser(user);
+      this.setToken(token);
+      this.$router.push({ name: "Dashboard" });
+    },
     async login() {
       const auth = getAuth();
 
@@ -217,8 +234,7 @@ export default {
             },
           });
 
-          this.setUser(response.data.user);
-          this.setToken(response.data.token);
+          this.saveUser(response.data.user, response.data.token);
         })
         .catch((error) => {
           console.log(error);
@@ -238,8 +254,7 @@ export default {
             },
           });
 
-          this.setUser(response.data.user);
-          this.setToken(response.data.token);
+          this.saveUser(response.data.user, response.data.token);
         })
         .catch((error) => {
           console.log(error);
@@ -262,8 +277,7 @@ export default {
               },
             });
 
-            this.setUser(response.data.user);
-            this.setToken(response.data.token);
+            this.saveUser(response.data.user, response.data.token);
           } catch (error) {
             console.log(error);
           }
@@ -290,8 +304,7 @@ export default {
               },
             });
 
-            this.setUser(response.data.user);
-            this.setToken(response.data.token);
+            this.saveUser(response.data.user, response.data.token);
           } catch (error) {
             console.log(error);
           }
