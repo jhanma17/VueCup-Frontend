@@ -45,6 +45,21 @@ app.config.globalProperties.window = window;
 const baseURL = import.meta.env.VITE_API_ENDPOINT;
 axios.defaults.baseURL = baseURL;
 
+// REQUEST INTERCEPTOR
+axios.interceptors.request.use(
+  (request) => {
+    // Add token to request headers
+    const token = localStorage.getItem("token");
+    if (token) {
+      request.headers["Authorization"] = token;
+    }
+    return request;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
+
 app.use(VueAxios, axios);
 app.use(createPinia());
 app.use(router);

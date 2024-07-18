@@ -37,21 +37,21 @@
         </v-row>
       </div>
       <div class="sidebar-profile-section">
-        <v-row class="ma-0" align="center">
-          <v-col cols="3">
+        <v-row class="ma-0" align="center" justify="center">
+          <v-col cols="auto" class="py-0 px-0">
             <v-avatar
               color="black"
               size="48"
               density="comfortable"
               class="ma-2"
             >
-              <span class="font-weight-bold"> JM </span>
+              <span class="font-weight-bold"> {{ nameInitials }} </span>
             </v-avatar>
           </v-col>
 
-          <v-col cols="9" class="profile-title">
+          <v-col cols="8" class="profile-title py-0 px-0">
             <span class="text-white text-subtitle-1 profile-title">
-              Jhan Mario Bolivar Peña
+              {{ user?.name }}
             </span>
           </v-col>
         </v-row>
@@ -65,10 +65,27 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { userStore } from "@/stores/user";
+
 export default {
   name: "DashboardView",
   data() {
     return {};
+  },
+  computed: {
+    ...mapState(userStore, ["user"]),
+    nameInitials() {
+      if (!this.user?.name) return "";
+
+      let splittedName = this.user?.name.split(" ");
+
+      if (splittedName.length >= 1) {
+        return splittedName[0].charAt(0) + splittedName[1].charAt(0);
+      } else {
+        return splittedName[0].charAt(0);
+      }
+    },
   },
 };
 </script>

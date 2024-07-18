@@ -218,7 +218,11 @@ export default {
     saveUser(user, token) {
       this.setUser(user);
       this.setToken(token);
-      this.$router.push({ name: "Dashboard" });
+      
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+
+      this.$router.push({ name: "Projects" });
     },
     async login() {
       const auth = getAuth();
