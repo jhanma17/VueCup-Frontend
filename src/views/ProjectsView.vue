@@ -37,25 +37,27 @@
       </v-col>
 
       <v-col cols="3" v-for="project in projects" :key="project._id">
-        <v-img
-          class="mx-auto rounded-lg mb-3"
-          cover
-          width="auto"
-          :aspect-ratio="16 / 9"
-          :src="
-            project.preview && project.preview !== ''
-              ? project.preview
-              : 'https://www.publicdomainpictures.net/pictures/40000/nahled/gray-background-1361959709geQ.jpg'
-          "
-        >
-        </v-img>
-        <span class="text-white ml-1 text-subtitle-1">
-          {{ project.name }}
-        </span>
-        <br />
-        <span class="ml-1 text-subtitle-2">
-          {{ timeDifference(project.updatedAt) }}
-        </span>
+        <v-card class="pa-3" rounded="lg" color="transparent" elevation="0" @click="handleProjectClick(project._id)">
+          <v-img
+            class="mx-auto rounded-lg mb-3"
+            cover
+            width="auto"
+            :aspect-ratio="16 / 9"
+            :src="
+              project.preview && project.preview !== ''
+                ? project.preview
+                : 'https://www.publicdomainpictures.net/pictures/40000/nahled/gray-background-1361959709geQ.jpg'
+            "
+          >
+          </v-img>
+          <span class="text-white ml-1 text-subtitle-1">
+            {{ project.name }}
+          </span>
+          <br />
+          <span class="ml-1 text-subtitle-2">
+            {{ timeDifference(project.updatedAt) }}
+          </span>
+        </v-card>
       </v-col>
     </v-row>
   </div>
@@ -135,6 +137,9 @@ export default {
       } else {
         return "Just now";
       }
+    },
+    handleProjectClick(projectId) {
+      this.$router.push(`/editor/${projectId}`);
     },
   },
   async created() {

@@ -26,7 +26,7 @@ const router = createRouter({
       ],
     },
     {
-      path: "/editor",
+      path: "/editor/:projectId",
       name: "EditorLayout",
       component: () => import("../components/Layouts/EditorLayout.vue"),
       children: [

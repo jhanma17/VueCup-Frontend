@@ -8,8 +8,8 @@
     <v-row class="mx-0" align="center">
       <!--Screen cards-->
       <v-col
-        v-for="(screen, index) in screens"
-        :key="index"
+        v-for="screen in screens"
+        :key="screen._id"
         cols="6"
         class="py-1"
       >
@@ -27,14 +27,14 @@
               </v-btn>
             </template>
             <v-list density="compact">
-              <v-list-item @click="duplicateScreen(index)">
+              <v-list-item @click="duplicateScreen(screen._id)" disabled>
                 <v-row class="screen-title ma-0" align="center">
                   <v-icon size="16">mdi-content-duplicate</v-icon>
                   Duplicate
                 </v-row>
               </v-list-item>
 
-              <v-list-item @click="deleteScreen(index)">
+              <v-list-item @click="deleteScreen(screen._id)">
                 <v-row class="screen-title ma-0" align="center">
                   <v-icon size="16">mdi-delete</v-icon>
                   Delete
@@ -44,20 +44,25 @@
           </v-menu>
           <v-img
             :aspect-ratio="dimension.width / dimension.height"
+            cover
             class="mx-6 my-2"
-            :src="screen.image"
+            :src="
+              screen.preview && screen.preview !== ''
+                ? screen.preview
+                : 'https://www.publicdomainpictures.net/pictures/40000/nahled/gray-background-1361959709geQ.jpg'
+            "
           ></v-img>
           <v-card-title class="text-center py-0 px-1">
             <v-text-field
-              v-model="screen.title"
-              variant="plain"
+              v-model="screen.name"
+              :variant="renameId != screen._id ? 'plain' : 'outlined'"
               density="compact"
               hide-details="auto"
               class="screen-title font-weight-bold mb-2"
-              :readonly="renameIndex != index"
-              @dblclick.prevent="renameScreen(index, $event)"
-              @blur="renameIndex = null"
-              @keypress.enter="renameIndex = null"
+              :readonly="renameId != screen._id"
+              @dblclick.prevent="renameScreen(screen._id, $event)"
+              @blur="handleRenameScreen(screen._id, screen.name)"
+              @keypress.enter="handleRenameScreen(screen._id, screen.name)"
               @mousedown="disableTextSelection"
               @selectstart="disableTextSelection"
             >
@@ -88,20 +93,8 @@
 export default {
   data() {
     return {
-      screens: [
-        {
-          image: "https://mbluxury1.s3.amazonaws.com/2021/02/03212053/mayo.jpg",
-          title: "Screen 1",
-        },
-        {
-          image:
-            "https://images.ctfassets.net/lh3zuq09vnm2/6v6hASKYhu8sohkJgIUIMW/bd0f0f28e9313f8945fd50474513c08a/03_Freshbooks.jpg",
-          title: "Screen 2",
-        },
-      ],
-      renameIndex: null,
-      blankImage:
-        "https://img.freepik.com/foto-gratis/resumen-superficie-texturas-muro-piedra-hormigon-blanco_74190-8189.jpg",
+      screens: [],
+      renameId: null,
       dimension: {
         width: 1920,
         height: 1080,
@@ -109,30 +102,86 @@ export default {
     };
   },
   methods: {
-    addScreen() {
-      this.screens.push({
-        image: this.blankImage,
-        title: `Screen ${this.screens.length + 1}`,
-      });
+    async addScreen() {
+      try {
+        const response = await this.axios({
+          method: "POST",
+          url: `/screens/create`,
+          data: {
+            project: this.$route.params.projectId,
+            name: `Screen ${this.screens.length + 1}`,
+          },
+        });
+
+        this.screens.push(response.data.screen);
+      } catch (error) {
+        console.error(error);
+      }
     },
+
     duplicateScreen(index) {
       this.screens.push({
         image: this.screens[index].image,
         title: `Screen ${this.screens.length + 1}`,
       });
     },
-    deleteScreen(index) {
-      this.screens.splice(index, 1);
+
+    async deleteScreen(id) {
+      try {
+        this.screens = this.screens.filter((screen) => screen._id !== id);
+
+        await this.axios({
+          method: "DELETE",
+          url: `/screens/delete/${id}`,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
-    renameScreen(index, event) {
-      this.renameIndex = index;
+
+    renameScreen(id, event) {
+      this.renameId = id;
       this.$nextTick(() => {
         event.target.select();
       });
     },
+
     disableTextSelection(event) {
       event.preventDefault();
     },
+
+    async fetchScreens() {
+      try {
+        const response = await this.axios({
+          method: "GET",
+          url: `/screens/${this.$route.params.projectId}`,
+        });
+
+        this.screens = response.data.screens;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async handleRenameScreen(id, name) {
+      try {
+        this.renameId = null;
+
+        await this.axios({
+          method: "PUT",
+          url: `/screens/rename`,
+          data: {
+            screen: id,
+            name,
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+  async created() {
+    await this.fetchScreens();
   },
 };
 </script>
