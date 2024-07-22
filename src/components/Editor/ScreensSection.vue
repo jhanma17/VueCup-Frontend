@@ -7,13 +7,14 @@
 
     <v-row class="mx-0" align="center">
       <!--Screen cards-->
-      <v-col
-        v-for="screen in screens"
-        :key="screen._id"
-        cols="6"
-        class="py-1"
-      >
-        <v-card color="#242424" dark outlined>
+      <v-col v-for="screen in screens" :key="screen._id" cols="6" class="py-1">
+        <v-card
+          color="#242424"
+          dark
+          outlined
+          :class="screen._id == selectedScreen ? 'green-border' : ''"
+          @dblclick.prevent="handleSelectScreen(screen._id)"
+        >
           <v-menu>
             <template v-slot:activator="{ props }">
               <v-btn
@@ -90,11 +91,14 @@
 </template>
 
 <script>
+import { mapActions } from "pinia";
+import { componentsStore } from "@/stores/components";
 export default {
   data() {
     return {
       screens: [],
       renameId: null,
+      selectedScreen: null,
       dimension: {
         width: 1920,
         height: 1080,
@@ -102,6 +106,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(componentsStore, ["initializeComponents"]),
     async addScreen() {
       try {
         const response = await this.axios({
@@ -158,6 +163,10 @@ export default {
         });
 
         this.screens = response.data.screens;
+
+        if (this.screens.length > 0) {
+          this.selectedScreen = this.screens[0]._id;
+        }
       } catch (error) {
         console.error(error);
       }
@@ -179,9 +188,32 @@ export default {
         console.error(error);
       }
     },
+
+    handleSelectScreen(id) {
+      this.selectedScreen = id;
+
+      this.fetchComponents();
+    },
+
+    async fetchComponents() {
+      try {
+        const response = await this.axios({
+          method: "GET",
+          url: `/components/${this.selectedScreen}`,
+        });
+
+        this.initializeComponents(response.data.components);
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
   async created() {
     await this.fetchScreens();
+
+    if (this.screens.length > 0 && this.selectedScreen) {
+      await this.fetchComponents();
+    }
   },
 };
 </script>
@@ -227,5 +259,9 @@ export default {
   border: 1px dashed #646464 !important;
   border-radius: 5px !important;
   color: #646464 !important;
+}
+
+.green-border {
+  border: 1px solid #7efff5 !important;
 }
 </style>

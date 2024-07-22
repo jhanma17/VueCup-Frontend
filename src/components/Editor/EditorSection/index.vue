@@ -4,12 +4,10 @@
     <span class="title-tab">Editor</span>
   </v-row>
 
-  <div class="editor-space" @wheel="handleMouseWheel" @keydown="handleKeyPress">
+  <div class="editor-space" @wheel="handleMouseWheel" @keydown="handleKeyPress" @click="stopInspectingComponent">
     <Canvas
-      :element="highlightedElement"
       :scalingContainerStyle="scalingContainerStyle"
       :guessParent="guessParent"
-      @updateHighlightedElement="updateHighlightedElement"
     />
 
     <RulerY :yStartPoint="yStartPoint" :componentHeight="componentHeight" />
@@ -21,6 +19,7 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { scalingStore } from "@/stores/scaling";
+import { componentsStore } from "@/stores/components";
 import RulerY from "./RulerY.vue";
 import RulerX from "./RulerX.vue";
 import Canvas from "./Canvas.vue";
@@ -33,7 +32,6 @@ export default {
       xOffset: 0,
       windowSize: { width: window.innerWidth, height: window.innerHeight },
       guessParent: true,
-      highlightedElement: null,
     };
   },
 
@@ -60,12 +58,7 @@ export default {
 
   methods: {
     ...mapActions(scalingStore, ["setScale"]),
-    resetHighlighting() {
-      this.highlightedElement = null;
-    },
-    updateHighlightedElement(value) {
-      this.highlightedElement = value;
-    },
+    ...mapActions(componentsStore, ["stopInspectingComponent"]),
     handleMouseWheel(event) {
       if (event.ctrlKey) {
         event.preventDefault();
