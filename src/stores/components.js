@@ -45,9 +45,9 @@ export const componentsStore = defineStore("components", {
       //build the tree recursively
       const buildTree = (component) => {
         const children = search(component.id);
-        console.log(children);
+
         if (children.length > 0) {
-          component.children = children;
+          component.children = JSON.parse(JSON.stringify(children));
           for (let child of component.children) {
             buildTree(child);
           }
@@ -74,7 +74,8 @@ export const componentsStore = defineStore("components", {
 
       this.screen = screen;
     },
-    async placeSelectedComponent(screen) {
+
+    async placeSelectedComponent() {
       if (!this.placeComponent) {
         return;
       }
@@ -83,6 +84,10 @@ export const componentsStore = defineStore("components", {
       const plainComponent = JSON.parse(JSON.stringify(this.componentToPlace));
 
       plainComponent.father = this.highlightedComponent;
+
+      plainComponent.id = crypto.randomUUID();
+
+      this.components.push(plainComponent);
 
       try {
         const response = await axios({
@@ -94,14 +99,7 @@ export const componentsStore = defineStore("components", {
           },
         });
 
-        let componentToPush = JSON.parse(
-          JSON.stringify(response.data.component)
-        );
-
-        componentToPush.id = componentToPush._id;
-        delete componentToPush._id;
-
-        this.components.push(componentToPush);
+        this.components[this.components.length - 1].id = response.data._id;
       } catch (error) {
         console.log(error);
       }
@@ -170,7 +168,7 @@ export const componentsStore = defineStore("components", {
     stopDraggingComponent() {
       this.toDragComponent = null;
     },
-    dropComponent(id) {
+    async dropComponent(id) {
       //if the component is dropped on itself, do nothing
       if (this.toDragComponent === id) {
         return;
@@ -181,32 +179,44 @@ export const componentsStore = defineStore("components", {
           component.father = id;
         }
       }
-    },
-    deleteComponent(id) {
-      //delete the component from the children array of its parent
-      for (let component of this.components) {
-        if (
-          component.children &&
-          component.children.includes(id) &&
-          component.id !== id
-        ) {
-          const index = component.children.indexOf(id);
-          component.children.splice(index, 1);
-        }
-      }
 
+      try {
+        await axios({
+          method: "PATCH",
+          url: "/components/reparent",
+          data: {
+            component: this.toDragComponent.id,
+            father: id,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async deleteComponent(id) {
       //recursively delete all children and the component itself
-      const deleteComponent = (id) => {
+      const deleteComponent = async (id) => {
+        let indexToDelete = null;
+
         for (let i = 0; i < this.components.length; i++) {
-          if (this.components[i].id === id) {
-            if (this.components[i].children) {
-              for (let child of this.components[i].children) {
-                deleteComponent(child);
-              }
-            }
-            this.components.splice(i, 1);
-            break;
+          if (this.components[i].father === id) {
+            deleteComponent(component.id);
           }
+
+          if (this.components[i].id === id) {
+            indexToDelete = i;
+          }
+        }
+
+        this.components.splice(indexToDelete, 1);
+
+        try {
+          await axios({
+            method: "DELETE",
+            url: `/components/delete/${id}`,
+          });
+        } catch (error) {
+          console.log(error);
         }
       };
 
@@ -241,10 +251,23 @@ export const componentsStore = defineStore("components", {
     },
 
     // rename a component
-    renameComponent(id, name) {
+    async renameComponent(id, name) {
       for (let component of this.components) {
         if (component.id === id) {
           component.name = name;
+
+          try {
+            await axios({
+              method: "PATCH",
+              url: "/components/rename",
+              data: {
+                component: id,
+                name: name,
+              },
+            });
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
     },
