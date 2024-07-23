@@ -24,7 +24,7 @@
           <v-col cols="4">
             <v-btn
               variant="tonal"
-              size="x-large"
+              size="large"
               rounded="lg"
               block
               @click="loginWithGoogle()"
@@ -41,7 +41,7 @@
           <v-col cols="4">
             <v-btn
               variant="tonal"
-              size="x-large"
+              size="large"
               rounded="lg"
               block
               @click="loginWithGithub()"
@@ -53,7 +53,7 @@
             </v-btn>
           </v-col>
           <v-col cols="4">
-            <v-btn variant="tonal" size="x-large" rounded="lg" block disabled>
+            <v-btn variant="tonal" size="large" rounded="lg" block disabled>
               <div class="auth-btn">
                 <v-img
                   src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/144_Gitlab_logo_logos-512.png"
@@ -75,7 +75,7 @@
               v-model="name"
               variant="solo"
               label="Name"
-              class="mt-3 mb-5"
+              class="mt-2 mb-3"
               flat
               rounded="lg"
               single-line
@@ -91,7 +91,7 @@
             v-model="email"
             variant="solo"
             label="Email"
-            class="mt-3 mb-5"
+            class="mt-2 mb-3"
             flat
             rounded="lg"
             single-line
@@ -108,7 +108,7 @@
             :type="showPassword ? 'text' : 'password'"
             variant="solo"
             label="Password"
-            class="mt-3 mb-3"
+            class="mt-2 mb-3"
             flat
             rounded="lg"
             single-line
@@ -327,8 +327,8 @@ export default {
   width: 100%;
 }
 .logo {
-  width: 200px;
-  height: 80px;
+  width: 175px;
+  height: 70px;
 }
 .login-container {
   display: flex;
@@ -344,19 +344,19 @@ export default {
   display: grid;
   grid-template-rows: 1fr auto;
   height: fit-content;
-  gap: 2rem;
+  gap: 1.5rem;
   width: 100%;
-  max-width: 30rem;
+  max-width: 24rem;
 }
 .login-title {
-  font-size: 1.9rem;
+  font-size: 1.5rem;
   font-weight: 400;
   color: white;
   line-height: 1.2;
   font-family: "Work Sans", sans-serif;
 }
 .login-body {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   font-weight: 400;
   color: #8f9da3;
   line-height: 1.2;
@@ -364,7 +364,7 @@ export default {
 }
 .auth-btn {
   display: flex;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   font-weight: 400;
   color: white;
   line-height: 1.2;
@@ -382,14 +382,14 @@ export default {
   margin-right: 8px;
 }
 .login-label {
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: white;
   line-height: 1.2;
   font-family: "Work Sans", sans-serif;
 }
 .forgot-password {
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: #7efff5;
   line-height: 1.2;
@@ -402,7 +402,7 @@ export default {
   cursor: pointer;
 }
 .login-btn {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.2;
   font-family: "Work Sans", sans-serif;
