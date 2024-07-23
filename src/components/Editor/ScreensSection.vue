@@ -202,7 +202,7 @@ export default {
           url: `/components/${this.selectedScreen}`,
         });
 
-        this.initializeComponents(response.data.components);
+        this.initializeComponents(response.data.components, this.selectedScreen);
       } catch (error) {
         console.error(error);
       }

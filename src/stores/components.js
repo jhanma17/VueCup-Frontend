@@ -24,6 +24,7 @@ export const componentsStore = defineStore("components", {
     highlightedComponent: null,
     inspectedComponent: null,
     toDragComponent: null,
+    screen: null,
   }),
   getters: {
     componentsTree() {
@@ -59,7 +60,7 @@ export const componentsStore = defineStore("components", {
     },
   },
   actions: {
-    initializeComponents(components) {
+    initializeComponents(components, screen) {
       let componentsCopy = JSON.parse(JSON.stringify(components));
 
       //replace _id with id
@@ -70,6 +71,8 @@ export const componentsStore = defineStore("components", {
       }
 
       this.components = componentsCopy;
+
+      this.screen = screen;
     },
     async placeSelectedComponent(screen) {
       if (!this.placeComponent) {
@@ -85,7 +88,10 @@ export const componentsStore = defineStore("components", {
         const response = await axios({
           method: "POST",
           url: "/components/create",
-          data: plainComponent,
+          data: {
+            screen: this.screen,
+            ...plainComponent,
+          },
         });
 
         let componentToPush = JSON.parse(
