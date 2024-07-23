@@ -1,581 +1,419 @@
 <template>
-  <div class="Background2">
-    <div class="Ticket3">
-      <div class="Row14">
-        <div class="ArtistNameContainer13">
-          <span class="ArtistName14"> Artist Name </span>
-        </div>
-        <div class="RecordNameContainer8">
-          <span class="RecordName12"> Record Name </span>
-        </div>
-        <div class="TicketInfoContainer7">
-          <div class="Column115">
-            <span class="Body19"> Modern Polymath </span>
-            <span class="Body20"> Crosstown Studios </span>
-          </div>
-          <div class="Column217">
-            <span class="Body21"> Music & Arts </span>
-            <span class="Body22"> Liverpool </span>
-          </div>
-          <div class="Column316">
-            <span class="Body23"> MMXXIII </span>
-          </div>
-        </div>
-      </div>
-      <div class="QrInfo5">
-        <div class="QrCodeContainer9">
-          <img
-            src="https://cdn-icons-png.freepik.com/512/60/60902.png"
-            class="QrCodeImage25"
-          />
-        </div>
-        <div class="IdCodeContainer24">
-          <span class="IdCode26"> MPSN01 </span>
-        </div>
+  <div class="home-view">
+    <v-row class="ma-0">
+      <img alt="VueCup Logo" src="@/assets/VueCupLogo.svg" class="logo" />
+    </v-row>
+
+    <div class="login-container">
+      <img
+        v-if="$vuetify.display.lgAndUp"
+        src="https://www.seonetdigital.com/wp-content/uploads/2023/04/seonet-disenoweb-04-800x800.png"
+        alt="web design illustration"
+        class="login-image"
+      />
+      <div class="login-form">
+        <span class="login-title">
+          {{
+            formType == "login" ? "Login to my account" : "Create an account"
+          }}
+        </span>
+        <span class="login-body">
+          VueCup is the design tool for teams working with vue
+        </span>
+        <v-row justify="space-between">
+          <v-col cols="4">
+            <v-btn
+              variant="tonal"
+              size="x-large"
+              rounded="lg"
+              block
+              @click="loginWithGoogle()"
+            >
+              <div class="auth-btn">
+                <v-img
+                  src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+                  class="auth-img"
+                ></v-img>
+                <span class="d-flex">Google</span>
+              </div>
+            </v-btn>
+          </v-col>
+          <v-col cols="4">
+            <v-btn
+              variant="tonal"
+              size="x-large"
+              rounded="lg"
+              block
+              @click="loginWithGithub()"
+            >
+              <div class="auth-btn">
+                <v-icon class="auth-img" size="25"> mdi-github </v-icon>
+                <span class="d-flex">Github</span>
+              </div>
+            </v-btn>
+          </v-col>
+          <v-col cols="4">
+            <v-btn variant="tonal" size="x-large" rounded="lg" block disabled>
+              <div class="auth-btn">
+                <v-img
+                  src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/144_Gitlab_logo_logos-512.png"
+                  class="auth-img"
+                ></v-img>
+                <span class="d-flex">Gitlab</span>
+              </div>
+            </v-btn>
+          </v-col>
+        </v-row>
+
+        <v-divider></v-divider>
+
+        <v-form v-model="validForm">
+          <template v-if="formType == 'signup'">
+            <span class="login-label"> NAME </span>
+
+            <v-text-field
+              v-model="name"
+              variant="solo"
+              label="Name"
+              class="mt-3 mb-5"
+              flat
+              rounded="lg"
+              single-line
+              hide-details="auto"
+              :rules="nameRules"
+            >
+            </v-text-field>
+          </template>
+
+          <span class="login-label"> EMAIL </span>
+
+          <v-text-field
+            v-model="email"
+            variant="solo"
+            label="Email"
+            class="mt-3 mb-5"
+            flat
+            rounded="lg"
+            single-line
+            hide-details="auto"
+            :rules="emailRules"
+          >
+          </v-text-field>
+
+          <span class="login-label"> PASSWORD </span>
+
+          <v-text-field
+            v-model="password"
+            :rules="passwordRules"
+            :type="showPassword ? 'text' : 'password'"
+            variant="solo"
+            label="Password"
+            class="mt-3 mb-3"
+            flat
+            rounded="lg"
+            single-line
+            hide-details="auto"
+          >
+            <template v-slot:append-inner>
+              <v-icon
+                :icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                @click="showPassword = !showPassword"
+              />
+            </template>
+          </v-text-field>
+
+          <v-row v-if="formType == 'login'" class="ma-0" justify="end">
+            <a class="forgot-password"> Forgot Password? </a>
+          </v-row>
+        </v-form>
+
+        <v-btn
+          size="x-large"
+          rounded="lg"
+          block
+          theme="dark"
+          :disabled="!validForm"
+          :color="validForm ? '#7efff5' : '#203833'"
+          @click="handleSubmit()"
+        >
+          <span class="login-btn">
+            {{ formType == "login" ? "Login" : "Sign up" }}
+          </span>
+        </v-btn>
+
+        <v-divider></v-divider>
+
+        <v-row class="ma-0" justify="center">
+          <span class="login-body">
+            {{
+              formType == "login"
+                ? "Don’t have an account?"
+                : "Already have an account?"
+            }}
+            <a class="forgot-password" @click="switchForm()">
+              {{ formType == "login" ? "Sign up" : "Login" }}
+            </a>
+          </span>
+        </v-row>
       </div>
     </div>
   </div>
-</template> 
-  <style>
-.Background2 {
-  width: 100vw;
+</template>
+
+<script>
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { mapActions } from "pinia";
+import { userStore } from "../stores/user";
+export default {
+  name: "HomeView",
+  data() {
+    return {
+      name: "",
+      email: "",
+      password: "",
+      showPassword: false,
+      validForm: false,
+      formType: "login",
+    };
+  },
+  computed: {
+    emailRules() {
+      return [
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ];
+    },
+    passwordRules() {
+      return [
+        (v) => !!v || "Password is required",
+        (v) => v.length >= 8 || "Password must be at least 8 characters",
+      ];
+    },
+    nameRules() {
+      return [
+        (v) => !!v || "Name is required",
+        (v) => v.length >= 3 || "Name must be at least 3 characters",
+      ];
+    },
+  },
+  methods: {
+    ...mapActions(userStore, ["setUser", "setToken"]),
+    switchForm() {
+      this.formType = this.formType === "login" ? "signup" : "login";
+    },
+    handleSubmit() {
+      if (this.formType === "login") {
+        this.login();
+      } else {
+        this.signup();
+      }
+    },
+    saveUser(user, token) {
+      this.setUser(user);
+      this.setToken(token);
+      
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+
+      this.$router.push({ name: "Projects" });
+    },
+    async login() {
+      const auth = getAuth();
+
+      signInWithEmailAndPassword(auth, this.email, this.password)
+        .then(async (result) => {
+          const response = await this.axios({
+            method: "POST",
+            url: "/authentication/login",
+            data: {
+              token: result.user.accessToken,
+              type: "EMAIL",
+            },
+          });
+
+          this.saveUser(response.data.user, response.data.token);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async signup() {
+      const auth = getAuth();
+
+      createUserWithEmailAndPassword(auth, this.email, this.password)
+        .then(async (result) => {
+          const response = await this.axios({
+            method: "POST",
+            url: "/authentication/sign-up",
+            data: {
+              name: this.name,
+              token: result.user.accessToken,
+            },
+          });
+
+          this.saveUser(response.data.user, response.data.token);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    loginWithGoogle() {
+      const provider = new GoogleAuthProvider();
+
+      const auth = getAuth();
+
+      signInWithPopup(auth, provider)
+        .then(async (result) => {
+          try {
+            const response = await this.axios({
+              method: "POST",
+              url: "/authentication/login",
+              data: {
+                token: result.user.accessToken,
+                type: "GOOGLE",
+              },
+            });
+
+            this.saveUser(response.data.user, response.data.token);
+          } catch (error) {
+            console.log(error);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    loginWithGithub() {
+      const provider = new GithubAuthProvider();
+
+      const auth = getAuth();
+
+      signInWithPopup(auth, provider)
+        .then(async (result) => {
+          console.log(result);
+          try {
+            const response = await this.axios({
+              method: "POST",
+              url: "/authentication/login",
+              data: {
+                token: result.user.accessToken,
+                type: "GITHUB",
+              },
+            });
+
+            this.saveUser(response.data.user, response.data.token);
+          } catch (error) {
+            console.log(error);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+};
+</script>
+
+<style scoped>
+.home-view {
   height: 100vh;
-  display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-color: #b6b6b6;
-  background-image: url(none);
-  border-width: 0px;
-  border-color: #020202af;
-  border-style: none;
-  border-radius: 0px;
-  border-top: 0px none #020202af;
-  border-bottom: 0px none #020202af;
-  border-left: 0px none #020202af;
-  border-right: 0px none #020202af;
-}
-.Ticket3 {
-  width: 60%;
-  height: 30%;
-  display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-color: transparent;
-  background-image: url(none);
-  border-width: 0px;
-  border-color: #000000af;
-  border-style: solid;
-  border-radius: 0px;
-  border-top: 0px solid #000000af;
-  border-bottom: 0px solid #000000af;
-  border-left: 0px solid #000000af;
-  border-right: 0px solid #000000af;
-}
-.Row14 {
-  width: 80%;
-  height: 100%;
-  display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-color: transparent;
-  background-image: url(none);
-  border-width: 0px;
-  border-color: #000000af;
-  border-style: solid;
-  border-radius: 0px;
-  border-top: 0px solid #000000af;
-  border-bottom: 0px solid #000000af;
-  border-left: 0px solid #000000af;
-  border-right: 0px solid #000000af;
-}
-.ArtistNameContainer13 {
   width: 100%;
-  height: 40%;
+}
+.logo {
+  width: 200px;
+  height: 80px;
+}
+.login-container {
   display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-color: transparent;
-  background-image: url(none);
-  border-width: 2px;
-  border-color: #000000af;
-  border-style: solid;
-  border-radius: 0px;
-  border-top: 2px solid #000000af;
-  border-bottom: 2px solid #000000af;
-  border-left: 2px solid #000000af;
-  border-right: 2px solid #000000af;
+  height: calc(100vh - 80px);
+  margin: 0 5vw;
 }
-.ArtistName14 {
-  font-family: Roboto;
-  font-size: 70px;
-  color: #000000;
-  font-style: Bold;
-  font-weight: bold;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 30px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
+.login-image {
+  width: 35vw;
 }
-.RecordNameContainer8 {
+.login-form {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: fit-content;
+  gap: 2rem;
   width: 100%;
-  height: 30%;
+  max-width: 30rem;
+}
+.login-title {
+  font-size: 1.9rem;
+  font-weight: 400;
+  color: white;
+  line-height: 1.2;
+  font-family: "Work Sans", sans-serif;
+}
+.login-body {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #8f9da3;
+  line-height: 1.2;
+  font-family: "Work Sans", sans-serif;
+}
+.auth-btn {
   display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: row;
-  justify-content: flex-start;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: white;
+  line-height: 1.2;
+  font-family: "Work Sans", sans-serif;
+  text-transform: none;
   align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-color: transparent;
-  background-image: url(none);
-  border-width: 2px;
-  border-color: #000000af;
-  border-style: solid;
-  border-radius: 0px;
-  border-top: 2px solid #000000af;
-  border-bottom: 2px solid #000000af;
-  border-left: 2px solid #000000af;
-  border-right: 2px solid #000000af;
-}
-.RecordName12 {
-  font-family: Open Sans;
-  font-size: 50px;
-  color: #000000;
-  font-style: Bold;
-  font-weight: bold;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 30px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-}
-.TicketInfoContainer7 {
-  width: 100%;
-  height: 30%;
-  display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-color: transparent;
-  background-image: url(none);
-  border-width: 2px;
-  border-color: #000000af;
-  border-style: solid;
-  border-radius: 0px;
-  border-top: 2px solid #000000af;
-  border-bottom: 2px solid #000000af;
-  border-left: 2px solid #000000af;
-  border-right: 2px solid #000000af;
-}
-.Column115 {
-  width: 40%;
-  height: 100%;
-  display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 30px;
-  background-color: transparent;
-  background-image: url(none);
-  border-width: 0px;
-  border-color: transparent;
-  border-style: none;
-  border-radius: 0px;
-  border-top: 0px none transparent;
-  border-bottom: 0px none transparent;
-  border-left: 0px none transparent;
-  border-right: 0px none transparent;
-}
-.Body19 {
-  font-family: Open Sans;
-  font-size: 25px;
-  color: #000000;
-  font-style: Regular;
-  font-weight: normal;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-}
-.Body20 {
-  font-family: Roboto;
-  font-size: 25px;
-  color: #000000;
-  font-style: Regular;
-  font-weight: normal;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-}
-.Column217 {
-  width: 40%;
-  height: 100%;
-  display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-color: transparent;
-  background-image: url(none);
-  border-width: 0px;
-  border-color: transparent;
-  border-style: none;
-  border-radius: 0px;
-  border-top: 0px none transparent;
-  border-bottom: 0px none transparent;
-  border-left: 0px none transparent;
-  border-right: 0px none transparent;
-}
-.Body21 {
-  font-family: Open Sans;
-  font-size: 25px;
-  color: #000000;
-  font-style: Regular;
-  font-weight: normal;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-}
-.Body22 {
-  font-family: Open Sans;
-  font-size: 25px;
-  color: #000000;
-  font-style: Regular;
-  font-weight: normal;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-}
-.Column316 {
-  width: 20%;
-  height: 100%;
-  display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
   flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 30px;
-  padding-left: 0px;
-  background-color: transparent;
-  background-image: url(none);
-  border-width: 0px;
-  border-color: transparent;
-  border-style: none;
-  border-radius: 0px;
-  border-top: 0px none transparent;
-  border-bottom: 0px none transparent;
-  border-left: 0px none transparent;
-  border-right: 0px none transparent;
+  letter-spacing: 0.5px;
 }
-.Body23 {
-  font-family: Open Sans;
-  font-size: 25px;
-  color: #000000;
-  font-style: Regular;
-  font-weight: normal;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-}
-.QrInfo5 {
-  width: 20%;
-  height: 100%;
+.auth-img {
   display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-color: transparent;
-  background-image: url(none);
-  border-width: 0px;
-  border-color: transparent;
-  border-style: none;
-  border-radius: 0px;
-  border-top: 0px none transparent;
-  border-bottom: 0px none transparent;
-  border-left: 0px none transparent;
-  border-right: 0px none transparent;
+  width: 25px;
+  height: 25px;
+  margin-right: 8px;
 }
-.QrCodeContainer9 {
-  width: 100%;
-  height: 70%;
-  display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: row;
-  justify-content: center;
+.login-label {
+  font-size: 1rem;
+  font-weight: 400;
+  color: white;
+  line-height: 1.2;
+  font-family: "Work Sans", sans-serif;
+}
+.forgot-password {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #7efff5;
+  line-height: 1.2;
+  font-family: "Work Sans", sans-serif;
+  text-align: right;
+}
+.forgot-password:hover {
+  text-decoration: underline;
+  background: none;
+  cursor: pointer;
+}
+.login-btn {
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  font-family: "Work Sans", sans-serif;
+  text-transform: none;
   align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-color: transparent;
-  background-image: url(none);
-  border-width: 2px;
-  border-color: #000000af;
-  border-style: solid;
-  border-radius: 0px;
-  border-top: 2px solid #000000af;
-  border-bottom: 2px solid #000000af;
-  border-left: 2px solid #000000af;
-  border-right: 2px solid #000000af;
-}
-.QrCodeImage25 {
-  width: 80%;
-  height: 80%;
-  display: block;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-grow: 0;
-  flex-shrink: 0;
-  object-fit: fill;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-}
-.IdCodeContainer24 {
-  width: 100%;
-  height: 30%;
-  display: flex;
-  position: static;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-color: transparent;
-  background-image: url(none);
-  border-width: 2px;
-  border-color: #000000af;
-  border-style: solid;
-  border-radius: 0px;
-  border-top: 2px solid #000000af;
-  border-bottom: 2px solid #000000af;
-  border-left: 2px solid #000000af;
-  border-right: 2px solid #000000af;
+  flex-direction: row;
+  letter-spacing: 0.5px;
+  color: black;
 }
-.IdCode26 {
-  font-family: Roboto;
-  font-size: 40px;
-  color: #000000;
-  font-style: Bold;
-  font-weight: bold;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-right: 0px;
-  padding-left: 0px;
+.disabled-login-btn {
+  background-color: #203833;
 }
-</style> 
-  
+</style>

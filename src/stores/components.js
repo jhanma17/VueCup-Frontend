@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 
+import axios from "axios";
+
 export const componentsStore = defineStore("components", {
   state: () => ({
     placeComponent: false,
@@ -17,39 +19,38 @@ export const componentsStore = defineStore("components", {
         id: 0,
         type: "Root",
         name: "Root",
-        children: [1],
-      },
-      {
-        id: 1,
-        type: "RootTemplate",
-        name: "Canvas",
-        children: [],
       },
     ],
     highlightedComponent: null,
     inspectedComponent: null,
     toDragComponent: null,
+    screen: null,
   }),
   getters: {
     componentsTree() {
-      const root = JSON.parse(JSON.stringify(this.components[0]));
+      const root = this.components.find(
+        (component) => component.type === "Root"
+      );
 
       //search for a component with the given id
       const search = (id) => {
-        for (let component of this.components) {
-          if (component.id === id) {
+        //returns an array of components wich father is the component with the given id
+        return this.components.filter((component) => {
+          if (component.father && component.father == id) {
             return component;
           }
-        }
+        });
       };
 
       //build the tree recursively
       const buildTree = (component) => {
-        if (component.children) {
-          component.children = JSON.parse(
-            JSON.stringify(component.children.map((child) => search(child)))
-          );
-          component.children.forEach((child) => buildTree(child));
+        const children = search(component.id);
+        console.log(children);
+        if (children.length > 0) {
+          component.children = children;
+          for (let child of component.children) {
+            buildTree(child);
+          }
         }
       };
 
@@ -59,26 +60,51 @@ export const componentsStore = defineStore("components", {
     },
   },
   actions: {
-    placeSelectedComponent() {
+    initializeComponents(components, screen) {
+      let componentsCopy = JSON.parse(JSON.stringify(components));
+
+      //replace _id with id
+
+      for (let component of componentsCopy) {
+        component.id = component._id;
+        delete component._id;
+      }
+
+      this.components = componentsCopy;
+
+      this.screen = screen;
+    },
+    async placeSelectedComponent(screen) {
       if (!this.placeComponent) {
         return;
       }
 
       //deep copy the component to place
       const plainComponent = JSON.parse(JSON.stringify(this.componentToPlace));
-      this.components.push(plainComponent);
 
-      //add the component to the children array of the highlighted component
-      for (let component of this.components) {
-        if (component.id === this.highlightedComponent) {
-          if (!component.children) {
-            component.children = [];
-          }
-          component.children.push(plainComponent.id);
-        }
+      plainComponent.father = this.highlightedComponent;
+
+      try {
+        const response = await axios({
+          method: "POST",
+          url: "/components/create",
+          data: {
+            screen: this.screen,
+            ...plainComponent,
+          },
+        });
+
+        let componentToPush = JSON.parse(
+          JSON.stringify(response.data.component)
+        );
+
+        componentToPush.id = componentToPush._id;
+        delete componentToPush._id;
+
+        this.components.push(componentToPush);
+      } catch (error) {
+        console.log(error);
       }
-
-      this.componentToPlace.id++;
 
       //update the components tree
       this.componentsTree;
@@ -107,7 +133,7 @@ export const componentsStore = defineStore("components", {
       this.inspectedComponent = JSON.parse(JSON.stringify(component));
       this.highlightedComponent = component.id;
     },
-    updateInspectedComponent(component) {
+    async updateInspectedComponent(component) {
       //update the component in the components array
       for (let i = 0; i < this.components.length; i++) {
         if (this.components[i].id == component.id) {
@@ -120,6 +146,19 @@ export const componentsStore = defineStore("components", {
       this.inspectedComponent.props = JSON.parse(
         JSON.stringify(component.props)
       );
+
+      try {
+        await axios({
+          method: "PATCH",
+          url: "/components/update",
+          data: {
+            component: component.id,
+            props: component.props,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     stopInspectingComponent() {
       this.inspectedComponent = null;
@@ -138,21 +177,8 @@ export const componentsStore = defineStore("components", {
       }
 
       for (let component of this.components) {
-        //delete the component from the children array of its parent
-        if (
-          component.children &&
-          component.children.includes(this.toDragComponent)
-        ) {
-          const index = component.children.indexOf(this.toDragComponent);
-          component.children.splice(index, 1);
-        }
-
-        //add the component to the children array of the new parent
         if (component.id === id) {
-          if (!component.children) {
-            component.children = [];
-          }
-          component.children.push(this.toDragComponent);
+          component.father = id;
         }
       }
     },

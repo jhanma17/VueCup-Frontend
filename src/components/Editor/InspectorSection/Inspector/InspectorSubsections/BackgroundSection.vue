@@ -29,7 +29,7 @@
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" class="color-preview" :color="backgroundColor"> </v-btn>
         </template>
-        <v-color-picker v-model="backgroundColor" flat></v-color-picker>
+        <v-color-picker v-model="backgroundColor" mode="hexa" flat></v-color-picker>
       </v-menu>
     </v-col>
   </v-row>
