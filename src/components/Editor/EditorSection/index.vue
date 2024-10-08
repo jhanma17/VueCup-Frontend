@@ -4,7 +4,12 @@
     <span class="title-tab">Editor</span>
   </v-row>
 
-  <div class="editor-space" @wheel="handleMouseWheel" @keydown="handleKeyPress" @click="stopInspectingComponent">
+  <div
+    class="editor-space"
+    @wheel="handleMouseWheel"
+    @keydown="handleKeyPress"
+    @click="stopInspectingComponent"
+  >
     <Canvas
       :scalingContainerStyle="scalingContainerStyle"
       :guessParent="guessParent"
@@ -25,6 +30,12 @@ import RulerX from "./RulerX.vue";
 import Canvas from "./Canvas.vue";
 
 export default {
+  components: {
+    RulerY,
+    RulerX,
+    Canvas,
+  },
+
   data() {
     return {
       showGrid: true,
@@ -32,6 +43,7 @@ export default {
       xOffset: 0,
       windowSize: { width: window.innerWidth, height: window.innerHeight },
       guessParent: true,
+      intervalId: null,
     };
   },
 
@@ -58,7 +70,10 @@ export default {
 
   methods: {
     ...mapActions(scalingStore, ["setScale"]),
-    ...mapActions(componentsStore, ["stopInspectingComponent"]),
+    ...mapActions(componentsStore, [
+      "stopInspectingComponent",
+      "updateComponents",
+    ]),
     handleMouseWheel(event) {
       if (event.ctrlKey) {
         event.preventDefault();
@@ -92,10 +107,21 @@ export default {
     },
   },
 
-  components: {
-    RulerY,
-    RulerX,
-    Canvas,
+  mounted() {
+    //every 1 minute update the components
+    this.intervalId = setInterval(() => {
+      this.updateComponents();
+    }, 60000);
+
+    window.addEventListener("beforeunload", () => {
+      this.updateComponents();
+    });
+  },
+
+  beforeUnmount() {
+    clearInterval(this.intervalId);
+
+    this.updateComponents();
   },
 };
 </script>

@@ -99,7 +99,8 @@ export const componentsStore = defineStore("components", {
           },
         });
 
-        this.components[this.components.length - 1].id = response.data._id;
+        this.components[this.components.length - 1].id =
+          response.data.component._id;
       } catch (error) {
         console.log(error);
       }
@@ -138,25 +139,14 @@ export const componentsStore = defineStore("components", {
           this.components[i].props = JSON.parse(
             JSON.stringify(component.props)
           );
+
+          this.components[i].needsUpdate = true;
         }
       }
       //update the component in the inspectedComponent
       this.inspectedComponent.props = JSON.parse(
         JSON.stringify(component.props)
       );
-
-      try {
-        await axios({
-          method: "PATCH",
-          url: "/components/update",
-          data: {
-            component: component.id,
-            props: component.props,
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
     },
     stopInspectingComponent() {
       this.inspectedComponent = null;
@@ -312,6 +302,25 @@ export const componentsStore = defineStore("components", {
         document.body.appendChild(element);
         element.click();
         document.body.removeChild(element);
+      }
+    },
+
+    async updateComponents() {
+      for (let component of this.components) {
+        if (component.needsUpdate) {
+          try {
+            axios({
+              method: "PATCH",
+              url: "/components/update",
+              data: {
+                component: component.id,
+                props: component.props,
+              },
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        }
       }
     },
 
